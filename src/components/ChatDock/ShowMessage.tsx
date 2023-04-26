@@ -20,7 +20,7 @@ const ShowMessages: React.FC<ShowMessagesProps> = ({
         <img
           key={index}
           src={part}
-          alt={`Image ${index}`}
+          alt={`Emote ${index}`}
           style={{ height: "1rem" }}
         />
       );

@@ -136,6 +136,8 @@ const ChatDock: React.FC = () => {
       stillHere = false;
       socketServices.unSubscribeApplicationActions();
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [twitchUsername]);
 
   React.useEffect(() => {
@@ -148,6 +150,7 @@ const ChatDock: React.FC = () => {
         STORAGE_KEYS.MESSAGES,
         JSON.stringify(chatMessages.slice(-20))
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatMessages, STORAGE_KEYS.MESSAGES]);
 
   React.useEffect(() => {
