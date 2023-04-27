@@ -108,7 +108,7 @@ const ChatDock: React.FC = () => {
 
     socketServices.subscribeApplicationActions(
       (err: unknown, data: ChatMessageReturn) => {
-        console.log(89, data);
+        console.log(111, data);
         if (data?.broadcasterName !== twitchUsername) return;
 
         const lastMessage = chatMessages[chatMessages.length - 1];
