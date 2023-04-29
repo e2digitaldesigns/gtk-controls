@@ -49,10 +49,11 @@ const ChatDock: React.FC = () => {
   const [showSingleWordMessages, setShowSingleWordMessages] =
     React.useState<boolean>(false);
 
-  const [transition, setTransition] = React.useState<string>("LeftToRight");
+  console.log("xxxxx xxxxx xxxxx xxxxx xxxxx");
+
+  const [transition, setTransition] = React.useState<string>(" ");
 
   const innerRef = React.useRef<HTMLDivElement>(null);
-  // const isHovering = React.useRef<boolean>(false);
 
   const [isHovering, setIsHovering] = React.useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
@@ -97,6 +98,8 @@ const ChatDock: React.FC = () => {
         `${process.env.REACT_APP_REST_API}twitch/twitchUsername/${uid}`
       );
 
+      console.log(99, "fetchUserTwitchUsername", data);
+
       data.twitchUsername && setTwitchUsername(data.twitchUsername);
     };
 
@@ -108,15 +111,8 @@ const ChatDock: React.FC = () => {
 
     socketServices.subscribeApplicationActions(
       (err: unknown, data: ChatMessageReturn) => {
-        console.log(111, data);
-        if (data?.broadcasterName !== twitchUsername) return;
-
-        const lastMessage = chatMessages[chatMessages.length - 1];
-        if (
-          lastMessage &&
-          lastMessage.msg === data.msg &&
-          lastMessage.name === data.name
-        )
+        console.log(112, data);
+        if (data?.broadcasterName.toLowerCase !== twitchUsername.toLowerCase)
           return;
 
         const messenger: ChatMessage = {

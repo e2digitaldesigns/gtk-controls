@@ -15,7 +15,7 @@ interface SettingsDrawerProps {
 }
 
 const transitions = [
-  { name: "Template Default", value: "" },
+  { name: "Template Default", value: " " },
   { name: "Left to Right", value: "LeftToRight" },
   { name: "Rigth to Left", value: "RightToLeft" },
   { name: "Top to Bottom", value: "TopToBottom" },

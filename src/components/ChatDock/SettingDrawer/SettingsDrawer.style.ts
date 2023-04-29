@@ -10,8 +10,8 @@ export const SettingsDrawerWrapper = styled.div<ISettingsDrawerWrapperProps>`
   right: ${props => (props.isOpen ? "0" : "-100vw")};
   z-index: 9999;
 
-  width: 99vw;
-  height: 99vh;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #232323;
@@ -19,7 +19,6 @@ export const SettingsDrawerWrapper = styled.div<ISettingsDrawerWrapperProps>`
   color: white;
 
   transition: right 0.5s ease-in-out;
-
   padding: 0.5rem 0.75rem;
 `;
 
