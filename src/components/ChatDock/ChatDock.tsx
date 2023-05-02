@@ -49,9 +49,7 @@ const ChatDock: React.FC = () => {
   const [showSingleWordMessages, setShowSingleWordMessages] =
     React.useState<boolean>(false);
 
-  console.log("xxxxx xxxxx xxxxx xxxxx xxxxx");
-
-  const [transition, setTransition] = React.useState<string>(" ");
+  const [transition, setTransition] = React.useState<string>("default");
 
   const innerRef = React.useRef<HTMLDivElement>(null);
 
@@ -111,9 +109,17 @@ const ChatDock: React.FC = () => {
 
     socketServices.subscribeApplicationActions(
       (err: unknown, data: ChatMessageReturn) => {
+        console.clear();
         console.log(112, data);
-        if (data?.broadcasterName.toLowerCase !== twitchUsername.toLowerCase)
-          return;
+        console.log(114, data?.broadcasterName, twitchUsername);
+
+        console.log(
+          116,
+          data.broadcasterName.toLowerCase() === twitchUsername.toLowerCase()
+        );
+        if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
+
+        console.log(117);
 
         const messenger: ChatMessage = {
           _id: data._id,
@@ -192,7 +198,7 @@ const ChatDock: React.FC = () => {
       ...message,
       fontColor: message.fontColor.replace("#", "%23"),
       showTime,
-      transition
+      transition: transition === "default" ? null : transition
     });
 
     return `${BASE_API_URL}?tid=${selectedTemplate}&uid=${uid}&action=${action}&message=${messageJson}`;
