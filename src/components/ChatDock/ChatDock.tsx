@@ -240,6 +240,12 @@ const ChatDock: React.FC = () => {
     window.localStorage.setItem(STORAGE_KEYS.SINGLE_WORD, String(value));
   };
 
+  const handleClearChat = () => {
+    window.localStorage.setItem(STORAGE_KEYS.MESSAGES, "");
+    setChatMessages([]);
+    setMessageQueue([]);
+  };
+
   const chatMessagesFiltered = showSingleWordMessages
     ? chatMessages
     : chatMessages.filter(str => str.msg.split(" ").length > 1);
@@ -256,7 +262,7 @@ const ChatDock: React.FC = () => {
       </>
     );
 
-  const handleSettingsClose = () => {
+  const handleSettingsClose = (): void => {
     setIsSettingsOpen(false);
   };
 
@@ -264,6 +270,7 @@ const ChatDock: React.FC = () => {
     <>
       <HelmetHeader title="GTK Chat Dock" />
       <SettingsDrawer
+        handleClearChat={handleClearChat}
         isOpen={isSettingsOpen}
         handleSettingsClose={handleSettingsClose}
         showSingleWordMessages={showSingleWordMessages}

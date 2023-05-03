@@ -4,6 +4,7 @@ import * as Styled from "./SettingsDrawer.style";
 import { XCircle, ToggleLeft, ToggleRight } from "react-feather";
 
 interface SettingsDrawerProps {
+  handleClearChat: () => void;
   handleSettingsClose: () => void;
   isOpen: boolean;
 
@@ -25,6 +26,7 @@ const transitions = [
 ];
 
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
+  handleClearChat,
   handleSettingsClose,
   isOpen,
   showSingleWordMessages,
@@ -61,6 +63,13 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                 </option>
               ))}
             </select>
+          </div>
+        </Styled.OptionsWrapperGridInner>
+
+        <Styled.OptionsWrapperGridInner>
+          <div>Clear Chat</div>
+          <div>
+            <button onClick={handleClearChat}>Clear</button>
           </div>
         </Styled.OptionsWrapperGridInner>
       </Styled.SettingsDrawerWrapper>
