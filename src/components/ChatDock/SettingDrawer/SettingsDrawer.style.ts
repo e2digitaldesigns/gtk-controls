@@ -34,9 +34,13 @@ export const OptionsWrapperGridInner = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
   border-top: 0.0625rem solid #3a3a3a;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0 0.5rem 0.5rem;
   min-height: 3rem;
   align-items: center;
+
+  &:last-child {
+    border-bottom: 0.0625rem solid #3a3a3a;
+  }
 
   select {
     width: 100%;
