@@ -75,7 +75,7 @@ const ChatDockTMI: React.FC = () => {
   React.useEffect(() => {
     const fetchTemplates = async () => {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_REST_API}templates`
+        `${process.env.REACT_APP_REST_API}/templates`
       );
 
       if (data) {

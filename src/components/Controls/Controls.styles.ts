@@ -64,7 +64,7 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 4rem;
+  height: 2.75rem;
   transition: 0.25s;
 
   color: #ccc;
@@ -102,5 +102,9 @@ export const Buttons = styled.div`
 
   :nth-child(5) {
     background-color: #9e00a6;
+  }
+
+  :nth-child(6) {
+    background-color: #336699;
   }
 `;

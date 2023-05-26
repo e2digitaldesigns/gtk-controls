@@ -16,7 +16,7 @@ const ControlsDock: React.FC = () => {
   React.useEffect(() => {
     const fetchTemplates = async () => {
       const { data } = await axios.get(
-        "https://gtk-rest-service.onrender.com/api/v1/templates"
+        `${process.env.REACT_APP_REST_API}/templates`
       );
 
       if (data) {
@@ -37,6 +37,11 @@ const ControlsDock: React.FC = () => {
   ): void => {
     setSelectedTemplate(e.target.value);
     window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, e.target.value);
+
+    axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
+      userId: uid,
+      templateId: e.target.value
+    });
   };
 
   const handleButtonAction = async (
@@ -91,6 +96,10 @@ const ControlsDock: React.FC = () => {
             }
           >
             Reset Overlay
+          </Styled.Buttons>
+
+          <Styled.Buttons onClick={() => handleButtonAction("clear-votes")}>
+            Clear Votes
           </Styled.Buttons>
         </Styled.ButtonWrapper>
       </Styled.ControlDockWrapper>

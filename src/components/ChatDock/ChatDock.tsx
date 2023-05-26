@@ -93,7 +93,7 @@ const ChatDock: React.FC = () => {
   React.useEffect(() => {
     const fetchUserTwitchUsername = async () => {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_REST_API}twitch/twitchUsername/${uid}`
+        `${process.env.REACT_APP_REST_API}/twitch/twitchUsername/${uid}`
       );
 
       console.log(99, "fetchUserTwitchUsername", data);
@@ -158,7 +158,7 @@ const ChatDock: React.FC = () => {
   React.useEffect(() => {
     const fetchTemplates = async () => {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_REST_API}templates`
+        `${process.env.REACT_APP_REST_API}/templates`
       );
 
       if (data) {
