@@ -4,10 +4,20 @@ import axios from "axios";
 import * as Styled from "./Controls.styles";
 import { HelmetHeader } from "../utils/HelmetHeader/HelmetHeader";
 
+import { Settings } from "react-feather";
+import { ControlsSettingsDrawer } from "./ControlsSettingDrawer/ControlsSettingsDrawer";
+
 const ControlsDock: React.FC = () => {
   const { uid } = useParams();
   const [templates, setTemplates] = React.useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
+  const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
+  const origin = "controls";
+
+  const gtkTemplateBroadcastChannel = React.useMemo(
+    () => new BroadcastChannel("gtk-overlay-templateId"),
+    []
+  );
 
   const STORAGE_KEYS = {
     TEMPLATE: `@gtk/${uid}/chat-template`
@@ -32,15 +42,25 @@ const ControlsDock: React.FC = () => {
     fetchTemplates();
   }, [STORAGE_KEYS.TEMPLATE]);
 
+  React.useEffect(() => {
+    gtkTemplateBroadcastChannel.onmessage = function (event) {
+      if (origin !== event.data.origin) {
+        setSelectedTemplate(event.data.templateId);
+      }
+    };
+  }, [gtkTemplateBroadcastChannel]);
+
   const handleSelectTemplate = (
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    setSelectedTemplate(e.target.value);
-    window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, e.target.value);
+    const templateId = e.target.value;
+    gtkTemplateBroadcastChannel.postMessage({ origin: "controls", templateId });
+    setSelectedTemplate(templateId);
+    window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, templateId);
 
     axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
       userId: uid,
-      templateId: e.target.value
+      templateId
     });
   };
 
@@ -57,13 +77,35 @@ const ControlsDock: React.FC = () => {
     await axios.get(link);
   };
 
+  const handleSettingsClose = (): void => {
+    setIsSettingsOpen(false);
+  };
+
+  if (!uid)
+    return (
+      <>
+        <HelmetHeader title="GTK Control Dock" />
+        <Styled.ControlDockWrapper>
+          <Styled.Error> USER ID must be set!</Styled.Error>
+        </Styled.ControlDockWrapper>
+      </>
+    );
+
   return (
     <>
       <HelmetHeader title="GTK Control Dock" />
-      <Styled.ControlDockWrapper>
-        {!uid && <Styled.Error> USER ID must be set!</Styled.Error>}
 
-        <Styled.SelectWrapper className="select-wrapper">
+      <ControlsSettingsDrawer
+        isOpen={isSettingsOpen}
+        handleSettingsClose={handleSettingsClose}
+      />
+
+      <Styled.ControlDockWrapper>
+        <Styled.SelectWrapper>
+          <Styled.IconWrapper onClick={() => setIsSettingsOpen(true)}>
+            <Settings />
+          </Styled.IconWrapper>
+
           <select value={selectedTemplate} onChange={handleSelectTemplate}>
             {templates.map(template => (
               <option key={template._id} value={template._id}>

@@ -55,6 +55,12 @@ const ChatDock: React.FC = () => {
 
   const [isHovering, setIsHovering] = React.useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
+  const origin = "chatDock";
+
+  const gtkTemplateBroadcastChannel = React.useMemo(
+    () => new BroadcastChannel("gtk-overlay-templateId"),
+    []
+  );
 
   const STORAGE_KEYS = {
     MESSAGES: `@gtk/${uid}/chat-messages`,
@@ -63,6 +69,14 @@ const ChatDock: React.FC = () => {
     SINGLE_WORD: `@gtk/${uid}/single-word`,
     TRANSITION: `@gtk/${uid}/transition`
   };
+
+  React.useEffect(() => {
+    gtkTemplateBroadcastChannel.onmessage = function (event) {
+      if (origin !== event.data.origin) {
+        setSelectedTemplate(event.data.templateId);
+      }
+    };
+  }, [gtkTemplateBroadcastChannel]);
 
   const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatDisplay`;
 
@@ -96,8 +110,6 @@ const ChatDock: React.FC = () => {
         `${process.env.REACT_APP_REST_API}/twitch/twitchUsername/${uid}`
       );
 
-      console.log(99, "fetchUserTwitchUsername", data);
-
       data.twitchUsername && setTwitchUsername(data.twitchUsername);
     };
 
@@ -109,17 +121,7 @@ const ChatDock: React.FC = () => {
 
     socketServices.subscribeApplicationActions(
       (err: unknown, data: ChatMessageReturn) => {
-        console.clear();
-        console.log(112, data);
-        console.log(114, data?.broadcasterName, twitchUsername);
-
-        console.log(
-          116,
-          data.broadcasterName.toLowerCase() === twitchUsername.toLowerCase()
-        );
         if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
-
-        console.log(117);
 
         const messenger: ChatMessage = {
           _id: data._id,
@@ -177,8 +179,16 @@ const ChatDock: React.FC = () => {
   const handleSelectTemplate = (
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    setSelectedTemplate(e.target.value);
-    window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, e.target.value);
+    const templateId = e.target.value;
+    gtkTemplateBroadcastChannel.postMessage({ origin: "chat", templateId });
+
+    setSelectedTemplate(templateId);
+    window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, templateId);
+
+    axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
+      userId: uid,
+      templateId
+    });
   };
 
   const handleAddToQueue = (message: ChatMessage): void => {

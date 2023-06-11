@@ -20,9 +20,34 @@ export const Error = styled.div`
   background-color: red;
 `;
 
-export const SelectWrapper = styled.div`
+export const IconWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  padding: 0 0.5rem;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+  /* background-color: #7e0085; */
+  padding: 0 0.5rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
+  color: white;
+  > svg {
+    color: #bbb;
+    width: 1.25rem;
+    cursor: pointer;
+    margin: 0 0.125rem;
+    stroke-width: 2.5px;
+  }
+
+  &:hover {
+    > svg {
+      color: #fff;
+    }
+  }
+`;
+
+export const SelectWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
   justify-content: center;
   align-items: center;
   height: 2.25rem;

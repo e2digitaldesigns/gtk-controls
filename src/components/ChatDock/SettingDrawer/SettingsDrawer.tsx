@@ -39,7 +39,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
       <Styled.SettingsDrawerWrapper isOpen={isOpen}>
         <Styled.HeaderWrapperGrid>
           <XCircle onClick={handleSettingsClose} />
-          <h2>Settings</h2>
+          <h3>Settings</h3>
         </Styled.HeaderWrapperGrid>
 
         <Styled.OptionsWrapperGridInner>
