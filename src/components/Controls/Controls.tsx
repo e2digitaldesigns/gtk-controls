@@ -7,11 +7,17 @@ import { HelmetHeader } from "../utils/HelmetHeader/HelmetHeader";
 import { Settings } from "react-feather";
 import { ControlsSettingsDrawer } from "./ControlsSettingDrawer/ControlsSettingsDrawer";
 
+import OverlayControls from "./OverlayControls/OverlayControls";
+import VideoControls from "./VideoControls/VideoControls";
+
 const ControlsDock: React.FC = () => {
   const { uid } = useParams();
   const [templates, setTemplates] = React.useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
+  const [showVideoControls, setShowVideoControls] =
+    React.useState<boolean>(false);
+
   const origin = "controls";
 
   const gtkTemplateBroadcastChannel = React.useMemo(
@@ -20,8 +26,15 @@ const ControlsDock: React.FC = () => {
   );
 
   const STORAGE_KEYS = {
-    TEMPLATE: `@gtk/${uid}/chat-template`
+    TEMPLATE: `@gtk/${uid}/chat-template`,
+    VIDEO_CONTROLS: `@gtk/${uid}/video-controls`
   };
+
+  React.useEffect(() => {
+    const data = window.localStorage.getItem(STORAGE_KEYS.VIDEO_CONTROLS);
+    const value = data === "true" ? true : false;
+    setShowVideoControls(value);
+  }, [STORAGE_KEYS.VIDEO_CONTROLS]);
 
   React.useEffect(() => {
     const fetchTemplates = async () => {
@@ -81,6 +94,12 @@ const ControlsDock: React.FC = () => {
     setIsSettingsOpen(false);
   };
 
+  const handleShowVideoControls = (): void => {
+    const value = !showVideoControls;
+    setShowVideoControls(value);
+    window.localStorage.setItem(STORAGE_KEYS.VIDEO_CONTROLS, String(value));
+  };
+
   if (!uid)
     return (
       <>
@@ -98,6 +117,8 @@ const ControlsDock: React.FC = () => {
       <ControlsSettingsDrawer
         isOpen={isSettingsOpen}
         handleSettingsClose={handleSettingsClose}
+        showVideoControls={showVideoControls}
+        handleShowVideoControls={handleShowVideoControls}
       />
 
       <Styled.ControlDockWrapper>
@@ -115,35 +136,11 @@ const ControlsDock: React.FC = () => {
           </select>
         </Styled.SelectWrapper>
 
-        <Styled.ButtonWrapper>
-          <Styled.Buttons onClick={() => handleButtonAction("topic-prev")}>
-            Prev Topic
-          </Styled.Buttons>
+        <OverlayControls handleButtonAction={handleButtonAction} />
 
-          <Styled.Buttons onClick={() => handleButtonAction("topic-next")}>
-            Next Topic
-          </Styled.Buttons>
-
-          <Styled.Buttons onClick={() => handleButtonAction("timer-pause")}>
-            Pause Timer
-          </Styled.Buttons>
-
-          <Styled.Buttons onClick={() => handleButtonAction("timer-resume")}>
-            Resume Timer
-          </Styled.Buttons>
-
-          <Styled.Buttons
-            onClick={() =>
-              handleButtonAction("overlay-reset", "gtkApplicationAction")
-            }
-          >
-            Reset Overlay
-          </Styled.Buttons>
-
-          <Styled.Buttons onClick={() => handleButtonAction("clear-votes")}>
-            Clear Votes
-          </Styled.Buttons>
-        </Styled.ButtonWrapper>
+        {showVideoControls && (
+          <VideoControls handleButtonAction={handleButtonAction} />
+        )}
       </Styled.ControlDockWrapper>
     </>
   );
