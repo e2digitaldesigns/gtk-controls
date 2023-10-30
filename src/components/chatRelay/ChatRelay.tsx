@@ -77,5 +77,3 @@ const ChatRelay: React.FC = () => {
 };
 
 export default ChatRelay;
-
-// 🤣
