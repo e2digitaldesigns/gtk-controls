@@ -35,12 +35,20 @@ const OverlayControls: React.FC<IControlsOverlayProps> = ({
           Reset Overlay
         </Styled.Buttons>
 
+        <Styled.Buttons onClick={() => {}}></Styled.Buttons>
+
         <Styled.Buttons
-          onClick={() => handleButtonAction("clear-votes", "gtkVoting")}
+          onClick={() => handleButtonAction("clear-host-votes", "gtkVoting")}
         >
-          Clear Votes
+          Clear Host Votes
         </Styled.Buttons>
-      </Styled.ButtonWrapper>
+
+        <Styled.Buttons
+          onClick={() => handleButtonAction("clear-topic-votes", "gtkVoting")}
+        >
+          Clear Topic Votes
+        </Styled.Buttons>
+      </Styled.ButtonWrapper>{" "}
     </>
   );
 };

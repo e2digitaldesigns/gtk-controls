@@ -101,13 +101,13 @@ export const Buttons = styled.div`
     color: #fff;
   }
 
-  :last-child:nth-child(3n - 1) {
+  /* :last-child:nth-child(3n - 1) {
     grid-column: span 2;
   }
 
   :last-child:nth-child(3n - 2) {
     grid-column: span 3;
-  }
+  } */
 
   :nth-child(1) {
     background-color: #603cbb;
