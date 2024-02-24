@@ -4,6 +4,7 @@ import GlobalStyle from "./globalStyles";
 
 import ChatDock from "./components/ChatDock/ChatDock";
 import Controls from "./components/Controls/Controls";
+import VideoRequestDock from "./components/VideoRequestDock/VideoRequestDock";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,10 @@ function App() {
     {
       path: "/controlDock/:uid",
       element: <Controls />
+    },
+    {
+      path: "/videoRequestDock/:uid",
+      element: <VideoRequestDock />
     }
   ]);
 
