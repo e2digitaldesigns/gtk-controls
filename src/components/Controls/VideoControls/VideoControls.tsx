@@ -88,6 +88,20 @@ const ControlsVideo: React.FC<IControlsVideoProps> = ({
         >
           <Maximize />
         </VideoStyled.Fullscreen>
+
+        {/* Custom Video Sizes */}
+
+        <VideoStyled.Custom1 onClick={() => handleClick("video-size-custom-1")}>
+          C1
+        </VideoStyled.Custom1>
+
+        <VideoStyled.Custom2 onClick={() => handleClick("video-size-custom-2")}>
+          C2
+        </VideoStyled.Custom2>
+
+        <VideoStyled.Custom3 onClick={() => handleClick("video-size-custom-2")}>
+          C3
+        </VideoStyled.Custom3>
       </VideoStyled.VideoButtonWrapper>
     </>
   );

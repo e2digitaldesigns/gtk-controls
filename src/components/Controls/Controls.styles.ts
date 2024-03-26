@@ -52,13 +52,13 @@ export const SelectWrapper = styled.div`
   align-items: center;
   height: 2.25rem;
   margin: 0.5rem 0.5rem 0 0.5rem;
-  background-color: #b81c46;
+  background-color: #603cbb;
   box-sizing: border-box;
 
   select {
     width: 100%;
     height: 100%;
-    background-color: #b81c46;
+    background-color: #603cbb;
     color: #ddd;
     font-size: 0.875rem;
     font-weight: bold;
@@ -95,6 +95,8 @@ export const Buttons = styled.div`
   color: #ccc;
   font-size: 0.875rem;
 
+  background-color: #3c404b;
+
   :hover {
     cursor: pointer;
     filter: brightness(1.75);
@@ -109,7 +111,7 @@ export const Buttons = styled.div`
     grid-column: span 3;
   } */
 
-  :nth-child(1) {
+  /* :nth-child(1) {
     background-color: #603cbb;
   }
 
@@ -155,7 +157,7 @@ export const Buttons = styled.div`
 
   :nth-child(12) {
     background-color: #b81c46;
-  }
+  } */
 `;
 
 export const SectionHeader = styled.div`
@@ -170,7 +172,7 @@ export const SectionHeader = styled.div`
 
   color: #ccc;
   font-size: 0.875rem;
-  background-color: #9e00a6;
+  background-color: #603cbb;
 
   :hover {
     cursor: pointer;

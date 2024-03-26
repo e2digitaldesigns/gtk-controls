@@ -4,9 +4,9 @@ import { Buttons } from "../Controls.styles";
 export const VideoButtonWrapper = styled.div`
   display: grid;
   grid-template:
-    "seekB play play play pause seekF"
-    "stop mute volumeDown volumeDown volumeUp volumeUp"
-    "toggle small small  norm norm fullscreen";
+    "seekB stop pause play play  seekF"
+    "toggle mute volumeDown volumeDown volumeUp volumeUp"
+    "small norm fullscreen custom1 custom2 custom3";
   gap: 0.5rem;
   margin: 0.5rem;
 `;
@@ -65,4 +65,18 @@ export const Normal = styled(Buttons)`
 
 export const Fullscreen = styled(Buttons)`
   grid-area: fullscreen;
+`;
+
+//  Custom Video Sizes
+
+export const Custom1 = styled(Buttons)`
+  grid-area: custom1;
+`;
+
+export const Custom2 = styled(Buttons)`
+  grid-area: custom2;
+`;
+
+export const Custom3 = styled(Buttons)`
+  grid-area: custom3;
 `;
