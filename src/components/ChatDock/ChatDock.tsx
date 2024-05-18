@@ -201,19 +201,6 @@ const ChatDock: React.FC = () => {
     setMessageQueue(newMessageQueue);
   };
 
-  const parseMessage = (message: ChatMessage): string => {
-    const action = "showChatMessage";
-
-    const messageJson = JSON.stringify({
-      ...message,
-      fontColor: message.fontColor.replace("#", "%23"),
-      showTime,
-      transition: transition === "default" ? null : transition
-    });
-
-    return `${BASE_API_URL}?tid=${selectedTemplate}&uid=${uid}&action=${action}&message=${messageJson}`;
-  };
-
   const handleSendChatMessage = async () => {
     const message = messageQueue?.[0];
     if (!message) return;
@@ -221,11 +208,31 @@ const ChatDock: React.FC = () => {
     const newMessageQueue = messageQueue.slice(1);
     setMessageQueue(newMessageQueue);
 
-    await axios.get(parseMessage(message));
+    await axios.post(
+      `${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`,
+      {
+        _id: message._id,
+        fontColor: message.fontColor.replace("#", "%23"),
+        showTime,
+        tid: selectedTemplate,
+        transition: transition === "default" ? null : transition,
+        uid: uid
+      }
+    );
   };
 
   const handleSendChatMessageNow = async (message: ChatMessage) => {
-    await axios.get(parseMessage(message));
+    await axios.post(
+      `${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`,
+      {
+        _id: message._id,
+        fontColor: message.fontColor.replace("#", "%23"),
+        showTime,
+        tid: selectedTemplate,
+        transition: transition === "default" ? null : transition,
+        uid: uid
+      }
+    );
   };
 
   const handleHideChatMessage = async () => {
