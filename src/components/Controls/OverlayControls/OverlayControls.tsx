@@ -48,6 +48,22 @@ const OverlayControls: React.FC<IControlsOverlayProps> = ({
         >
           Clear Topic Votes
         </Styled.Buttons>
+
+        <Styled.Buttons
+          onClick={() =>
+            handleButtonAction("clear-chat-messages", "gtkChatRelay")
+          }
+        >
+          Clear Chat
+        </Styled.Buttons>
+
+        <Styled.Buttons
+          onClick={() =>
+            handleButtonAction("remove-last-message", "gtkChatRelay")
+          }
+        >
+          Remove Last Message
+        </Styled.Buttons>
       </Styled.ButtonWrapper>{" "}
     </>
   );
