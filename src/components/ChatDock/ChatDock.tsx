@@ -9,6 +9,8 @@ import {
   PauseCircle,
   Play,
   PlusSquare,
+  ThumbsDown,
+  ThumbsUp,
   XCircle
 } from "react-feather";
 import socketServices from "../../services/socketServices";
@@ -17,6 +19,7 @@ import timeArray from "./timing.json";
 import ShowMessages from "./ShowMessage";
 import { HelmetHeader } from "../utils/HelmetHeader/HelmetHeader";
 import { SettingsDrawer } from "./SettingDrawer/SettingsDrawer";
+import { act } from "react-dom/test-utils";
 
 type ChatMessageReturn = {
   _id: string;
@@ -38,7 +41,11 @@ type ChatMessage = {
   fontColor: string;
 };
 
-const ChatDock: React.FC = () => {
+interface ChatDockProps {
+  actionType: "chatVote" | "chatShow";
+}
+
+const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
   const { uid } = useParams();
   const [showTime, setShowTime] = React.useState<number>(40000);
   const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([]);
@@ -263,6 +270,12 @@ const ChatDock: React.FC = () => {
     setMessageQueue([]);
   };
 
+  const handleVote = async (name: string, action: "like" | "dislike") => {
+    const API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatVote`;
+    const localLink = `${API_URL}?tid=${selectedTemplate}&uid=${uid}&action=${action}`;
+    await axios.get(localLink);
+  };
+
   const chatMessagesFiltered = showSingleWordMessages
     ? chatMessages
     : chatMessages.filter(str => str.msg.split(" ").length > 1);
@@ -358,21 +371,45 @@ const ChatDock: React.FC = () => {
                   />
                 </Styled.ChatMessage>
 
-                <Styled.ChatMessagePlus>
-                  <ArrowRightCircle
-                    onClick={() => handleSendChatMessageNow(message)}
-                  />
-                </Styled.ChatMessagePlus>
+                {actionType === "chatVote" && (
+                  <>
+                    <Styled.ChatMessageIcons
+                      onClick={() => handleVote(message.name, "like")}
+                    >
+                      <ThumbsUp />
+                    </Styled.ChatMessageIcons>
 
-                <Styled.ChatMessagePlus>
-                  {messageQueue.find(msg => msg._id === message._id) ? (
-                    <MinusSquare
-                      onClick={() => handleRemoveFromQueue(message)}
-                    />
-                  ) : (
-                    <PlusSquare onClick={() => handleAddToQueue(message)} />
-                  )}
-                </Styled.ChatMessagePlus>
+                    <Styled.ChatMessageIcons
+                      onClick={() => handleVote(message.name, "dislike")}
+                    >
+                      <ThumbsDown />
+                    </Styled.ChatMessageIcons>
+                  </>
+                )}
+
+                {actionType === "chatShow" && (
+                  <>
+                    <Styled.ChatMessageIcons
+                      onClick={() => handleSendChatMessageNow(message)}
+                    >
+                      <ArrowRightCircle />
+                    </Styled.ChatMessageIcons>
+
+                    {messageQueue.find(msg => msg._id === message._id) ? (
+                      <Styled.ChatMessageIcons
+                        onClick={() => handleRemoveFromQueue(message)}
+                      >
+                        <MinusSquare />
+                      </Styled.ChatMessageIcons>
+                    ) : (
+                      <Styled.ChatMessageIcons
+                        onClick={() => handleAddToQueue(message)}
+                      >
+                        <PlusSquare />
+                      </Styled.ChatMessageIcons>
+                    )}
+                  </>
+                )}
               </Styled.ChatMessageGrid>
             ))}
           </Styled.ChatMessageWrapperInner>

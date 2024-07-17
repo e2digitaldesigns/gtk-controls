@@ -241,13 +241,13 @@ const ChatDockTMI: React.FC = () => {
                   : {message.msg}
                 </div>
 
-                <Styled.ChatMessagePlus>
+                <Styled.ChatMessageIcons>
                   <ArrowRightCircle
                     onClick={() => handleSendChatMessageNow(message)}
                   />
-                </Styled.ChatMessagePlus>
+                </Styled.ChatMessageIcons>
 
-                <Styled.ChatMessagePlus>
+                <Styled.ChatMessageIcons>
                   {messageQueue.find(msg => msg._id === message._id) ? (
                     <MinusSquare
                       onClick={() => handleRemoveFromQueue(message)}
@@ -255,7 +255,7 @@ const ChatDockTMI: React.FC = () => {
                   ) : (
                     <PlusSquare onClick={() => handleAddToQueue(message)} />
                   )}
-                </Styled.ChatMessagePlus>
+                </Styled.ChatMessageIcons>
               </Styled.ChatMessageGrid>
             ))}
           </Styled.ChatMessageWrapperInner>

@@ -9,8 +9,12 @@ import VideoRequestDock from "./components/VideoRequestDock/VideoRequestDock";
 function App() {
   const router = createBrowserRouter([
     {
+      path: "/chatVote/:uid",
+      element: <ChatDock actionType="chatVote" />
+    },
+    {
       path: "/chatDock/:uid",
-      element: <ChatDock />
+      element: <ChatDock actionType="chatShow" />
     },
     {
       path: "/controlDock/:uid",

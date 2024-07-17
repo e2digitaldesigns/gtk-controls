@@ -168,7 +168,7 @@ export const ChatMessageWrapperInner = styled.div`
 
 export const ChatMessageGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr 3rem 3rem;
   gap: 0.25rem;
   padding: 0.5rem;
   border-bottom: 0.0625rem solid #3a3a3a;
@@ -204,9 +204,10 @@ export const ChatMessage = styled.div<IChatMessageNameProps>`
   /* align-items: center; */
 `;
 
-export const ChatMessagePlus = styled.div`
+export const ChatMessageIcons = styled.div`
   display: flex;
   justify-items: center;
+  align-items: center;
 
   > svg {
     color: #999;
