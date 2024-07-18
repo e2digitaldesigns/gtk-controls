@@ -17,44 +17,21 @@ import socketServices from "../../services/socketServices";
 import * as Styled from "./ChatDock.styles";
 import timeArray from "./timing.json";
 import ShowMessages from "./ShowMessage";
-import { HelmetHeader } from "../utils/HelmetHeader/HelmetHeader";
 import { SettingsDrawer } from "./SettingDrawer/SettingsDrawer";
-import { act } from "react-dom/test-utils";
+import { ErrorComponent, HelmetHeader, TemplateSelector } from "../Shared";
 
-type ChatMessageReturn = {
-  _id: string;
-  broadcasterName: string;
-  name: string;
-  msg: string;
-  msgEmotes: string;
-  url: string;
-  fontColor: string;
-  emotes: string[];
-};
+import {} from "../Shared";
+import { ChatMessage, ChatMessageReturn } from "../../Types";
+import { storageKeys } from "../../utils";
 
-type ChatMessage = {
-  _id: string;
-  broadcasterName: string;
-  name: string;
-  msg: string;
-  url: string;
-  fontColor: string;
-};
-
-interface ChatDockProps {
-  actionType: "chatVote" | "chatShow";
-}
-
-const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
+const ChatDock: React.FC = () => {
   const { uid } = useParams();
   const [showTime, setShowTime] = React.useState<number>(40000);
   const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([]);
   const [messageQueue, setMessageQueue] = React.useState<ChatMessage[]>([]);
-  const [templates, setTemplates] = React.useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
   const [twitchUsername, setTwitchUsername] = React.useState<string>("");
-  const [showSingleWordMessages, setShowSingleWordMessages] =
-    React.useState<boolean>(false);
+  const [showSingleWordMessages, setShowSingleWordMessages] = React.useState<boolean>(false);
 
   const [transition, setTransition] = React.useState<string>("default");
 
@@ -62,28 +39,8 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
 
   const [isHovering, setIsHovering] = React.useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
-  const origin = "chatDock";
 
-  const gtkTemplateBroadcastChannel = React.useMemo(
-    () => new BroadcastChannel("gtk-overlay-templateId"),
-    []
-  );
-
-  const STORAGE_KEYS = {
-    MESSAGES: `@gtk/${uid}/chat-messages`,
-    TEMPLATE: `@gtk/${uid}/chat-template`,
-    TIMER: `@gtk/${uid}/chat-timer`,
-    SINGLE_WORD: `@gtk/${uid}/single-word`,
-    TRANSITION: `@gtk/${uid}/transition`
-  };
-
-  React.useEffect(() => {
-    gtkTemplateBroadcastChannel.onmessage = function (event) {
-      if (origin !== event.data.origin) {
-        setSelectedTemplate(event.data.templateId);
-      }
-    };
-  }, [gtkTemplateBroadcastChannel]);
+  const STORAGE_KEYS = storageKeys(uid as string);
 
   const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatDisplay`;
 
@@ -126,22 +83,20 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
   React.useEffect(() => {
     let stillHere = true;
 
-    socketServices.subscribeApplicationActions(
-      (err: unknown, data: ChatMessageReturn) => {
-        if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
+    socketServices.subscribeApplicationActions((err: unknown, data: ChatMessageReturn) => {
+      if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
 
-        const messenger: ChatMessage = {
-          _id: data._id,
-          broadcasterName: data._id,
-          name: data.name,
-          msg: data.msgEmotes,
-          url: data.url,
-          fontColor: data.fontColor
-        };
+      const messenger: ChatMessage = {
+        _id: data._id,
+        broadcasterName: data._id,
+        name: data.name,
+        msg: data.msgEmotes,
+        url: data.url,
+        fontColor: data.fontColor
+      };
 
-        stillHere && setChatMessages(prev => [...prev, messenger]);
-      }
-    );
+      stillHere && setChatMessages(prev => [...prev, messenger]);
+    });
 
     return () => {
       stillHere = false;
@@ -157,46 +112,9 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
     }
 
     chatMessages.length &&
-      window.localStorage.setItem(
-        STORAGE_KEYS.MESSAGES,
-        JSON.stringify(chatMessages.slice(-20))
-      );
+      window.localStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(chatMessages.slice(-20)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatMessages, STORAGE_KEYS.MESSAGES]);
-
-  React.useEffect(() => {
-    const fetchTemplates = async () => {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_REST_API}/templates`
-      );
-
-      if (data) {
-        setTemplates(data);
-        const storage = window.localStorage.getItem(STORAGE_KEYS.TEMPLATE);
-
-        storage
-          ? setSelectedTemplate(storage)
-          : setSelectedTemplate(data[0]._id);
-      }
-    };
-
-    fetchTemplates();
-  }, [STORAGE_KEYS.TEMPLATE]);
-
-  const handleSelectTemplate = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const templateId = e.target.value;
-    gtkTemplateBroadcastChannel.postMessage({ origin: "chat", templateId });
-
-    setSelectedTemplate(templateId);
-    window.localStorage.setItem(STORAGE_KEYS.TEMPLATE, templateId);
-
-    axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
-      userId: uid,
-      templateId
-    });
-  };
 
   const handleAddToQueue = (message: ChatMessage): void => {
     const check = messageQueue.find(msg => msg._id === message._id);
@@ -215,31 +133,25 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
     const newMessageQueue = messageQueue.slice(1);
     setMessageQueue(newMessageQueue);
 
-    await axios.post(
-      `${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`,
-      {
-        _id: message._id,
-        fontColor: message.fontColor.replace("#", "%23"),
-        showTime,
-        tid: selectedTemplate,
-        transition: transition === "default" ? null : transition,
-        uid: uid
-      }
-    );
+    await axios.post(`${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`, {
+      _id: message._id,
+      fontColor: message.fontColor.replace("#", "%23"),
+      showTime,
+      tid: selectedTemplate,
+      transition: transition === "default" ? null : transition,
+      uid: uid
+    });
   };
 
   const handleSendChatMessageNow = async (message: ChatMessage) => {
-    await axios.post(
-      `${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`,
-      {
-        _id: message._id,
-        fontColor: message.fontColor.replace("#", "%23"),
-        showTime,
-        tid: selectedTemplate,
-        transition: transition === "default" ? null : transition,
-        uid: uid
-      }
-    );
+    await axios.post(`${process.env.REACT_APP_REST_API}/chatLog/sendMessageToOverlay`, {
+      _id: message._id,
+      fontColor: message.fontColor.replace("#", "%23"),
+      showTime,
+      tid: selectedTemplate,
+      transition: transition === "default" ? null : transition,
+      uid: uid
+    });
   };
 
   const handleHideChatMessage = async () => {
@@ -272,29 +184,19 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
 
   const handleVote = async (name: string, action: "like" | "dislike") => {
     const API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatVote`;
-    const localLink = `${API_URL}?tid=${selectedTemplate}&uid=${uid}&action=${action}`;
-    await axios.get(localLink);
+    const localLink = `${API_URL}?tid=${selectedTemplate}&uid=${uid}&action=vote`;
+    await axios.post(localLink, { username: name, votes: action === "like" ? 1 : -1 });
   };
 
   const chatMessagesFiltered = showSingleWordMessages
     ? chatMessages
     : chatMessages.filter(str => str.msg.split(" ").length > 1);
 
-  if (!uid || !twitchUsername)
-    return (
-      <>
-        <HelmetHeader title="GTK Chat Dock" />
-        <Styled.ChatDockWrapper>
-          <Styled.ErrorWrapper>
-            <span>You must be connected to Twitch to use this Dock.</span>
-          </Styled.ErrorWrapper>
-        </Styled.ChatDockWrapper>
-      </>
-    );
-
   const handleSettingsClose = (): void => {
     setIsSettingsOpen(false);
   };
+
+  if (!uid || !twitchUsername) return <ErrorComponent title="GTK Chat Dock" />;
 
   return (
     <>
@@ -314,13 +216,7 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
             <Settings />
           </Styled.IconWrapper>
 
-          <select value={selectedTemplate} onChange={handleSelectTemplate}>
-            {templates.map(template => (
-              <option key={template._id} value={template._id}>
-                {template.name}
-              </option>
-            ))}
-          </select>
+          <TemplateSelector callBack={setSelectedTemplate} origin="chatDock" uid={uid} />
 
           <Styled.PausedIconWrapper isPaused={isHovering}>
             <PauseCircle />
@@ -362,7 +258,7 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
             onMouseLeave={() => setIsHovering(false)}
           >
             {chatMessagesFiltered.map(message => (
-              <Styled.ChatMessageGrid key={message._id}>
+              <Styled.ChatMessageGrid key={message._id} columns={4}>
                 <Styled.ChatMessage>
                   <ShowMessages
                     message={message.msg}
@@ -371,45 +267,31 @@ const ChatDock: React.FC<ChatDockProps> = ({ actionType }) => {
                   />
                 </Styled.ChatMessage>
 
-                {actionType === "chatVote" && (
-                  <>
-                    <Styled.ChatMessageIcons
-                      onClick={() => handleVote(message.name, "like")}
-                    >
-                      <ThumbsUp />
-                    </Styled.ChatMessageIcons>
+                <>
+                  <Styled.ChatMessageIcons>
+                    <ThumbsUp onClick={() => handleVote(message.name, "like")} />
+                  </Styled.ChatMessageIcons>
 
-                    <Styled.ChatMessageIcons
-                      onClick={() => handleVote(message.name, "dislike")}
-                    >
-                      <ThumbsDown />
-                    </Styled.ChatMessageIcons>
-                  </>
-                )}
+                  <Styled.ChatMessageIcons>
+                    <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
+                  </Styled.ChatMessageIcons>
+                </>
 
-                {actionType === "chatShow" && (
-                  <>
-                    <Styled.ChatMessageIcons
-                      onClick={() => handleSendChatMessageNow(message)}
-                    >
-                      <ArrowRightCircle />
-                    </Styled.ChatMessageIcons>
+                <>
+                  <Styled.ChatMessageIcons>
+                    <ArrowRightCircle onClick={() => handleSendChatMessageNow(message)} />
+                  </Styled.ChatMessageIcons>
 
-                    {messageQueue.find(msg => msg._id === message._id) ? (
-                      <Styled.ChatMessageIcons
-                        onClick={() => handleRemoveFromQueue(message)}
-                      >
-                        <MinusSquare />
-                      </Styled.ChatMessageIcons>
-                    ) : (
-                      <Styled.ChatMessageIcons
-                        onClick={() => handleAddToQueue(message)}
-                      >
-                        <PlusSquare />
-                      </Styled.ChatMessageIcons>
-                    )}
-                  </>
-                )}
+                  {messageQueue.find(msg => msg._id === message._id) ? (
+                    <Styled.ChatMessageIcons>
+                      <MinusSquare onClick={() => handleRemoveFromQueue(message)} />
+                    </Styled.ChatMessageIcons>
+                  ) : (
+                    <Styled.ChatMessageIcons>
+                      <PlusSquare onClick={() => handleAddToQueue(message)} />
+                    </Styled.ChatMessageIcons>
+                  )}
+                </>
               </Styled.ChatMessageGrid>
             ))}
           </Styled.ChatMessageWrapperInner>

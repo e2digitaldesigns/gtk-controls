@@ -55,33 +55,6 @@ export const SelectWrapper = styled.div`
   }
 `;
 
-export const OptionWrapper = styled.div`
-  height: 2.5rem;
-  margin: 0.5rem 0.5rem 0 0.5rem;
-  background-color: #9e00a6;
-  background-color: #7e0085;
-
-  display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  /* gap: 0.5rem; */
-  /* padding: 0.5rem; */
-  box-sizing: border-box;
-
-  /* justify-items: center; */
-  align-items: center;
-`;
-
-export const Queue = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  padding-left: 0.5rem;
-  color: white;
-  > span {
-    font-weight: 500;
-  }
-`;
-
 export const IconWrapper = styled.div`
   display: flex;
   padding: 0 0.5rem;
@@ -140,7 +113,7 @@ export const PausedIconWrapper = styled(IconWrapper)<IPausedIconWrapper>`
 `;
 
 export const ChatMessageWrapper = styled.div`
-  height: calc(100vh - 8rem);
+  height: calc(100vh - 4.5rem);
   margin: 0.5rem 0.5rem 0 0.5rem;
   padding: 0.5rem;
   background-color: #202124;

@@ -5,16 +5,17 @@ import GlobalStyle from "./globalStyles";
 import ChatDock from "./components/ChatDock/ChatDock";
 import Controls from "./components/Controls/Controls";
 import VideoRequestDock from "./components/VideoRequestDock/VideoRequestDock";
+import ChatVote from "./components/ChatVote/ChatVote";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/chatVote/:uid",
-      element: <ChatDock actionType="chatVote" />
+      element: <ChatVote />
     },
     {
       path: "/chatDock/:uid",
-      element: <ChatDock actionType="chatShow" />
+      element: <ChatDock />
     },
     {
       path: "/controlDock/:uid",
