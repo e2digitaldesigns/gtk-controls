@@ -2,23 +2,16 @@ import React from "react";
 import * as Styled from "./SettingsDrawer.style";
 
 import { XCircle, ToggleLeft, ToggleRight } from "react-feather";
+import { useMessageDataStore } from "../../../dataStores";
 
 interface SettingsDrawerProps {
-  handleClearChat: () => void;
   handleSettingsClose: () => void;
   isOpen: boolean;
-
-  showSingleWordMessages: boolean;
-  handleSingleWordMessage: () => void;
 }
 
-export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
-  handleClearChat,
-  handleSettingsClose,
-  isOpen,
-  showSingleWordMessages,
-  handleSingleWordMessage
-}) => {
+export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ handleSettingsClose, isOpen }) => {
+  const chatMessageData = useMessageDataStore(state => state);
+
   return (
     <>
       <Styled.SettingsDrawerWrapper isOpen={isOpen}>
@@ -30,10 +23,10 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         <Styled.OptionsWrapperGridInner>
           <div>Show single word messages:</div>
           <div>
-            {showSingleWordMessages ? (
-              <ToggleRight onClick={handleSingleWordMessage} />
+            {chatMessageData.showSingleWordMessages ? (
+              <ToggleRight onClick={chatMessageData.toggleSingleWordMessages} />
             ) : (
-              <ToggleLeft onClick={handleSingleWordMessage} />
+              <ToggleLeft onClick={chatMessageData.toggleSingleWordMessages} />
             )}
           </div>
         </Styled.OptionsWrapperGridInner>
@@ -41,7 +34,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         <Styled.OptionsWrapperGridInner>
           <div>Clear Chat</div>
           <div>
-            <button onClick={handleClearChat}>Clear</button>
+            <button onClick={chatMessageData.clearMessages}>Clear</button>
           </div>
         </Styled.OptionsWrapperGridInner>
       </Styled.SettingsDrawerWrapper>

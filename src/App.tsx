@@ -1,36 +1,34 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
 
-import ChatDock from "./components/ChatDock/ChatDock";
-import Controls from "./components/Controls/Controls";
-import VideoRequestDock from "./components/VideoRequestDock/VideoRequestDock";
-import ChatVote from "./components/ChatVote/ChatVote";
+import { AppRouter } from "./components/AppRouter/AppRouter";
+import { getUserId } from "./utils";
+import axios from "axios";
+import { ChatManager } from "./components/ChatManager/ChatManager";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/chatVote/:uid",
-      element: <ChatVote />
-    },
-    {
-      path: "/chatDock/:uid",
-      element: <ChatDock />
-    },
-    {
-      path: "/controlDock/:uid",
-      element: <Controls />
-    },
-    {
-      path: "/videoRequestDock/:uid",
-      element: <VideoRequestDock />
-    }
-  ]);
+  const [twitchUsername, setTwitchUsername] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const fetchUserTwitchUsername = async () => {
+      const userId = getUserId();
+      if (!userId) return;
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_REST_API}/twitch/twitchUsername/${userId}`
+      );
+
+      data.twitchUsername && setTwitchUsername(data.twitchUsername);
+    };
+
+    fetchUserTwitchUsername();
+  }, []);
 
   return (
     <>
       <GlobalStyle />
-      <RouterProvider router={router} />
+      <ChatManager twitchUsername={twitchUsername} />
+      <AppRouter twitchUsername={twitchUsername} />
     </>
   );
 }

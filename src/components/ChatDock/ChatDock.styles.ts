@@ -63,11 +63,7 @@ export const OptionWrapper = styled.div`
 
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  /* gap: 0.5rem; */
-  /* padding: 0.5rem; */
   box-sizing: border-box;
-
-  /* justify-items: center; */
   align-items: center;
 `;
 

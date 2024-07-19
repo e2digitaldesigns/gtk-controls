@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import * as Styled from "./Controls.styles";
 
 import { Settings } from "react-feather";
@@ -13,7 +12,6 @@ import { storageKeys } from "../../utils";
 
 const ControlsDock: React.FC = () => {
   const { uid } = useParams();
-  const [selectedTemplate, setSelectedTemplate] = React.useState<string>("");
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
   const [showVideoControls, setShowVideoControls] = React.useState<boolean>(false);
 
@@ -24,16 +22,6 @@ const ControlsDock: React.FC = () => {
     const value = data === "true" ? true : false;
     setShowVideoControls(value);
   }, [STORAGE_KEYS.VIDEO_CONTROLS]);
-
-  const handleButtonAction = async (action: string, type: string = "gtkOverlayAction") => {
-    if (!uid) return;
-
-    const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/${type}`;
-
-    const link = `${BASE_API_URL}?tid=${selectedTemplate}&uid=${uid}&action=${action}`;
-
-    await axios.get(link);
-  };
 
   const handleSettingsClose = (): void => {
     setIsSettingsOpen(false);
@@ -64,12 +52,12 @@ const ControlsDock: React.FC = () => {
             <Settings />
           </Styled.IconWrapper>
 
-          <TemplateSelector callBack={setSelectedTemplate} origin="controls" uid={uid} />
+          <TemplateSelector origin="controls" />
         </Styled.SelectWrapper>
 
-        <OverlayControls handleButtonAction={handleButtonAction} />
+        <OverlayControls />
 
-        {showVideoControls && <VideoControls handleButtonAction={handleButtonAction} />}
+        {showVideoControls && <VideoControls />}
       </Styled.ControlDockWrapper>
     </>
   );

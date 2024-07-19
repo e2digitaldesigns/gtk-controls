@@ -21,3 +21,7 @@ export type ChatMessage = {
   url: string;
   fontColor: string;
 };
+
+export enum StorageKeys {
+  CHAT_MESSAGE_STORAGE = "@gtk/chatMessageStorage"
+}
