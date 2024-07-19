@@ -7,11 +7,11 @@ interface ShowMessagesProps {
 }
 
 export const ChatMessageSingle: React.FC<ShowMessagesProps> = ({ message, name, nameColor }) => {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const urlRegex = /(https:\/\/static-cdn\.jtvnw\.net\/[^\s]+)/g;
   const parts = message.split(urlRegex);
 
   const renderedContent = parts.map((part, index) => {
-    if (part.match(urlRegex) && part.endsWith("/1.0")) {
+    if (part.match(urlRegex)) {
       return <img key={index} src={part} alt={`Emote ${index}`} style={{ height: "1rem" }} />;
     }
 

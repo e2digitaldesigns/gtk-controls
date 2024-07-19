@@ -1,9 +1,16 @@
 import React, { FC, useState } from "react";
 import { useParams } from "react-router-dom";
-import { chatVoteFn, handleSendChatMessageNow } from "../../../utils";
+import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../../utils";
 
 import * as Styled from "./ChatMessages.styles";
-import { ArrowRightCircle, MinusSquare, PlusSquare, ThumbsDown, ThumbsUp } from "react-feather";
+import {
+  ArrowRightCircle,
+  MinusSquare,
+  PlusSquare,
+  ThumbsDown,
+  ThumbsUp,
+  Trash
+} from "react-feather";
 import { ChatMessage } from "../../../Types";
 import { useMessageDataStore } from "../../../dataStores";
 import { ChatMessageSingle } from "./ChatMessageSingle";
@@ -43,6 +50,10 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
     handleSendChatMessageNow(templateId, uid as string, chatMessage, showTime, transition);
   };
 
+  const removeMessage = (messageId: string) => {
+    handleDeleteChatMessage(templateId, uid as string, messageId);
+  };
+
   const ChatMessageWrapper =
     parent === "chatDock" ? Styled.ChatMessageWrapper : Styled.ChatMessageWrapperCC;
 
@@ -54,23 +65,28 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
         onMouseLeave={() => setIsHovering(false)}
       >
         {messages.map(message => (
-          <Styled.ChatMessageGrid key={message._id} columns={parent === "controlCenter" ? 6 : 4}>
+          <Styled.ChatMessageGrid key={message._id} columns={parent === "controlCenter" ? 7 : 3}>
             <Styled.ChatMessage>
               <ChatMessageSingle
                 message={message.msg}
                 name={message.name}
                 nameColor={message.fontColor}
               />
-              {message.msg}
             </Styled.ChatMessage>
 
-            <Styled.ChatMessageIcons>
-              <ThumbsUp onClick={() => handleVote(message.name, "like")} />
-            </Styled.ChatMessageIcons>
+            {parent === "controlCenter" && (
+              <>
+                <Styled.ChatMessageIcons>
+                  <ThumbsUp onClick={() => handleVote(message.name, "like")} />
+                </Styled.ChatMessageIcons>
 
-            <Styled.ChatMessageIcons>
-              <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
-            </Styled.ChatMessageIcons>
+                <Styled.ChatMessageIcons>
+                  <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
+                </Styled.ChatMessageIcons>
+              </>
+            )}
+
+            <div />
 
             <Styled.ChatMessageIcons>
               <ArrowRightCircle onClick={() => handleSendMessage(message)} />
@@ -84,6 +100,15 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
               <Styled.ChatMessageIcons>
                 <PlusSquare onClick={() => addToQueue(message)} />
               </Styled.ChatMessageIcons>
+            )}
+
+            {parent === "controlCenter" && (
+              <>
+                <div />
+                <Styled.ChatMessageIcons>
+                  <Trash onClick={() => removeMessage(message._id)} />
+                </Styled.ChatMessageIcons>{" "}
+              </>
             )}
           </Styled.ChatMessageGrid>
         ))}

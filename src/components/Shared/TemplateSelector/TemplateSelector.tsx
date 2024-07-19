@@ -24,12 +24,11 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ origin }) =>
     };
   }, [gtkTemplateBroadcastChannel, origin, setTemplateId]);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const fetchTemplates = async () => {
       const { data } = await axios.get(`${process.env.REACT_APP_REST_API}/templates`);
       if (data) {
         setTemplates(data);
-        setTemplateId(data[0]._id);
       }
     };
 
@@ -45,6 +44,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ origin }) =>
 
   return (
     <select value={templateId} onChange={handleSelectTemplate}>
+      {!templateId && <option value="">Choose a template</option>}
       {templates.map(template => (
         <option key={template._id} value={template._id}>
           {template.name}

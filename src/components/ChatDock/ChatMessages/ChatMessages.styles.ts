@@ -9,7 +9,7 @@ export const ChatMessageWrapper = styled.div`
 
 export const ChatMessageWrapperCC = styled.div`
   margin: 0.5rem 0 0 0.5rem;
-  height: calc(100% - 1rem);
+  height: calc(100vh - 6.5rem);
   padding: 0.5rem 0.5rem 0.5rem 0rem;
   background-color: #202124;
 `;

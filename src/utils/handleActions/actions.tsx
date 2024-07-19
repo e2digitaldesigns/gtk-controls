@@ -64,3 +64,14 @@ export const handleHideChatMessage = async (templateId: string, userId: string) 
   const localLink = `${BASE_API_URL}?tid=${templateId}&uid=${userId}&action=${action}`;
   await axios.get(localLink);
 };
+
+export const handleDeleteChatMessage = async (
+  templateId: string,
+  userId: string,
+  messageId: string
+) => {
+  const action = "delete-message-by-id";
+  const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatRelay`;
+  const localLink = `${BASE_API_URL}?tid=${templateId}&uid=${userId}&action=${action}&_id=${messageId}`;
+  await axios.post(localLink);
+};

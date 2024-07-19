@@ -14,6 +14,7 @@ export const ChatManager: React.FC<IChatManagerProps> = ({ twitchUsername }) => 
     let isMounted = true;
 
     socketServices.subscribeApplicationActions((err: unknown, data: ChatMessageReturn) => {
+      console.log("ChatManager", data);
       if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
 
       const messenger: ChatMessage = {

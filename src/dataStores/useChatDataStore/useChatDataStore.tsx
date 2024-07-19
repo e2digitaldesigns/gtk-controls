@@ -19,6 +19,7 @@ export interface IChatMessage {
   setTemplateId: (templateId: string) => void;
   setTransition: (transition: string) => void;
   toggleSingleWordMessages: () => void;
+  deleteMessage: (messageId: string) => void;
 }
 
 const useChatMessageDataStore = create(
@@ -72,6 +73,11 @@ const useChatMessageDataStore = create(
 
         setTemplateId: (templateId: string) => {
           set({ templateId });
+        },
+
+        deleteMessage: (messageId: string) => {
+          const newMessages = get().chatMessages.filter(msg => msg._id !== messageId);
+          set({ chatMessages: newMessages });
         }
       };
     },
