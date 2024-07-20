@@ -19,5 +19,5 @@ export const ControlCenterGrid = styled.div`
   height: calc(100vh - 100px);
   gap: 0rem;
   display: grid;
-  grid-template-columns: 1fr ${controlWidth};
+  grid-template-columns: 500px 1fr ${controlWidth};
 `;

@@ -1,3 +1,5 @@
+export * from "./Episode";
+
 export enum GtkBroadcastChannels {
   GTK_TEMPLATE = "gtk-overlay-templateId"
 }

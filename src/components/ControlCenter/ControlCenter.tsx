@@ -7,6 +7,7 @@ import { HelmetHeader } from "../Shared";
 import { ControlCenterHeader } from "./CCHeader/CCHeader";
 import { ChatQueue } from "../ChatDock/ChatQueue";
 import { ChatMessages } from "../ChatDock/ChatMessages/ChatMessages";
+import { EpisodeComponent } from "./Episode/Episode";
 
 interface ControlCenterProps {
   twitchUsername: string;
@@ -23,6 +24,7 @@ export const ControlCenter: FC<ControlCenterProps> = ({ twitchUsername }) => {
         <ChatQueue />
         <Styled.ControlCenterGrid>
           <ChatMessages parent="controlCenter" />
+          <EpisodeComponent twitchUsername={twitchUsername} />
           <div>
             <OverlayControls />
             <VideoControls />

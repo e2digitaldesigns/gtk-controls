@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const ChatMessageWrapper = styled.div`
-  height: calc(100vh - 8rem);
+  /* height: calc(100vh - 8rem); */
+  height: 100%;
   margin: 0.5rem 0.5rem 0 0.5rem;
   padding: 0.5rem;
   background-color: #202124;
