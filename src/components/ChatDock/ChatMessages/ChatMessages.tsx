@@ -24,6 +24,7 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
   const innerRef = React.useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const {
+    deleteMessage,
     addToQueue,
     filteredChatMessages,
     messageQueue,
@@ -50,8 +51,11 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
     handleSendChatMessageNow(templateId, uid as string, chatMessage, showTime, transition);
   };
 
-  const removeMessage = (messageId: string) => {
-    handleDeleteChatMessage(templateId, uid as string, messageId);
+  const removeMessage = async (messageId: string) => {
+    if (!uid) return;
+
+    await handleDeleteChatMessage(templateId, uid as string, messageId);
+    await deleteMessage(messageId);
   };
 
   const ChatMessageWrapper =
@@ -68,7 +72,7 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
           <Styled.ChatMessageGrid key={message._id} columns={parent === "controlCenter" ? 7 : 3}>
             <Styled.ChatMessage>
               <ChatMessageSingle
-                message={message.msg}
+                message={message.msgEmotes}
                 name={message.name}
                 nameColor={message.fontColor}
               />

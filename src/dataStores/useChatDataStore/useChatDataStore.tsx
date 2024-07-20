@@ -1,5 +1,5 @@
 import { create, StoreApi } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistOptions } from "zustand/middleware";
 import { ChatMessage, StorageKeys } from "../../Types";
 
 export interface IChatMessage {
@@ -20,6 +20,7 @@ export interface IChatMessage {
   setTransition: (transition: string) => void;
   toggleSingleWordMessages: () => void;
   deleteMessage: (messageId: string) => void;
+  hydrateMessages: (data: ChatMessage[]) => void;
 }
 
 const useChatMessageDataStore = create(
@@ -77,13 +78,22 @@ const useChatMessageDataStore = create(
 
         deleteMessage: (messageId: string) => {
           const newMessages = get().chatMessages.filter(msg => msg._id !== messageId);
-          set({ chatMessages: newMessages });
+          const newQueue = get().messageQueue.filter(msg => msg._id !== messageId);
+          set({ chatMessages: newMessages, messageQueue: newQueue });
+        },
+
+        hydrateMessages: (data: ChatMessage[]) => {
+          set({ chatMessages: data });
         }
       };
     },
     {
-      name: StorageKeys.CHAT_MESSAGE_STORAGE
-    }
+      name: StorageKeys.CHAT_MESSAGE_STORAGE,
+      partialize: state => {
+        const { messageQueue, showSingleWordMessages, showTime, templateId, transition } = state;
+        return { messageQueue, showSingleWordMessages, showTime, templateId, transition };
+      }
+    } as PersistOptions<IChatMessage>
   )
 );
 

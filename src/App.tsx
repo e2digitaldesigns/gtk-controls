@@ -8,10 +8,10 @@ import { ChatManager } from "./components/ChatManager/ChatManager";
 
 function App() {
   const [twitchUsername, setTwitchUsername] = React.useState<string>("");
+  const userId = getUserId();
 
   React.useEffect(() => {
     const fetchUserTwitchUsername = async () => {
-      const userId = getUserId();
       if (!userId) return;
 
       const { data } = await axios.get(
@@ -22,15 +22,16 @@ function App() {
     };
 
     fetchUserTwitchUsername();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
+  return userId ? (
     <>
       <GlobalStyle />
-      <ChatManager twitchUsername={twitchUsername} />
+      <ChatManager twitchUsername={twitchUsername} userId={userId} />
       <AppRouter twitchUsername={twitchUsername} />
     </>
-  );
+  ) : null;
 }
 
 export default App;
