@@ -6,26 +6,6 @@ export const TopicsWrapper = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0rem;
 `;
 
-export const TopicsWrapperInner = styled.div`
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
-  height: 100%;
-  padding-right: 1rem;
-
-  ::-webkit-scrollbar {
-    width: 0.625rem;
-    height: 10px;
-    background-color: #242424;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #424242;
-    :hover {
-      background-color: #535353;
-    }
-  }
-`;
-
 export const TopicWrapper = styled.div`
   border-bottom: 1px dashed #222;
   color: #fff;
@@ -65,7 +45,7 @@ export const TopicOptions = styled.div`
   margin-top: 0.25rem;
 `;
 
-export const TopicOptionLink = styled.a`
+export const TopicOptionLink = styled.div`
   cursor: pointer;
   :hover {
     filter: brightness(1.5);

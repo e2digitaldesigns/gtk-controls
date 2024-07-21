@@ -1,7 +1,9 @@
 import React from "react";
 import * as Styled from "./Topics.styles";
 import { EpisodeTopic } from "../../../../Types";
-import axios from "axios";
+import { ScrollerDiv } from "../../../Shared";
+import { getUserId, handleButtonAction, sendMessageToChat } from "../../../../utils";
+import { useMessageDataStore } from "../../../../dataStores";
 
 interface TopicsProps {
   topics: EpisodeTopic[];
@@ -9,40 +11,58 @@ interface TopicsProps {
 }
 
 export const Topics: React.FC<TopicsProps> = ({ topics, twitchUsername }) => {
-  const handleSendToChat = async (topic: EpisodeTopic) => {
-    console.log("Send to chat", topic);
+  const { templateId } = useMessageDataStore(state => state);
+  const userId = getUserId();
 
+  const handleSendToChat = async (topic: EpisodeTopic) => {
     if ((!topic?.chat && !topic?.name) || !twitchUsername) {
       return;
     }
 
-    await axios.post(`${process.env.REACT_APP_REST_API}/chatSender/sendMessage`, {
-      channel: "icon33",
-      message: topic.chat || topic.name
+    sendMessageToChat(twitchUsername, topic.chat || topic.name);
+  };
+
+  const handleSendTopicToOverlay = async (topicId: string) => {
+    await handleButtonAction(templateId, userId, "topic-set", "gtkOverlayAction", {
+      topicId
     });
+  };
+
+  const handleViewArticle = async (article: string) => {
+    window.open(article, "_blank");
   };
 
   return (
     <Styled.TopicsWrapper>
-      <Styled.TopicsWrapperInner>
-        {topics.map(topic => (
-          <Styled.TopicWrapper key={topic._id}>
-            <Styled.TopicInfo>
-              <Styled.TopicName>{topic.name}</Styled.TopicName>
-              <Styled.TopicDescription>{topic.desc}</Styled.TopicDescription>
-              <Styled.TopicOptions>
-                <Styled.TopicOptionLink onClick={() => handleSendToChat(topic)}>
-                  Send Topic to Chat
-                </Styled.TopicOptionLink>
-                <div>|</div>
-                <Styled.TopicOptionLink onClick={() => handleSendToChat(topic)}>
-                  Send Topic to Overlay
-                </Styled.TopicOptionLink>
-              </Styled.TopicOptions>
-            </Styled.TopicInfo>
-          </Styled.TopicWrapper>
-        ))}
-      </Styled.TopicsWrapperInner>
+      <ScrollerDiv>
+        <div style={{ paddingRight: "0.75rem" }}>
+          {topics.map(topic => (
+            <Styled.TopicWrapper key={topic._id}>
+              <Styled.TopicInfo>
+                <Styled.TopicName>{topic.name}</Styled.TopicName>
+                <Styled.TopicDescription>{topic.desc}</Styled.TopicDescription>
+                <Styled.TopicOptions>
+                  <Styled.TopicOptionLink onClick={() => handleSendToChat(topic)}>
+                    Send Topic to Chat
+                  </Styled.TopicOptionLink>
+                  <div>|</div>
+                  <Styled.TopicOptionLink onClick={() => handleSendTopicToOverlay(topic._id)}>
+                    Send Topic to Overlay
+                  </Styled.TopicOptionLink>
+                  {topic?.articles?.trim() && (
+                    <>
+                      <div>|</div>
+                      <Styled.TopicOptionLink onClick={() => handleViewArticle(topic.articles)}>
+                        View Article
+                      </Styled.TopicOptionLink>
+                    </>
+                  )}
+                </Styled.TopicOptions>
+              </Styled.TopicInfo>
+            </Styled.TopicWrapper>
+          ))}
+        </div>
+      </ScrollerDiv>
     </Styled.TopicsWrapper>
   );
 };

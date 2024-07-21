@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useParams } from "react-router-dom";
-import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../../utils";
+import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../utils";
 
 import * as Styled from "./ChatMessages.styles";
 import {
@@ -11,9 +11,10 @@ import {
   ThumbsUp,
   Trash
 } from "react-feather";
-import { ChatMessage } from "../../../Types";
-import { useMessageDataStore } from "../../../dataStores";
+import { ChatMessage } from "../../Types";
+import { useMessageDataStore } from "../../dataStores";
 import { ChatMessageSingle } from "./ChatMessageSingle";
+import { ScrollerDiv } from "../Shared";
 
 interface ChatMessagesProps {
   parent?: string;
@@ -58,16 +59,12 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
     await deleteMessage(messageId);
   };
 
-  const ChatMessageWrapper =
-    parent === "chatDock" ? Styled.ChatMessageWrapper : Styled.ChatMessageWrapperCC;
-
   return (
-    <ChatMessageWrapper>
-      <Styled.ChatMessageWrapperInner
-        ref={innerRef}
-        onMouseOver={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
+    <Styled.ChatMessageWrapper
+      onMouseOver={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <ScrollerDiv divRef={innerRef}>
         {messages.map(message => (
           <Styled.ChatMessageGrid key={message._id} columns={parent === "controlCenter" ? 7 : 3}>
             <Styled.ChatMessage>
@@ -116,7 +113,7 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
             )}
           </Styled.ChatMessageGrid>
         ))}
-      </Styled.ChatMessageWrapperInner>
-    </ChatMessageWrapper>
+      </ScrollerDiv>
+    </Styled.ChatMessageWrapper>
   );
 };

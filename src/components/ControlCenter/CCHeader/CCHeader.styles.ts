@@ -6,7 +6,6 @@ export const SelectWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 2.25rem;
-  margin: 0.5rem 0.5rem 0 0.5rem;
   background-color: #b81c46;
   box-sizing: border-box;
 
@@ -39,7 +38,7 @@ export const IconWrapper = styled.div`
   height: 100%;
   align-items: center;
   justify-items: center;
-  /* background-color: #7e0085; */
+
   padding: 0 0.5rem;
   border-left: 1px solid rgba(0, 0, 0, 0.4);
   color: white;

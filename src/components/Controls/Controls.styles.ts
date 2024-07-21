@@ -2,10 +2,12 @@ import styled from "styled-components";
 
 export const ControlDockWrapper = styled.div`
   width: 100vw;
+  min-width: 300px;
   height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #232323;
+  padding: 0.5rem;
 `;
 
 export const Error = styled.div`
@@ -51,7 +53,7 @@ export const SelectWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 2.25rem;
-  margin: 0.5rem 0.5rem 0 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: #603cbb;
   box-sizing: border-box;
 
@@ -82,7 +84,6 @@ export const ButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
-  margin: 0.5rem;
 `;
 
 export const Buttons = styled.div`
@@ -102,73 +103,17 @@ export const Buttons = styled.div`
     filter: brightness(1.75);
     color: #fff;
   }
-
-  /* :last-child:nth-child(3n - 1) {
-    grid-column: span 2;
-  }
-
-  :last-child:nth-child(3n - 2) {
-    grid-column: span 3;
-  } */
-
-  /* :nth-child(1) {
-    background-color: #603cbb;
-  }
-
-  :nth-child(2) {
-    background-color: #0099ac;
-  }
-
-  :nth-child(3) {
-    background-color: #b81c46;
-  }
-
-  :nth-child(4) {
-    background-color: #d45134;
-  }
-
-  :nth-child(5) {
-    background-color: #9e00a6;
-  }
-
-  :nth-child(6) {
-    background-color: #336699;
-  }
-
-  :nth-child(7) {
-    background-color: #a400ab;
-  }
-
-  :nth-child(8) {
-    background-color: #bd3d18;
-  }
-
-  :nth-child(9) {
-    background-color: #97006b;
-  }
-
-  :nth-child(10) {
-    background-color: #603cbb;
-  }
-
-  :nth-child(11) {
-    background-color: #0099ac;
-  }
-
-  :nth-child(12) {
-    background-color: #b81c46;
-  } */
 `;
 
 export const SectionHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 2.75rem;
+  height: 2.25rem;
   transition: 0.25s;
   font-weight: bold;
 
-  margin: 0.75rem 0.5rem 0 0.5rem;
+  margin: 0.5rem 0;
 
   color: #ccc;
   font-size: 0.875rem;

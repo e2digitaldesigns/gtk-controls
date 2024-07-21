@@ -8,7 +8,7 @@ import { SettingsDrawer } from "./SettingDrawer/SettingsDrawer";
 import { ErrorComponent, HelmetHeader, TemplateSelector } from "../Shared";
 
 import { ChatQueue } from "./ChatQueue";
-import { ChatMessages } from "./ChatMessages/ChatMessages";
+import { ChatMessages } from "../ChatMessages/ChatMessages";
 
 interface ChatDockProps {
   twitchUsername: string;

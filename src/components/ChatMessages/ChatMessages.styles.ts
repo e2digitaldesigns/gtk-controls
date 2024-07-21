@@ -1,38 +1,10 @@
 import styled from "styled-components";
 
 export const ChatMessageWrapper = styled.div`
-  /* height: calc(100vh - 8rem); */
   height: 100%;
-  margin: 0.5rem 0.5rem 0 0.5rem;
-  padding: 0.5rem;
+  /* margin: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem; */
   background-color: #202124;
-`;
-
-export const ChatMessageWrapperCC = styled.div`
-  margin: 0.5rem 0 0 0.5rem;
-  height: calc(100vh - 6.5rem);
-  padding: 0.5rem 0.5rem 0.5rem 0rem;
-  background-color: #202124;
-`;
-
-export const ChatMessageWrapperInner = styled.div`
-  overflow-x: hidden !important;
-  overflow-y: scroll !important;
-  height: 100%;
-
-  ::-webkit-scrollbar {
-    width: 0.625rem;
-    height: 10px;
-    background-color: #424242;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #686868;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #888;
-  }
 `;
 
 export const ChatMessageGrid = styled.div<{ columns: number }>`

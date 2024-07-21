@@ -17,13 +17,14 @@ export const handleButtonAction = async (
   templateId: string,
   userId: string,
   action: string,
-  type: string = "gtkOverlayAction"
+  type: string,
+  data: any = {}
 ) => {
   const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/${type}`;
 
   const link = `${BASE_API_URL}?tid=${templateId}&uid=${userId}&action=${action}`;
 
-  await axios.get(link);
+  await axios.post(link, { ...data });
 };
 
 export const handleSendChatMessageNow = async (
@@ -74,5 +75,16 @@ export const handleDeleteChatMessage = async (
     templateId,
     userId,
     messageId
+  });
+};
+
+export const sendMessageToChat = async (twitchUsername: string, data: string) => {
+  if (!data || !twitchUsername) {
+    return;
+  }
+
+  await axios.post(`${process.env.REACT_APP_REST_API}/chatSender/sendMessage`, {
+    channel: twitchUsername,
+    message: data
   });
 };

@@ -6,25 +6,27 @@ import OverlayControls from "../Controls/OverlayControls/OverlayControls";
 import { HelmetHeader } from "../Shared";
 import { ControlCenterHeader } from "./CCHeader/CCHeader";
 import { ChatQueue } from "../ChatDock/ChatQueue";
-import { ChatMessages } from "../ChatDock/ChatMessages/ChatMessages";
+
 import { EpisodeComponent } from "./Episode/Episode";
+import { ChatMessages } from "../ChatMessages/ChatMessages";
 
 interface ControlCenterProps {
   twitchUsername: string;
 }
 
 export const ControlCenter: FC<ControlCenterProps> = ({ twitchUsername }) => {
-  const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
+  const [, setIsSettingsOpen] = React.useState<boolean>(false);
 
   return (
     <>
       <HelmetHeader title="GTK Overlay Control Center" />
-      <Styled.ControlCenterWrapper>
+      <Styled.ControlCenterWrapper data-testid="yyy">
         <ControlCenterHeader setIsSettingsOpen={setIsSettingsOpen} />
         <ChatQueue />
-        <Styled.ControlCenterGrid>
+        <Styled.ControlCenterGrid data-testid="xxx">
           <ChatMessages parent="controlCenter" />
           <EpisodeComponent twitchUsername={twitchUsername} />
+
           <div>
             <OverlayControls />
             <VideoControls />

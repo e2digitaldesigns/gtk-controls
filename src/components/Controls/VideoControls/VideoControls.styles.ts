@@ -8,7 +8,7 @@ export const VideoButtonWrapper = styled.div`
     "toggle mute volumeDown volumeDown volumeUp volumeUp"
     "small norm fullscreen custom1 custom2 custom3";
   gap: 0.5rem;
-  margin: 0.5rem;
+  /* margin: 0.5rem; */
 `;
 
 export const SeekBackward2 = styled(Buttons)`

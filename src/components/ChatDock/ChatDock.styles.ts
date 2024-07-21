@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const ChatDockWrapper = styled.div`
   width: 100vw;
-  min-width: 250px;
+  min-width: 300px;
   height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #232323;
+  padding: 0.5rem;
 `;
 
 export const ErrorWrapper = styled.div`
@@ -28,7 +29,7 @@ export const SelectWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 2.25rem;
-  margin: 0.5rem 0.5rem 0 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: #b81c46;
   box-sizing: border-box;
 
@@ -57,8 +58,7 @@ export const SelectWrapper = styled.div`
 
 export const OptionWrapper = styled.div`
   height: 2.5rem;
-  margin: 0.5rem 0.5rem 0 0.5rem;
-  background-color: #9e00a6;
+
   background-color: #7e0085;
 
   display: grid;
