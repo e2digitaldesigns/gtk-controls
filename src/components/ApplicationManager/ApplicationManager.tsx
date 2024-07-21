@@ -1,36 +1,55 @@
 import React from "react";
 import socketServices from "../../services/socketServices";
 import { ChatMessage, ChatMessageReturn } from "../../Types";
-import { useMessageDataStore } from "../../dataStores";
+import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import axios from "axios";
 import { getUserId } from "../../utils";
 
-interface IChatManagerProps {
-  twitchUsername: string;
-  userId: string;
-}
+interface IChatManagerProps {}
 
-export const ChatManager: React.FC<IChatManagerProps> = ({ twitchUsername }) => {
+export const ApplicationManager: React.FC<IChatManagerProps> = () => {
   const userId = getUserId();
   const { addMessage, hydrateMessages } = useMessageDataStore(state => state);
+  const { setUserData, userData } = useUserDataStore(state => state);
 
+  //Set userId and twitchUsername
+  React.useEffect(() => {
+    const fetchUserTwitchUsername = async () => {
+      if (!userId) return;
+
+      const userInfo = { userId, twitchUsername: "" };
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_REST_API}/twitch/twitchUsername/${userId}`
+      );
+
+      if (data.twitchUsername) userInfo.twitchUsername = data.twitchUsername;
+
+      setUserData(userInfo);
+    };
+
+    fetchUserTwitchUsername();
+  }, [setUserData, userId]);
+
+  //Fetch messages
   React.useEffect(() => {
     const fetchMessages = async () => {
       const { data } = await axios.get(
-        process.env.REACT_APP_REST_API + `/chatlog/messages/${userId}`
+        process.env.REACT_APP_REST_API + `/chatlog/messages/${userData.userId}`
       );
 
       data && hydrateMessages(data.messages);
     };
 
     fetchMessages();
-  }, [hydrateMessages, userId]);
+  }, [hydrateMessages, userData.userId]);
 
+  //Subscribe to chat messages
   React.useEffect(() => {
     let isMounted = true;
 
     socketServices.subscribeApplicationActions((err: unknown, data: ChatMessageReturn) => {
-      if (data.broadcasterName !== twitchUsername.toLowerCase()) return;
+      if (data.broadcasterName !== userData.twitchUsername.toLowerCase()) return;
 
       const messenger: ChatMessage = {
         _id: data._id,
@@ -50,7 +69,7 @@ export const ChatManager: React.FC<IChatManagerProps> = ({ twitchUsername }) => 
       socketServices.unSubscribeApplicationActions();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [twitchUsername]);
+  }, [userData.twitchUsername]);
 
   return null;
 };

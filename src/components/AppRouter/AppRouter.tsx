@@ -6,23 +6,21 @@ import ControlsDock from "../Controls/Controls";
 import VideoRequestDock from "../VideoRequestDock/VideoRequestDock";
 import { ControlCenter } from "../ControlCenter/ControlCenter";
 
-interface AppRouterProps {
-  twitchUsername: string;
-}
+interface AppRouterProps {}
 
-export const AppRouter: React.FC<AppRouterProps> = ({ twitchUsername }) => {
+export const AppRouter: React.FC<AppRouterProps> = () => {
   const router = createBrowserRouter([
     {
       path: "/controlCenter/:uid",
-      element: <ControlCenter twitchUsername={twitchUsername} />
+      element: <ControlCenter />
     },
     {
       path: "/chatVote/:uid",
-      element: <ChatVote twitchUsername={twitchUsername} />
+      element: <ChatVote />
     },
     {
       path: "/chatDock/:uid",
-      element: <ChatDock twitchUsername={twitchUsername} />
+      element: <ChatDock />
     },
     {
       path: "/controlDock/:uid",

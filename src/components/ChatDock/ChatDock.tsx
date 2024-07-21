@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
 import { Settings, PauseCircle } from "react-feather";
 
@@ -9,19 +8,17 @@ import { ErrorComponent, HelmetHeader, TemplateSelector } from "../Shared";
 
 import { ChatQueue } from "./ChatQueue";
 import { ChatMessages } from "../ChatMessages/ChatMessages";
+import { useUserDataStore } from "../../dataStores";
 
-interface ChatDockProps {
-  twitchUsername: string;
-}
-
-const ChatDock: React.FC<ChatDockProps> = ({ twitchUsername }) => {
-  const { uid } = useParams();
+const ChatDock: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
+  const { userData } = useUserDataStore(state => state);
+
   const handleSettingsClose = (): void => {
     setIsSettingsOpen(false);
   };
 
-  if (!uid || !twitchUsername) return <ErrorComponent title="GTK Chat Dock" />;
+  if (!userData.userId || !userData.twitchUsername) return <ErrorComponent title="GTK Chat Dock" />;
 
   return (
     <>

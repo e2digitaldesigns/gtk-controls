@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
 import { Settings, PauseCircle, ThumbsDown, ThumbsUp } from "react-feather";
 import * as Styled from "./ChatVote.styles";
@@ -7,20 +6,16 @@ import * as Styled from "./ChatVote.styles";
 import { ErrorComponent, HelmetHeader, TemplateSelector } from "../Shared";
 import { SettingsDrawer } from "./SettingDrawer/SettingsDrawer";
 import { chatVoteFn } from "../../utils";
-import { useMessageDataStore } from "../../dataStores";
+import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 
-interface ChatVoteProps {
-  twitchUsername: string;
-}
-
-const ChatVote: React.FC<ChatVoteProps> = ({ twitchUsername }) => {
-  const { uid } = useParams();
+const ChatVote: React.FC = () => {
   const [isHovering, setIsHovering] = React.useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState<boolean>(false);
 
   const innerRef = React.useRef<HTMLDivElement>(null);
 
   const { chatMessages, showSingleWordMessages, templateId } = useMessageDataStore(state => state);
+  const { userData } = useUserDataStore(state => state);
 
   React.useEffect(() => {
     if (!isHovering) {
@@ -31,7 +26,7 @@ const ChatVote: React.FC<ChatVoteProps> = ({ twitchUsername }) => {
   }, [chatMessages]);
 
   const handleVote = async (name: string, action: "like" | "dislike") => {
-    uid && chatVoteFn(templateId, uid, name, action);
+    userData.userId && chatVoteFn(templateId, userData.userId, name, action);
   };
 
   const chatMessagesFiltered = showSingleWordMessages
@@ -42,7 +37,7 @@ const ChatVote: React.FC<ChatVoteProps> = ({ twitchUsername }) => {
     setIsSettingsOpen(false);
   };
 
-  if (!uid || !twitchUsername) return <ErrorComponent title="GTK Chat Vote" />;
+  if (!userData.userId || !userData.twitchUsername) return <ErrorComponent title="GTK Chat Vote" />;
 
   return (
     <>

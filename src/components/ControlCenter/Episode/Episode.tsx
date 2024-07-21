@@ -7,11 +7,7 @@ import { useMessageDataStore } from "../../../dataStores";
 import { getUserId } from "../../../utils";
 import { Header } from "./Header/Header";
 
-interface EpisodeProps {
-  twitchUsername: string;
-}
-
-export const EpisodeComponent: React.FC<EpisodeProps> = ({ twitchUsername }) => {
+export const EpisodeComponent: React.FC = () => {
   const [episodeState, setEpisodeState] = React.useState<Episode>(defaultEpisode);
 
   const { templateId } = useMessageDataStore(state => state);
@@ -44,7 +40,7 @@ export const EpisodeComponent: React.FC<EpisodeProps> = ({ twitchUsername }) => 
     <Styled.EpisodeWrapper>
       <Header episodeState={episodeState} />
 
-      <Topics topics={episodeState.topics} twitchUsername={twitchUsername} />
+      <Topics topics={episodeState.topics} />
     </Styled.EpisodeWrapper>
   );
 };

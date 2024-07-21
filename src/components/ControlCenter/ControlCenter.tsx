@@ -10,11 +10,7 @@ import { ChatQueue } from "../ChatDock/ChatQueue";
 import { EpisodeComponent } from "./Episode/Episode";
 import { ChatMessages } from "../ChatMessages/ChatMessages";
 
-interface ControlCenterProps {
-  twitchUsername: string;
-}
-
-export const ControlCenter: FC<ControlCenterProps> = ({ twitchUsername }) => {
+export const ControlCenter: FC = () => {
   const [, setIsSettingsOpen] = React.useState<boolean>(false);
 
   return (
@@ -25,7 +21,7 @@ export const ControlCenter: FC<ControlCenterProps> = ({ twitchUsername }) => {
         <ChatQueue />
         <Styled.ControlCenterGrid data-testid="xxx">
           <ChatMessages parent="controlCenter" />
-          <EpisodeComponent twitchUsername={twitchUsername} />
+          <EpisodeComponent />
 
           <div>
             <OverlayControls />
