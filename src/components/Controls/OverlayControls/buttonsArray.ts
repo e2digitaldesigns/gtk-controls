@@ -50,7 +50,7 @@ export const buttonsArr: button[] = [
     action: "overlay-reset",
     gridArea: "overlay-reset",
     label: "Reset Overlay",
-    type: "gtkOverlayAction"
+    type: "gtkApplicationAction"
   },
   {
     action: "topic-next",
@@ -67,13 +67,13 @@ export const buttonsArr: button[] = [
     action: "clear-host-votes",
     gridArea: "clear-host-votes",
     label: "Clear Host Votes",
-    type: "gtkOverlayAction"
+    type: "gtkVoting"
   },
   {
     action: "clear-topic-votes",
     gridArea: "clear-topic-votes",
     label: "Clear Topic Votes",
-    type: "gtkOverlayAction"
+    type: "gtkVoting"
   },
   {
     action: "video-seek-backward",

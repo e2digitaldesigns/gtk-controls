@@ -4,8 +4,8 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./Theme/GlobalTheme";
 
 import { getUserId } from "./utils";
-import { ApplicationManager } from "./Components/ApplicationManager/ApplicationManager";
-import { AppRouter } from "./Components/AppRouter/AppRouter";
+import { AppManager } from "./components/AppManager/AppManager";
+import { AppRouter } from "./components/AppRouter/AppRouter";
 
 function App() {
   const userId = getUserId();
@@ -13,8 +13,8 @@ function App() {
   return userId ? (
     <>
       <ThemeProvider theme={theme}>
-        <ApplicationManager />
         <GlobalStyle />
+        <AppManager />
         <AppRouter />
       </ThemeProvider>
     </>

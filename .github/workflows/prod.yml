@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.16.0]
+        node-version: [20.3.0]
 
     steps:
       - name: Check out Git repository
@@ -19,7 +19,13 @@ jobs:
       - name: Install Node.js, NPM
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20.3.0
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Update caniuse-lite
+        run: npx update-browserslist-db@latest
 
       - name: NPM Install
         run: npm install

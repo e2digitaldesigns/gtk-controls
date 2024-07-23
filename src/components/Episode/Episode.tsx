@@ -2,11 +2,10 @@ import React from "react";
 import * as Styled from "./Episode.styles";
 import axios from "axios";
 
-import { Topics } from "./Topics/Topics";
-
-import { Header } from "./Header/Header";
 import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import { defaultEpisode, Episode } from "../../Types";
+import { Header } from "./Header/Header";
+import { Topics } from "./Topics/Topics";
 
 export const EpisodeComponent: React.FC = () => {
   const [episodeState, setEpisodeState] = React.useState<Episode>(defaultEpisode);
@@ -16,6 +15,8 @@ export const EpisodeComponent: React.FC = () => {
 
   React.useEffect(() => {
     let isMounted = true;
+
+    if (!userData.userId || !templateId) return;
 
     const fetchData = async () => {
       const { data } = await axios.get(

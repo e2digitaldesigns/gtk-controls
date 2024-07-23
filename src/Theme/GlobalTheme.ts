@@ -24,8 +24,8 @@ export const theme = {
   },
 
   sizes: {
-    messageWdith: "550px",
-    controlWidth: "375px",
+    messageWdith: "450px",
+    controlWidth: "325px",
     headerHeight: "2.25rem",
     wrapperGap: "0.5rem"
   }

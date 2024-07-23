@@ -1,8 +1,8 @@
 import React from "react";
-import { OverlayControls } from "../../Components/Controls/OverlayControls/OverlayControls";
+import { OverlayControls } from "../../components/Controls/OverlayControls/OverlayControls";
 
 import * as Styled from "./ControlDock.styles";
-import { ControlCenterHeader } from "../../Components/ControlCenterHeader/ControlCenterHeader";
+import { ControlCenterHeader } from "../../components/ControlCenterHeader/ControlCenterHeader";
 
 export const ControlDock: React.FC = () => {
   return (

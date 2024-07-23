@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import * as Styled from "./ControlCenter.styles";
-import { ControlCenterHeader } from "../../Components/ControlCenterHeader/ControlCenterHeader";
-import { ChatView } from "../../Components/ChatView/ChatView";
-import { EpisodeComponent } from "../../Components/Episode/Episode";
-import { ControlsView } from "../../Components/Controls/Controls";
+import { ControlCenterHeader } from "../../components/ControlCenterHeader/ControlCenterHeader";
+import { ChatView } from "../../components/ChatView/ChatView";
+import { EpisodeComponent } from "../../components/Episode/Episode";
+import { ControlsView } from "../../components/Controls/Controls";
 
 export const ControlCenter: FC = () => {
   const controlCenterRef = React.useRef<HTMLDivElement>(null);

@@ -3,12 +3,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ControlCenter } from "../../Apps/ControlCenter/ControlCenter";
 import { ControlDock } from "../../Apps/ControlsDock/ControlDock";
 import { ChatDock } from "../../Apps/ChatDock/ChatDock";
-import { SettingDrawer } from "../SettingsDrawer/SettingsDrawer";
 import VideoRequestDock from "../../Apps/VideoRequestDock/VideoRequestDock";
+import { SettingDrawer } from "../SettingsDrawer/SettingsDrawer";
 
-interface AppRouterProps {}
-
-export const AppRouter: React.FC<AppRouterProps> = () => {
+export const AppRouter: React.FC = () => {
   const router = createBrowserRouter([
     {
       path: "/controlCenter/:uid",

@@ -1,13 +1,12 @@
 import React from "react";
+
 import socketServices from "../../services/socketServices";
-import { ChatMessage, ChatMessageReturn } from "../../Types";
+import { getUserId } from "../../utils";
 import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import axios from "axios";
-import { getUserId } from "../../utils";
+import { ChatMessage, ChatMessageReturn } from "../../Types";
 
-interface IChatManagerProps {}
-
-export const ApplicationManager: React.FC<IChatManagerProps> = () => {
+export const AppManager: React.FC = () => {
   const userId = getUserId();
   const { addMessage, hydrateMessages } = useMessageDataStore(state => state);
   const { setUserData, userData } = useUserDataStore(state => state);
@@ -33,6 +32,7 @@ export const ApplicationManager: React.FC<IChatManagerProps> = () => {
 
   //Fetch messages
   React.useEffect(() => {
+    if (!userData.userId) return;
     const fetchMessages = async () => {
       const { data } = await axios.get(
         process.env.REACT_APP_REST_API + `/chatlog/messages/${userData.userId}`

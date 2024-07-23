@@ -1,8 +1,8 @@
 import React from "react";
 
 import * as Styled from "./ChatDock.styles";
-import { ControlCenterHeader } from "../../Components/ControlCenterHeader/ControlCenterHeader";
-import { ChatMessages } from "../../Components/ChatMessages/ChatMessages";
+import { ControlCenterHeader } from "../../components/ControlCenterHeader/ControlCenterHeader";
+import { ChatMessages } from "../../components/ChatMessages/ChatMessages";
 
 export const ChatDock = () => {
   return (
