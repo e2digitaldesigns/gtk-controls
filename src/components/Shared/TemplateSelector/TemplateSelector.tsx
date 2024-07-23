@@ -2,6 +2,7 @@ import React from "react";
 import { GtkBroadcastChannels } from "../../../Types";
 import axios from "axios";
 import { useMessageDataStore } from "../../../dataStores";
+import * as Styled from "./TemplateSelector.styles";
 
 interface TemplateSelectorProps {
   origin: string;
@@ -43,13 +44,13 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ origin }) =>
   };
 
   return (
-    <select value={templateId} onChange={handleSelectTemplate}>
+    <Styled.TemplateSelectorWrapper value={templateId} onChange={handleSelectTemplate}>
       {!templateId && <option value="">Choose a template</option>}
       {templates.map(template => (
         <option key={template._id} value={template._id}>
           {template.name}
         </option>
       ))}
-    </select>
+    </Styled.TemplateSelectorWrapper>
   );
 };

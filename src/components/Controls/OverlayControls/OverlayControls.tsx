@@ -1,56 +1,35 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import * as Styled from "./../Controls.styles";
+import * as VideoStyled from "./OverlayControls.styles";
+
 import { handleButtonAction } from "../../../utils";
 import { useMessageDataStore } from "../../../dataStores";
+import { buttonsArr } from "./buttonsArray";
 
-interface IControlsOverlayProps {}
+interface IControlsProps {}
 
-const OverlayControls: React.FC<IControlsOverlayProps> = () => {
+export const OverlayControls: React.FC<IControlsProps> = () => {
   const { uid: userId } = useParams();
-
   const { templateId } = useMessageDataStore(state => state);
 
-  const handleAction = async (action: string, type: string = "gtkOverlayAction") => {
+  const handleAction = async (action: string, type: string = "gtkOverlayVideoPlayer") => {
     await handleButtonAction(templateId, userId as string, action, type);
   };
 
   return (
     <>
-      <Styled.ButtonWrapper>
-        <Styled.Buttons onClick={() => handleAction("topic-prev")}>Prev Topic</Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("topic-next")}>Next Topic</Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("timer-pause")}>Pause Timer</Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("timer-resume")}>Resume Timer</Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("overlay-reset", "gtkApplicationAction")}>
-          Reset Overlay
-        </Styled.Buttons>
-
-        <Styled.Buttons onClick={() => {}}></Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("clear-host-votes", "gtkVoting")}>
-          Clear Host Votes
-        </Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("clear-topic-votes", "gtkVoting")}>
-          Clear Topic Votes
-        </Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("clear-chat-messages", "gtkChatRelay")}>
-          Clear Chat
-        </Styled.Buttons>
-
-        <Styled.Buttons onClick={() => handleAction("remove-last-message", "gtkChatRelay")}>
-          Remove Last Message
-        </Styled.Buttons>
-      </Styled.ButtonWrapper>{" "}
+      <VideoStyled.VideoButtonWrapper>
+        {buttonsArr.map((button, index) => (
+          <VideoStyled.ControlButton
+            key={index}
+            gridArea={button.gridArea}
+            onClick={() => button.action && handleAction(button.action, button.type)}
+          >
+            {typeof button.label === "string" ? button.label : <button.label />}
+          </VideoStyled.ControlButton>
+        ))}
+      </VideoStyled.VideoButtonWrapper>
     </>
   );
 };
-
-export default OverlayControls;

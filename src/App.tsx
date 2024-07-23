@@ -1,18 +1,22 @@
 import React from "react";
 import GlobalStyle from "./globalStyles";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./Theme/GlobalTheme";
 
-import { AppRouter } from "./components/AppRouter/AppRouter";
 import { getUserId } from "./utils";
-import { ApplicationManager } from "./components/ApplicationManager/ApplicationManager";
+import { ApplicationManager } from "./Components/ApplicationManager/ApplicationManager";
+import { AppRouter } from "./Components/AppRouter/AppRouter";
 
 function App() {
   const userId = getUserId();
 
   return userId ? (
     <>
-      <GlobalStyle />
-      <ApplicationManager />
-      <AppRouter />
+      <ThemeProvider theme={theme}>
+        <ApplicationManager />
+        <GlobalStyle />
+        <AppRouter />
+      </ThemeProvider>
     </>
   ) : null;
 }

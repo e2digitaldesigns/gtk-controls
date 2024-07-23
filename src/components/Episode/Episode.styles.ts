@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ControlDockWrapper = styled.div`
+export const EpisodeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
