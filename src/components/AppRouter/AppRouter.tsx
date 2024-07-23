@@ -1,10 +1,10 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ChatVote from "../ChatVote/ChatVote";
-import ChatDock from "../ChatDock/ChatDock";
-import ControlsDock from "../Controls/Controls";
-import VideoRequestDock from "../VideoRequestDock/VideoRequestDock";
-import { ControlCenter } from "../ControlCenter/ControlCenter";
+import { ControlCenter } from "../../Apps/ControlCenter/ControlCenter";
+import { ControlDock } from "../../Apps/ControlsDock/ControlDock";
+import { ChatDock } from "../../Apps/ChatDock/ChatDock";
+import { SettingDrawer } from "../SettingsDrawer/SettingsDrawer";
+import VideoRequestDock from "../../Apps/VideoRequestDock/VideoRequestDock";
 
 interface AppRouterProps {}
 
@@ -15,16 +15,12 @@ export const AppRouter: React.FC<AppRouterProps> = () => {
       element: <ControlCenter />
     },
     {
-      path: "/chatVote/:uid",
-      element: <ChatVote />
+      path: "/controlDock/:uid",
+      element: <ControlDock />
     },
     {
       path: "/chatDock/:uid",
       element: <ChatDock />
-    },
-    {
-      path: "/controlDock/:uid",
-      element: <ControlsDock />
     },
     {
       path: "/videoRequestDock/:uid",
@@ -34,6 +30,7 @@ export const AppRouter: React.FC<AppRouterProps> = () => {
 
   return (
     <>
+      <SettingDrawer />
       <RouterProvider router={router} />
     </>
   );

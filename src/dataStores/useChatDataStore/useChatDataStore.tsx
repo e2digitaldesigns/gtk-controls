@@ -9,6 +9,7 @@ export interface IChatMessage {
   showTime: number;
   templateId: string;
   transition: string;
+  isSettingsOpen: boolean;
 
   addMessage: (message: ChatMessage) => void;
   addToQueue: (message: ChatMessage) => void;
@@ -21,6 +22,7 @@ export interface IChatMessage {
   toggleSingleWordMessages: () => void;
   deleteMessage: (messageId: string) => void;
   hydrateMessages: (data: ChatMessage[]) => void;
+  handleSettingsDrawerToggle: () => void;
 }
 
 const useChatMessageDataStore = create(
@@ -33,6 +35,7 @@ const useChatMessageDataStore = create(
         showTime: 30000,
         templateId: "",
         transition: "default",
+        isSettingsOpen: false,
 
         addMessage: message => {
           const messages = structuredClone(get().chatMessages);
@@ -84,6 +87,10 @@ const useChatMessageDataStore = create(
 
         hydrateMessages: (data: ChatMessage[]) => {
           set({ chatMessages: data });
+        },
+
+        handleSettingsDrawerToggle: () => {
+          set({ isSettingsOpen: !get().isSettingsOpen });
         }
       };
     },

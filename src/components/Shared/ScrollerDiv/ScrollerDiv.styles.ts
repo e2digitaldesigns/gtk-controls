@@ -6,16 +6,15 @@ export const ScrollerDivWrapper = styled.div`
   height: 100%;
 
   ::-webkit-scrollbar {
-    width: 0.625rem;
-    height: 0.625rem;
-    background-color: #424242;
+    width: 0.5rem;
+    background-color: #333;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #686868;
+    background-color: #3f3f3f;
 
     :hover {
-      background-color: #888;
+      background-color: #4a4a4a;
     }
   }
 `;
