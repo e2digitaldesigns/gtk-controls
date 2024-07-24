@@ -6,9 +6,9 @@ export const ChatMessageWrapper = styled.div`
   overflow: hidden;
 `;
 
-export const ChatMessageGrid = styled.div<{ columns: number }>`
+export const ChatMessageGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr repeat(${props => props.columns}, 1.25rem);
+  grid-template-columns: 1fr 8rem;
   gap: 0.25rem;
   padding: 0.5rem;
   border-bottom: 0.0625rem dashed ${props => props.theme.colors.border2};
@@ -31,24 +31,4 @@ interface IChatMessageNameProps {
 export const ChatMessage = styled.div<IChatMessageNameProps>`
   color: ${props => props.color || props.theme.colors.textActive};
   font-weight: 400;
-`;
-
-export const ChatMessageIcons = styled.div`
-  display: flex;
-  justify-items: center;
-  align-items: center;
-
-  > svg {
-    color: ${props => props.theme.colors.icon1};
-    width: 1.25rem;
-    cursor: pointer;
-    margin: 0 0.125rem;
-    stroke-width: 2.5px;
-  }
-
-  &:hover {
-    > svg {
-      color: ${props => props.theme.colors.textActive};
-    }
-  }
 `;

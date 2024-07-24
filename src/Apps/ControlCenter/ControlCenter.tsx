@@ -11,7 +11,7 @@ export const ControlCenter: FC = () => {
   React.useEffect(() => {
     const setDivHeight = () => {
       if (controlCenterRef.current) {
-        controlCenterRef.current.style.height = `${window.innerHeight - 16}px`;
+        controlCenterRef.current.style.height = `${(window.innerHeight - 16) / 16}rem`;
       }
     };
 
