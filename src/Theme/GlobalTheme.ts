@@ -14,6 +14,7 @@ export const theme = {
     border2: "#3a3a3a",
 
     itemHover: "#282828",
+    itemActive: "#181818",
 
     accent1: "#7e0085",
     accent2: "#3f0042",

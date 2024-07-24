@@ -6,7 +6,7 @@ export const TopicsWrapper = styled.div`
   overflow: hidden;
 `;
 
-export const TopicWrapper = styled.div`
+export const TopicWrapper = styled.div<{ active: boolean }>`
   border-bottom: 1px dashed ${props => props.theme.colors.border2};
   ${props => props.theme.colors.textActive};
   display: grid;
@@ -14,12 +14,15 @@ export const TopicWrapper = styled.div`
   padding: 0.75rem;
   font-size: 0.875rem;
 
+  background-color: ${props => (props.active ? props.theme.colors.itemActive : "transparent")};
+
   &:last-child {
     border-bottom: none;
   }
 
   :hover {
-    background-color: ${props => props.theme.colors.itemHover};
+    background-color: ${props =>
+      props.active ? props.theme.colors.itemActive : props.theme.colors.itemHover};
   }
 
   transition: background-color 0.25s ease;

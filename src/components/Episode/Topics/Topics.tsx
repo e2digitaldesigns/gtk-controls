@@ -10,6 +10,7 @@ interface TopicsProps {
 }
 
 export const Topics: React.FC<TopicsProps> = ({ topics }) => {
+  const [selectedTopicId, setSelectedTopicId] = React.useState<string | null>(null);
   const { templateId } = useMessageDataStore(state => state);
   const { userData } = useUserDataStore(state => state);
   const { twitchUsername, userId } = userData;
@@ -26,6 +27,12 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
     await handleButtonAction(templateId, userId, "topic-set", "gtkOverlayAction", {
       topicId
     });
+
+    setSelectedTopicId(topicId);
+  };
+
+  const handleActivateTopic = async (topicId: string) => {
+    selectedTopicId === topicId ? setSelectedTopicId(null) : setSelectedTopicId(topicId);
   };
 
   const handleViewArticle = async (article: string) => {
@@ -37,18 +44,23 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
       <ScrollerDiv>
         <div style={{ paddingRight: "0.75rem" }}>
           {topics.map(topic => (
-            <Styled.TopicWrapper key={topic._id}>
+            <Styled.TopicWrapper
+              key={topic._id}
+              active={topic._id === selectedTopicId}
+              onClick={() => handleActivateTopic(topic._id)}
+            >
               <Styled.TopicInfo>
                 <Styled.TopicName>{topic.name}</Styled.TopicName>
                 <Styled.TopicDescription>{topic.desc}</Styled.TopicDescription>
                 <Styled.TopicOptions>
                   <Styled.TopicOptionLink onClick={() => handleSendToChat(topic)}>
-                    Send Chat Desc
+                    Send to Chat
                   </Styled.TopicOptionLink>
                   <div>|</div>
                   <Styled.TopicOptionLink onClick={() => handleSendTopicToOverlay(topic._id)}>
-                    Activate
+                    Overlay
                   </Styled.TopicOptionLink>
+
                   {topic?.articles?.trim() && (
                     <>
                       <div>|</div>
