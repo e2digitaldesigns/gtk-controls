@@ -21,11 +21,11 @@ export const theme = {
     accent3: "#b81c46",
     accent4: "#603cbb",
 
-    icon1: "#999"
+    icon1: "#656565"
   },
 
   sizes: {
-    messageWdith: "450px",
+    messageWidth: "450px",
     controlWidth: "325px",
     headerHeight: "2.25rem",
     wrapperGap: "0.5rem"

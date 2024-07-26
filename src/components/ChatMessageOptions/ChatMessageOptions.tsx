@@ -9,17 +9,22 @@ import {
   ThumbsUp,
   Trash
 } from "react-feather";
-import { useMessageDataStore } from "../../../dataStores";
-import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../../utils";
+import { useMessageDataStore } from "../../dataStores";
+import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../utils";
 import { useParams } from "react-router-dom";
-import { ChatMessage } from "../../../Types";
+import { ChatMessage } from "../../Types";
 
 interface ChatMessageOptionsProps {
   message: ChatMessage;
   parent: string;
+  position?: string;
 }
 
-export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({ message, parent }) => {
+export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
+  message,
+  parent,
+  position = "right"
+}) => {
   const { uid } = useParams();
 
   const {
@@ -48,20 +53,14 @@ export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({ message,
   };
 
   return (
-    <Styled.ChatMessageOptionsWrapper>
-      {parent === "controlCenter" && (
-        <>
-          <Styled.ChatMessageIcons>
-            <ThumbsUp onClick={() => handleVote(message.name, "like")} />
-          </Styled.ChatMessageIcons>
+    <Styled.ChatMessageOptionsWrapper position={position}>
+      <Styled.ChatMessageIcons>
+        <ThumbsUp onClick={() => handleVote(message.name, "like")} />
+      </Styled.ChatMessageIcons>
 
-          <Styled.ChatMessageIcons>
-            <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
-          </Styled.ChatMessageIcons>
-        </>
-      )}
-
-      <div />
+      <Styled.ChatMessageIcons>
+        <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
+      </Styled.ChatMessageIcons>
 
       <Styled.ChatMessageIcons>
         <ArrowRightCircle onClick={() => handleSendMessage(message)} />

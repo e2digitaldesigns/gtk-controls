@@ -4,7 +4,7 @@ import * as Styled from "./ChatMessages.styles";
 import { useMessageDataStore } from "../../dataStores";
 import { ChatMessageSingle } from "./ChatMessageSingle";
 import { ScrollerDiv } from "../Shared";
-import { ChatMessageOptions } from "./ChatMessageOptions/ChatMessageOptions";
+import { ChatMessageOptions } from "../ChatMessageOptions/ChatMessageOptions";
 
 interface ChatMessagesProps {
   parent?: string;
@@ -24,27 +24,43 @@ export const ChatMessages: FC<ChatMessagesProps> = ({ parent = "chatDock" }) => 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
-  const ChatMessageGrid = Styled.ChatMessageGrid;
-
   return (
     <Styled.ChatMessageWrapper
       onMouseOver={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <ScrollerDiv divRef={innerRef}>
-        {messages.map(message => (
-          <ChatMessageGrid key={message._id}>
-            <Styled.ChatMessage>
-              <ChatMessageSingle
-                message={message.msgEmotes}
-                name={message.name}
-                nameColor={message.fontColor}
-              />
-            </Styled.ChatMessage>
-
-            <ChatMessageOptions message={message} parent={parent} />
-          </ChatMessageGrid>
-        ))}
+        {messages.map(message =>
+          parent === "chatDock" ? (
+            <Styled.ChatMessageGrid key={message._id}>
+              <Styled.ChatMessage>
+                <ChatMessageSingle
+                  inline={true}
+                  message={message.msgEmotes}
+                  name={message.name}
+                  nameColor={message.fontColor}
+                />
+              </Styled.ChatMessage>
+              <ChatMessageOptions message={message} parent={parent} />
+            </Styled.ChatMessageGrid>
+          ) : (
+            <Styled.ChatMessageGridLarge key={message._id}>
+              <Styled.ChatMessageLarge>
+                <Styled.ChatMessageImage>
+                  <img src={message.url} alt="Profile" />
+                </Styled.ChatMessageImage>
+                <Styled.ChatMessageInfoContainer>
+                  <ChatMessageSingle
+                    message={message.msgEmotes}
+                    name={message.name}
+                    nameColor={message.fontColor}
+                  />
+                  <ChatMessageOptions message={message} parent={parent} position="left" />
+                </Styled.ChatMessageInfoContainer>
+              </Styled.ChatMessageLarge>
+            </Styled.ChatMessageGridLarge>
+          )
+        )}
       </ScrollerDiv>
     </Styled.ChatMessageWrapper>
   );

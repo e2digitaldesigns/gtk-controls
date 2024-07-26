@@ -17,7 +17,7 @@ export const ControlCenterGrid = styled.div`
   width: 100%;
 
   > div:nth-child(1) {
-    width: ${props => props.theme.sizes.messageWdith};
+    width: ${props => props.theme.sizes.messageWidth};
   }
 
   > div:nth-child(2) {

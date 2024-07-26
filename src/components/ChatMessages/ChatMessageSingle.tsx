@@ -1,12 +1,18 @@
 import React from "react";
 
 interface ShowMessagesProps {
+  inline?: boolean;
   message: string;
   name: string;
   nameColor: string;
 }
 
-export const ChatMessageSingle: React.FC<ShowMessagesProps> = ({ message, name, nameColor }) => {
+export const ChatMessageSingle: React.FC<ShowMessagesProps> = ({
+  inline = false,
+  message,
+  name,
+  nameColor
+}) => {
   const urlRegex = /(https:\/\/static-cdn\.jtvnw\.net\/[^\s]+)/g;
   const parts = message.split(urlRegex);
 
@@ -18,10 +24,15 @@ export const ChatMessageSingle: React.FC<ShowMessagesProps> = ({ message, name, 
     return <span key={index}>{part}</span>;
   });
 
-  return (
-    <>
+  return inline ? (
+    <div>
       <span style={{ color: nameColor || "#fff" }}>{name}: &nbsp; </span>
       {renderedContent}
-    </>
+    </div>
+  ) : (
+    <div>
+      <div style={{ color: nameColor || "#fff" }}>{name} </div>
+      {renderedContent}
+    </div>
   );
 };

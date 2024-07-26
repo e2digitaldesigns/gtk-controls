@@ -8,8 +8,8 @@ export const ChatMessageWrapper = styled.div`
 
 export const ChatMessageGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 8rem;
-  gap: 0.25rem;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
   padding: 0.5rem;
   border-bottom: 0.0625rem dashed ${props => props.theme.colors.border2};
   color: ${props => props.theme.colors.text};
@@ -24,11 +24,36 @@ export const ChatMessageGrid = styled.div`
   transition: background-color 0.25s ease;
 `;
 
-interface IChatMessageNameProps {
-  color?: string;
-}
+export const ChatMessageGridLarge = styled(ChatMessageGrid)`
+  grid-template-columns: 1fr;
+`;
 
-export const ChatMessage = styled.div<IChatMessageNameProps>`
-  color: ${props => props.color || props.theme.colors.textActive};
-  font-weight: 400;
+interface IChatMessage {}
+
+export const ChatMessage = styled.div<IChatMessage>`
+  display: flex;
+  gap: 0.5rem;
+`;
+
+export const ChatMessageLarge = styled.div<IChatMessage>`
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+`;
+
+export const ChatMessageImage = styled.div<IChatMessage>`
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  > img {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
+export const ChatMessageInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;

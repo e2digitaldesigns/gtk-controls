@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-export const ChatMessageOptionsWrapper = styled.div`
+export const ChatMessageOptionsWrapper = styled.div<{ position?: string }>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => (props.position === "right" ? "flex-end" : "flex-start")};
+  gap: 0.5rem;
 `;
 
 export const ChatMessageIcons = styled.div`
   display: flex;
   justify-items: center;
-  align-items: center;
 
   > svg {
     color: ${props => props.theme.colors.icon1};
