@@ -1,14 +1,13 @@
 import React from "react";
 
-import socketServices from "../../services/socketServices";
 import { getUserId } from "../../utils";
-import { useMessageDataStore, useUserDataStore } from "../../dataStores";
+import { useUserDataStore } from "../../dataStores";
 import axios from "axios";
-import { ChatMessage, ChatMessageReturn } from "../../Types";
+import { AppManagerChatMessaging } from "./ChatMessaging/ChatMessaging";
+import { AppManagerChatRanks } from "./ChatRanks/ChatRanks";
 
 export const AppManager: React.FC = () => {
   const userId = getUserId();
-  const { addMessage, hydrateMessages } = useMessageDataStore(state => state);
   const { setUserData, userData } = useUserDataStore(state => state);
 
   //Set userId and twitchUsername
@@ -30,46 +29,12 @@ export const AppManager: React.FC = () => {
     fetchUserTwitchUsername();
   }, [setUserData, userId]);
 
-  //Fetch messages
-  React.useEffect(() => {
-    if (!userData.userId) return;
-    const fetchMessages = async () => {
-      const { data } = await axios.get(
-        process.env.REACT_APP_REST_API + `/chatlog/messages/${userData.userId}`
-      );
+  const isAppReady = userId && userData.twitchUsername;
 
-      data && hydrateMessages(data.messages);
-    };
-
-    fetchMessages();
-  }, [hydrateMessages, userData.userId]);
-
-  //Subscribe to chat messages
-  React.useEffect(() => {
-    let isMounted = true;
-
-    socketServices.subscribeApplicationActions((err: unknown, data: ChatMessageReturn) => {
-      if (data.broadcasterName !== userData.twitchUsername.toLowerCase()) return;
-
-      const messenger: ChatMessage = {
-        _id: data._id,
-        broadcasterName: data.broadcasterName,
-        name: data.name,
-        msg: data.msg,
-        msgEmotes: data.msgEmotes,
-        url: data.url,
-        fontColor: data.fontColor
-      };
-
-      isMounted && addMessage(messenger);
-    });
-
-    return () => {
-      isMounted = false;
-      socketServices.unSubscribeApplicationActions();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData.twitchUsername]);
-
-  return null;
+  return isAppReady ? (
+    <>
+      <AppManagerChatMessaging />
+      <AppManagerChatRanks />
+    </>
+  ) : null;
 };

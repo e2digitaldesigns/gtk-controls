@@ -5,7 +5,7 @@ export const ScrollerDivWrapper = styled.div`
   overflow-y: scroll !important;
   height: 100%;
 
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     width: 0.5rem;
     background-color: #333;
   }
@@ -16,5 +16,5 @@ export const ScrollerDivWrapper = styled.div`
     :hover {
       background-color: #4a4a4a;
     }
-  }
+  } */
 `;

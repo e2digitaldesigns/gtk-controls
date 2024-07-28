@@ -21,9 +21,23 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
 
 
-    -webkit-user-select: none; 
+    /* -webkit-user-select: none; 
     -ms-user-select: none; 
-    user-select: none; 
+    user-select: none;  */
+
+    ::-webkit-scrollbar {
+      background-color: #333;
+      height: 0.375rem;
+      width: 0.5rem;
+    }
+
+  ::-webkit-scrollbar-thumb {
+      background-color: #3f3f3f;
+
+      :hover {
+        background-color: #5a5a5a;
+      }
+    }
   }
 
 

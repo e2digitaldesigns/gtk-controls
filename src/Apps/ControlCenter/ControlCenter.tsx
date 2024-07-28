@@ -4,9 +4,11 @@ import { ControlCenterHeader } from "../../components/ControlCenterHeader/Contro
 import { ChatView } from "../../components/ChatView/ChatView";
 import { EpisodeComponent } from "../../components/Episode/Episode";
 import { ControlsView } from "../../components/Controls/Controls";
+import { ChatRanks } from "../../components/ChatRanks/ChatRanks";
 
 export const ControlCenter: FC = () => {
   const controlCenterRef = React.useRef<HTMLDivElement>(null);
+  const controlCenterGridRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const setDivHeight = () => {
@@ -27,9 +29,10 @@ export const ControlCenter: FC = () => {
     <>
       <Styled.ControlCenterWrapper data-testid="ControlCenterWrapper" ref={controlCenterRef}>
         <ControlCenterHeader origin="controlCenter" />
-        <Styled.ControlCenterGrid data-testid="ControlCenterGrid">
+        <Styled.ControlCenterGrid ref={controlCenterGridRef}>
           <ChatView />
           <EpisodeComponent />
+          <ChatRanks />
           <ControlsView />
         </Styled.ControlCenterGrid>
       </Styled.ControlCenterWrapper>

@@ -1,6 +1,6 @@
 import { create, StoreApi } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
-import { ChatMessage, StorageKeys } from "../../Types";
+import { ChatMessage, ChatRanks, StorageKeys } from "../../Types";
 
 export interface IChatMessage {
   chatMessages: ChatMessage[];
@@ -10,6 +10,7 @@ export interface IChatMessage {
   templateId: string;
   transition: string;
   isSettingsOpen: boolean;
+  chatRanks: ChatRanks[];
 
   addMessage: (message: ChatMessage) => void;
   addToQueue: (message: ChatMessage) => void;
@@ -23,6 +24,7 @@ export interface IChatMessage {
   deleteMessage: (messageId: string) => void;
   hydrateMessages: (data: ChatMessage[]) => void;
   handleSettingsDrawerToggle: () => void;
+  updateChatRanks: (data: ChatRanks[]) => void;
 }
 
 const useChatMessageDataStore = create(
@@ -36,6 +38,7 @@ const useChatMessageDataStore = create(
         templateId: "",
         transition: "default",
         isSettingsOpen: false,
+        chatRanks: [],
 
         addMessage: message => {
           const messages = structuredClone(get().chatMessages);
@@ -91,6 +94,10 @@ const useChatMessageDataStore = create(
 
         handleSettingsDrawerToggle: () => {
           set({ isSettingsOpen: !get().isSettingsOpen });
+        },
+
+        updateChatRanks: data => {
+          set({ chatRanks: data });
         }
       };
     },

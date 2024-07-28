@@ -11,12 +11,22 @@ export const ControlCenterWrapper = styled.div`
 
 export const ControlCenterGrid = styled.div`
   display: flex;
+  flex-direction: row;
   gap: ${props => props.theme.sizes.wrapperGap};
-  height: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  padding-bottom: ${props => props.theme.sizes.wrapperGap};
   width: 100%;
 
-  > div:nth-child(1) {
+  > div {
+    flex-shrink: 0;
+    width: 400px;
+    scroll-snap-align: start;
+    min-height: 100%;
+    background-color: ${props => props.theme.colors.background};
+    border: 1px dashed transparent;
+  }
+
+  /* > div:nth-child(1) {
     width: ${props => props.theme.sizes.messageWidth};
   }
 
@@ -26,5 +36,5 @@ export const ControlCenterGrid = styled.div`
 
   > div:nth-child(3) {
     width: ${props => props.theme.sizes.controlWidth};
-  }
+  } */
 `;

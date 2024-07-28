@@ -1,4 +1,5 @@
 export * from "./Episode";
+export * from "./SocketServices";
 
 export enum GtkBroadcastChannels {
   GTK_TEMPLATE = "gtk-overlay-templateId"
@@ -28,3 +29,17 @@ export type ChatMessage = {
 export enum StorageKeys {
   CHAT_MESSAGE_STORAGE = "@gtk/chatMessageStorage"
 }
+
+export type ChatRanks = {
+  _id: string;
+  username: string;
+  image: string;
+  messageCount: number;
+};
+
+export type ChatRankReturn = {
+  action: string;
+  uid: string;
+  tid: string;
+  messages: ChatRanks[];
+};
