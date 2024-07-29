@@ -7,11 +7,11 @@ export const TopicsWrapper = styled.div`
 `;
 
 export const TopicWrapper = styled.div<{ active: boolean }>`
-  border-bottom: 1px dashed ${props => props.theme.colors.border2};
+  border-bottom: 0.0625rem dashed ${props => props.theme.colors.border2};
   ${props => props.theme.colors.textActive};
-  display: grid;
-  grid-template-columns: 1fr 100px;
-  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0.5rem;
   font-size: 0.875rem;
 
   background-color: ${props => (props.active ? props.theme.colors.itemActive : "transparent")};

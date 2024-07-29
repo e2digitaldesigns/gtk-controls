@@ -54,7 +54,7 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
                 <Styled.TopicDescription>{topic.desc}</Styled.TopicDescription>
                 <Styled.TopicOptions>
                   <Styled.TopicOptionLink onClick={() => handleSendToChat(topic)}>
-                    Send to Chat
+                    Chat
                   </Styled.TopicOptionLink>
                   <div>|</div>
                   <Styled.TopicOptionLink onClick={() => handleSendTopicToOverlay(topic._id)}>
@@ -65,7 +65,7 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
                     <>
                       <div>|</div>
                       <Styled.TopicOptionLink onClick={() => handleViewArticle(topic.articles)}>
-                        View Article
+                        Article
                       </Styled.TopicOptionLink>
                     </>
                   )}

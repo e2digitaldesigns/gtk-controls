@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import * as GStyled from "../../globalStyles";
 
-export const ChatMessageWrapper = styled.div`
-  gap: 0.5rem;
+export const ChatMessageWrapper = styled(GStyled.SectionWrapper)`
+  gap: 05.5rem;
   height: 100%;
   overflow: hidden;
 `;

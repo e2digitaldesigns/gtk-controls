@@ -23,7 +23,6 @@ export const ControlCenterGrid = styled.div`
     scroll-snap-align: start;
     min-height: 100%;
     background-color: ${props => props.theme.colors.background};
-    border: 1px dashed transparent;
   }
 
   /* > div:nth-child(1) {

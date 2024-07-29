@@ -27,7 +27,8 @@ export type ChatMessage = {
 };
 
 export enum StorageKeys {
-  CHAT_MESSAGE_STORAGE = "@gtk/chatMessageStorage"
+  CHAT_MESSAGE_STORAGE = "@gtk/chatMessageStorage",
+  SECTION_STORAGE = "@gtk/sectionStorage"
 }
 
 export type ChatRanks = {

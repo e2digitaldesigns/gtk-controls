@@ -1,7 +1,4 @@
 import styled from "styled-components";
+import * as GStyled from "../../globalStyles";
 
-export const ControlDockWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
+export const ControlDockWrapper = styled(GStyled.SectionWrapper)``;

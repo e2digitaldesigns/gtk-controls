@@ -47,12 +47,11 @@ export default GlobalStyle;
 
 export const GlobalIconWrapper = styled.div`
   align-items: center;
-  border-left: 0.0625rem solid ${props => props.theme.colors.border};
+  border-right: 0.0625rem solid ${props => props.theme.colors.border};
   color: ${props => props.theme.colors.text};
   display: flex;
   height: 100%;
   justify-items: center;
-  padding: 0 0.5rem;
   padding: 0 0.5rem;
   > svg {
     color: ${props => props.theme.colors.text};
@@ -60,6 +59,10 @@ export const GlobalIconWrapper = styled.div`
     margin: 0 0.125rem;
     stroke-width: 2.5px;
     width: 1.25rem;
+  }
+
+  &:last-child {
+    border-right: none;
   }
 
   &:hover {
@@ -85,4 +88,10 @@ export const globalSelectorWrapper = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+`;
+
+export const SectionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;

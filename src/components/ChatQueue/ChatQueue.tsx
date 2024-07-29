@@ -26,7 +26,7 @@ export const ChatQueue: React.FC<ChatQueueProps> = () => {
   };
 
   return (
-    <Styled.OptionWrapper>
+    <Styled.ChatQueueWrapper>
       <Styled.IconWrapper>
         Queue: &nbsp;<span>{messageQueue.length}</span>
       </Styled.IconWrapper>
@@ -55,6 +55,6 @@ export const ChatQueue: React.FC<ChatQueueProps> = () => {
       <Styled.IconWrapper>
         <XCircle onClick={() => handleHideChatMessage(templateId, uid as string)} />
       </Styled.IconWrapper>
-    </Styled.OptionWrapper>
+    </Styled.ChatQueueWrapper>
   );
 };

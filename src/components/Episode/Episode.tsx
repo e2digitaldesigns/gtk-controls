@@ -6,6 +6,8 @@ import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import { defaultEpisode, Episode } from "../../Types";
 import { Header } from "./Header/Header";
 import { Topics } from "./Topics/Topics";
+import { SectionHeader } from "../SectionHeader/SectionHeader";
+import { SectionWrapper } from "../SectionWrapper/SectionWrapper";
 
 export const EpisodeComponent: React.FC = () => {
   const [episodeState, setEpisodeState] = React.useState<Episode>(defaultEpisode);
@@ -39,9 +41,20 @@ export const EpisodeComponent: React.FC = () => {
   }, [templateId, userData.userId]);
 
   return (
-    <Styled.EpisodeWrapper>
+    <>
+      {/* <SectionWrapper sectionHeaderTitle="Episode"> */}
       <Header episodeState={episodeState} />
       <Topics topics={episodeState.topics} />
-    </Styled.EpisodeWrapper>
+      {/* </SectionWrapper>{" "} */}
+    </>
+
+    // <Styled.EpisodeWrapper
+    //   onDrop={() => console.log("episode drop")}
+    //   onDragOver={() => console.log("episode over")}
+    // >
+    //   <SectionHeader title="Episode" />
+    //   <Header episodeState={episodeState} />
+    //   <Topics topics={episodeState.topics} />
+    // </Styled.EpisodeWrapper>
   );
 };

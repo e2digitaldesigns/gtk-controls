@@ -1,10 +1,7 @@
 import styled from "styled-components";
+import * as GStyled from "../../globalStyles";
 
-export const ChatRankWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
+export const ChatRankWrapper = styled(GStyled.SectionWrapper)``;
 
 export const ChatRankGrid = styled.div`
   align-items: center;

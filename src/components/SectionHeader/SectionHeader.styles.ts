@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const SectionHeaderWrapper = styled.div`
   display: grid;
-  width: 400px;
+  width: 100%;
   height: 3rem;
   background-color: ${props => props.theme.colors.accent1};
   align-items: center;
   position: relative;
+  flex-shrink: 0;
 
   grid-template-columns: 2rem 2rem 1fr 2rem;
 `;

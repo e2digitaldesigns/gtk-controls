@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Activity, MoreVertical } from "react-feather";
 import * as Styled from "./SectionHeader.styles";
 
@@ -11,9 +11,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, title })
   const sectionHeaderRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
 
-  const parentElement = sectionHeaderRef.current?.parentElement;
-
   const handleDragAllow = () => {
+    const parentElement = sectionHeaderRef.current?.parentElement;
     if (!parentElement) return;
 
     parentElement.draggable = true;
@@ -23,6 +22,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, title })
   };
 
   const HandleDragReject = () => {
+    const parentElement = sectionHeaderRef.current?.parentElement;
     if (!parentElement) return;
     parentElement.draggable = false;
   };
