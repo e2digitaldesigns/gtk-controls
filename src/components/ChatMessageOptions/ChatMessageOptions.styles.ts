@@ -9,6 +9,7 @@ export const ChatMessageOptionsWrapper = styled.div<{ position?: string }>`
 export const ChatMessageIcons = styled.div`
   display: flex;
   justify-items: center;
+  margin-right: 0.5rem;
 
   > svg {
     color: ${props => props.theme.colors.icon1};

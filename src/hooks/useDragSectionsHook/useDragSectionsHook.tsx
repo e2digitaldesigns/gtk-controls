@@ -82,24 +82,6 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
   };
 
   const handleDragLeave: TDragEnd = e => {
-    // console.clear();
-
-    //if target is child of dragdropRef then return
-    // if (dragDropRef.current.contains(e.target)) {
-    //   console.log("drag leave child");
-    //   return;
-    // }
-
-    console.log(93, dragDropRef.current);
-
-    //if target is a sibling of dragdropRef then return
-    if ((dragDropRef.current as HTMLElement).parentNode === (e.target as HTMLElement).parentNode) {
-      console.log("drag leave sibling");
-      return;
-    }
-
-    console.log("drag leave");
-
     setIsdragOver(false);
   };
 

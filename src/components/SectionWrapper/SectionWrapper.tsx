@@ -26,8 +26,10 @@ export const SectionWrapper: React.FC<IntSectionWrapper> = ({
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
     >
-      <SectionHeader title={sectionHeaderTitle + isDragOver} />
+      <SectionHeader title={sectionHeaderTitle + " - " + isDragOver} />
       {children}
     </Styled.SectionWrapper>
   );
 };
+
+// export const SectionWrapper = React.memo(SectionWrapperInner, () => true);

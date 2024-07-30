@@ -14,6 +14,7 @@ export interface ISectionsProps {
   sortedSections: () => SectionState[];
   updateSectionSlots: (originId: string, destinationId: string) => void;
   swapSectionSlots: (originId: string, destinationId: string) => void;
+  getSectionSlot: (id: string) => number;
 }
 
 const initialSectionState: SectionState[] = [
@@ -86,12 +87,16 @@ const useSectionDataStore = create(
         newState.sort((a: SectionState, b: SectionState) => a.slot - b.slot);
 
         set({ sectionState: newState });
+      },
+
+      getSectionSlot: (id: string) => {
+        return get().sectionState.find(section => section.id === id)?.slot || 0;
       }
     }),
     {
       name: StorageKeys.SECTION_STORAGE,
       onRehydrateStorage: () => state => {
-        // console.log("Rehydrating state:", state);
+        console.log("Rehydrating state:", state);
       }
     }
   )

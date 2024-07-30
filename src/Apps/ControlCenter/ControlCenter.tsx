@@ -8,7 +8,7 @@ import { ChatRanks } from "../../components/ChatRanks/ChatRanks";
 import { useSectionDataStore } from "../../dataStores";
 import { SectionWrapper } from "../../components/SectionWrapper/SectionWrapper";
 
-const componentMap: Record<string, React.ElementType> = {
+const componentMap: Record<string, React.ComponentType<any>> = {
   ChatView: ChatView,
   EpisodeComponent: EpisodeComponent,
   ChatRanks: ChatRanks,
@@ -19,7 +19,7 @@ export const ControlCenter: FC = () => {
   const controlCenterRef = React.useRef<HTMLDivElement>(null);
   const controlCenterGridRef = React.useRef<HTMLDivElement>(null);
 
-  const { sectionState, sortedSections } = useSectionDataStore();
+  const { sortedSections } = useSectionDataStore();
 
   React.useEffect(() => {
     const setDivHeight = () => {
@@ -41,20 +41,19 @@ export const ControlCenter: FC = () => {
       <Styled.ControlCenterWrapper data-testid="ControlCenterWrapper" ref={controlCenterRef}>
         <ControlCenterHeader origin="controlCenter" />
         <Styled.ControlCenterGrid ref={controlCenterGridRef}>
-          {sortedSections().map((section, index) => {
+          {sortedSections().map(section => {
             const ComponentToRender = componentMap[section.component];
 
             if (!ComponentToRender) {
               return null;
             }
-
             return (
               <React.Fragment key={section.id}>
                 <SectionWrapper
                   sectionHeaderTitle={`${section.title} - ${section.slot}`}
                   sectionId={section.id}
                 >
-                  {React.createElement(ComponentToRender, {})}
+                  {React.createElement(ComponentToRender, { sectionId: section.id })}
                 </SectionWrapper>
               </React.Fragment>
             );

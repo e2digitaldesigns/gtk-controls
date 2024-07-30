@@ -16,13 +16,13 @@ import { ChatMessage } from "../../Types";
 
 interface ChatMessageOptionsProps {
   message: ChatMessage;
-  parent: string;
+  showDelete?: boolean;
   position?: string;
 }
 
 export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
   message,
-  parent,
+  showDelete = false,
   position = "right"
 }) => {
   const { uid } = useParams();
@@ -76,7 +76,7 @@ export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
         </Styled.ChatMessageIcons>
       )}
 
-      {parent === "controlCenter" && (
+      {showDelete && (
         <>
           <div />
           <Styled.ChatMessageIcons>

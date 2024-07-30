@@ -45,11 +45,11 @@ export const ChatMessageLarge = styled.div<IChatMessage>`
 export const ChatMessageImage = styled.div<IChatMessage>`
   width: 2rem;
   height: 2rem;
-  overflow: hidden;
   border-radius: 0.25rem;
   > img {
     width: 2rem;
     height: 2rem;
+    border-radius: 0.25rem;
   }
 `;
 
