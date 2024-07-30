@@ -3,6 +3,7 @@ import { GtkBroadcastChannels } from "../../../Types";
 import axios from "axios";
 import { useMessageDataStore } from "../../../dataStores";
 import * as Styled from "./TemplateSelector.styles";
+import { getUserId } from "../../../utils";
 
 interface TemplateSelectorProps {
   origin: string;
@@ -37,10 +38,17 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ origin }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSelectTemplate = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+  const handleSelectTemplate = async (e: React.ChangeEvent<HTMLSelectElement>): Promise<void> => {
     const tempId = e.target.value;
     setTemplateId(tempId);
     gtkTemplateBroadcastChannel.postMessage({ origin, templateId: tempId });
+
+    const userId = getUserId();
+
+    await axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
+      userId,
+      templateId: tempId
+    });
   };
 
   return (
