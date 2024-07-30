@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
 import * as Styled from "./ChatMessages.styles";
 
-import { useMessageDataStore, useSectionDataStore } from "../../dataStores";
+import { useMessageDataStore } from "../../dataStores";
 import { ScrollerDiv } from "../Shared";
 import { ChatMessageLarge } from "./ChatMessageLarge";
 import { ChatMessageSmall } from "./ChatMessageSmall";
+import { usePersistScrollTop } from "../../hooks";
 
 interface ChatMessagesProps {
   size?: "small" | "large";
@@ -15,19 +16,11 @@ export const ChatMessages: FC<ChatMessagesProps> = React.memo(
   ({ size = "small", sectionId }) => {
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const { filteredChatMessages } = useMessageDataStore(state => state);
-    const [scrollTop, setScrollTop] = useState<number>(0);
-    const { getSectionSlot } = useSectionDataStore(state => state);
 
     const innerRef = React.useRef<HTMLDivElement>(null);
     const messages = filteredChatMessages();
 
-    const sectionSlot = getSectionSlot(sectionId as string);
-
-    React.useEffect(() => {
-      if (!innerRef.current) return;
-      innerRef.current.scrollTop = scrollTop;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sectionSlot]);
+    usePersistScrollTop({ sectionRef: innerRef, sectionId });
 
     React.useEffect(() => {
       if (!isHovering) {
@@ -36,25 +29,6 @@ export const ChatMessages: FC<ChatMessagesProps> = React.memo(
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
-
-    React.useEffect(() => {
-      const handleScroll = () => {
-        if (innerRef.current) {
-          setScrollTop(innerRef.current.scrollTop);
-        }
-      };
-
-      const currentRef = innerRef.current;
-      if (currentRef) {
-        currentRef.addEventListener("scroll", handleScroll);
-      }
-
-      return () => {
-        if (currentRef) {
-          currentRef.removeEventListener("scroll", handleScroll);
-        }
-      };
-    }, []);
 
     return (
       <Styled.ChatMessageWrapper
