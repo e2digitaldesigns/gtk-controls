@@ -52,6 +52,7 @@ export const ControlCenter: FC = () => {
                 <SectionWrapper
                   sectionHeaderTitle={`${section.title} - ${section.slot}`}
                   sectionId={section.id}
+                  width={section.width}
                 >
                   {React.createElement(ComponentToRender, { sectionId: section.id })}
                 </SectionWrapper>

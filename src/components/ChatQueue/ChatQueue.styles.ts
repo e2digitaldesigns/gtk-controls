@@ -9,7 +9,6 @@ export const ChatQueueWrapper = styled.div`
   grid-template-columns: 1fr auto auto auto;
   height: 3rem;
   flex-shrink: 0;
-  width: 400px;
 `;
 
 export const IconWrapper = GlobalIconWrapper;

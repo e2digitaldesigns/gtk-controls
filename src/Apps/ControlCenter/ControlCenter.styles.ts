@@ -19,21 +19,8 @@ export const ControlCenterGrid = styled.div`
 
   > div {
     flex-shrink: 0;
-    width: 400px;
     scroll-snap-align: start;
     min-height: 100%;
     background-color: ${props => props.theme.colors.background};
   }
-
-  /* > div:nth-child(1) {
-    width: ${props => props.theme.sizes.messageWidth};
-  }
-
-  > div:nth-child(2) {
-    flex: 1;
-  }
-
-  > div:nth-child(3) {
-    width: ${props => props.theme.sizes.controlWidth};
-  } */
 `;

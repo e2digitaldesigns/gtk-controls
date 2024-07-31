@@ -47,7 +47,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ origin }) =>
 
     await axios.put(`${process.env.REACT_APP_REST_API}/chatTemplate`, {
       userId,
-      templateId
+      templateId: tempId
     });
   };
 

@@ -7,6 +7,7 @@ type SectionState = {
   slot: number;
   title: string;
   component: string;
+  width: string;
 };
 
 export interface ISectionsProps {
@@ -18,12 +19,10 @@ export interface ISectionsProps {
 }
 
 const initialSectionState: SectionState[] = [
-  { id: "1", slot: 1, title: "Chat", component: `ChatView` },
-  { id: `2`, slot: 2, title: "Episode", component: `EpisodeComponent` },
-  { id: `3`, slot: 3, title: "Chat Ranks", component: `ChatRanks` },
-  { id: `6`, slot: 3, title: "Chat Ranks", component: `ChatRanks` },
-  { id: `4`, slot: 4, title: "Controls", component: `ControlsView` },
-  { id: `5`, slot: 5, title: "Controls", component: `ControlsView` }
+  { id: "1", slot: 1, width: "600px", title: "Chat", component: `ChatView` },
+  { id: `2`, slot: 2, width: "600px", title: "Episode", component: `EpisodeComponent` },
+  { id: `3`, slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
+  { id: `4`, slot: 5, width: "400px", title: "Controls", component: `ControlsView` }
 ];
 
 const useSectionDataStore = create(
