@@ -40,6 +40,7 @@ export const ControlCenter: FC = () => {
     <>
       <Styled.ControlCenterWrapper data-testid="ControlCenterWrapper" ref={controlCenterRef}>
         <ControlCenterHeader origin="controlCenter" />
+
         <Styled.ControlCenterGrid ref={controlCenterGridRef}>
           {sortedSections().map(section => {
             const ComponentToRender = componentMap[section.component];

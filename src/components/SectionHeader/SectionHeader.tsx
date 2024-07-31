@@ -4,27 +4,42 @@ import * as Styled from "./SectionHeader.styles";
 
 interface SectionHeaderProps {
   children?: React.ReactNode;
+  dragDropRef: React.RefObject<HTMLDivElement>;
   title?: string;
 }
 
-export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, title }) => {
+export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, dragDropRef, title }) => {
   const sectionHeaderRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
 
-  const handleDragAllow = () => {
-    const parentElement = sectionHeaderRef.current?.parentElement;
-    if (!parentElement) return;
+  // const handleDragAllow = () => {
+  //   const parentElement = sectionHeaderRef.current?.parentElement;
+  //   if (!parentElement) return;
 
-    parentElement.draggable = true;
+  //   parentElement.draggable = true;
+  //   if (iconRef?.current?.style) {
+  //     iconRef.current.style.cursor = "grab";
+  //   }
+  // };
+
+  // const HandleDragReject = () => {
+  //   const parentElement = sectionHeaderRef.current?.parentElement;
+  //   if (!parentElement) return;
+  //   parentElement.draggable = false;
+  // };
+
+  const handleDragAllow = () => {
+    if (!dragDropRef.current) return;
+
+    dragDropRef.current.draggable = true;
     if (iconRef?.current?.style) {
       iconRef.current.style.cursor = "grab";
     }
   };
 
   const HandleDragReject = () => {
-    const parentElement = sectionHeaderRef.current?.parentElement;
-    if (!parentElement) return;
-    parentElement.draggable = false;
+    if (!dragDropRef.current) return;
+    dragDropRef.current.draggable = false;
   };
 
   return (

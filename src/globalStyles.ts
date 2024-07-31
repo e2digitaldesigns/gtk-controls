@@ -21,9 +21,9 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
 
 
-    /* -webkit-user-select: none; 
+    -webkit-user-select: none; 
     -ms-user-select: none; 
-    user-select: none;  */
+    user-select: none; 
 
     ::-webkit-scrollbar {
       background-color: #333;

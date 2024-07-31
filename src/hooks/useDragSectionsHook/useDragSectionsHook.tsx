@@ -16,60 +16,73 @@ enum TransferProperties {
   OriginId = "originId"
 }
 
-type TAllowDrop = (e: React.DragEvent<HTMLDivElement>) => void;
 type TDragEnd = (e: React.DragEvent<HTMLDivElement>) => void;
-type TDragOver = (e: React.DragEvent<HTMLDivElement>) => void;
 type TDragStart = (e: React.DragEvent<HTMLDivElement>) => void;
-type TItemDrop = (e: React.DragEvent<HTMLDivElement>, destinationId: string) => void;
+
+type OnDragEnter = (e: React.DragEvent<HTMLDivElement>) => void;
+type OnDragLeave = (e: React.DragEvent<HTMLDivElement>) => void;
+type OnDragOver = (e: React.DragEvent<HTMLDivElement>) => void;
+type OnDrop = (e: React.DragEvent<HTMLDivElement>, destinationId: string) => void;
 
 interface IntUseDragDropHook {
-  handleDragOver: TAllowDrop;
-  dragDropRef: any;
-  handleDragLeave: TDragEnd;
-  handleDragEnter: TDragOver;
-  handleDrop: TItemDrop;
+  dragDropRef: React.MutableRefObject<HTMLDivElement | null>;
+  ghostImageRef: React.MutableRefObject<HTMLDivElement | null>;
+
+  handleOnDrop: OnDrop;
   isDragOver: boolean;
+
+  handleOnDragLeave: OnDragLeave;
+  handleOnDragEnter: OnDragEnter;
+  handleOnDragOver: OnDragOver;
 }
 
 const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
   const dragDropRef = React.useRef<any>(null);
+  const ghostImageRef = React.useRef<HTMLDivElement | null>(null);
   const [isDragOver, setIsdragOver] = React.useState<boolean>(false);
   const { swapSectionSlots, updateSectionSlots } = useSectionDataStore();
 
   React.useEffect(() => {
     let dragDropRefCleanUp = dragDropRef.current;
 
-    const menuDragEnd: TDragEnd = e => {};
+    const elementDragEnd: TDragEnd = e => {
+      console.log("drag end");
+    };
 
-    const menuDragStart: TDragStart = e => {
+    const elementDragStart: TDragStart = e => {
       if (e?.dataTransfer?.setData) {
         e.dataTransfer.setData(
           TransferProperties.Action,
           e.ctrlKey ? TransferActions.Swap : TransferActions.Move
         );
         e.dataTransfer.setData(TransferProperties.OriginId, sectionId);
+
+        if (ghostImageRef.current) {
+          console.log("ghost image", ghostImageRef.current);
+          e.dataTransfer.setDragImage(ghostImageRef.current, 0, 0);
+        }
       }
     };
 
     dragDropRefCleanUp?.addEventListener(
       DragDropStates.DragStart,
-      (e: React.DragEvent<HTMLDivElement>) => menuDragStart(e)
+      (e: React.DragEvent<HTMLDivElement>) => elementDragStart(e)
     );
 
     dragDropRefCleanUp?.addEventListener(
       DragDropStates.DragEnd,
-      (e: React.DragEvent<HTMLDivElement>) => menuDragEnd(e)
+      (e: React.DragEvent<HTMLDivElement>) => elementDragEnd(e)
     );
 
     return () => {
       dragDropRefCleanUp?.removeEventListener(
         DragDropStates.DragStart,
-        (e: React.DragEvent<HTMLDivElement>) => menuDragStart(e)
+        (e: React.DragEvent<HTMLDivElement>) => elementDragStart(e)
       );
 
       dragDropRefCleanUp?.removeEventListener(
         DragDropStates.DragEnd,
-        (e: React.DragEvent<HTMLDivElement>) => menuDragEnd(e)
+        (e: React.DragEvent<HTMLDivElement>) => elementDragEnd(e)
       );
 
       dragDropRefCleanUp = null;
@@ -77,19 +90,20 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDragOver: TAllowDrop = e => {
+  const handleOnDragOver: OnDragOver = e => {
     e.preventDefault();
   };
 
-  const handleDragLeave: TDragEnd = e => {
+  const handleOnDragLeave: OnDragLeave = e => {
     setIsdragOver(false);
   };
 
-  const handleDragEnter: TDragOver = () => {
+  const handleOnDragEnter: OnDragEnter = () => {
     setIsdragOver(true);
   };
 
-  const handleDrop: TItemDrop = (e, destinationId) => {
+  const handleOnDrop: OnDrop = (e, destinationId) => {
+    e.preventDefault();
     setIsdragOver(false);
 
     const originId = e.dataTransfer.getData(TransferProperties.OriginId);
@@ -103,12 +117,13 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
   };
 
   return {
-    handleDragOver,
+    handleOnDragOver,
     dragDropRef,
-    handleDragLeave,
-    handleDragEnter,
-    handleDrop,
-    isDragOver
+    handleOnDragLeave,
+    handleOnDragEnter,
+    handleOnDrop,
+    isDragOver,
+    ghostImageRef
   };
 };
 
