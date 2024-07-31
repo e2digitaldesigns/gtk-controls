@@ -5,7 +5,6 @@ export const ControlCenterWrapper = styled.div`
   display: grid;
   gap: ${props => props.theme.sizes.wrapperGap};
   grid-template-rows: ${props => props.theme.sizes.headerHeight} 1fr;
-  overflow: hidden;
   margin: ${props => props.theme.sizes.wrapperGap};
 `;
 

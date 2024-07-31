@@ -37,7 +37,7 @@ export const SectionWrapper: React.FC<IntSectionWrapper> = ({
         ref={dragDropRef}
         style={{ width }}
       >
-        <div ref={ghostImageRef}>
+        <div ref={ghostImageRef} style={{ width }}>
           <SectionHeader
             dragDropRef={dragDropRef}
             title={sectionHeaderTitle + " - " + isDragOver}
@@ -48,5 +48,3 @@ export const SectionWrapper: React.FC<IntSectionWrapper> = ({
     </>
   );
 };
-
-// export const SectionWrapper = React.memo(SectionWrapperInner, () => true);
