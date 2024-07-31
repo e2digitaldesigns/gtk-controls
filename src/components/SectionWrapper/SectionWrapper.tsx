@@ -37,23 +37,14 @@ export const SectionWrapper: React.FC<IntSectionWrapper> = ({
         ref={dragDropRef}
         style={{ width }}
       >
-        <SectionHeader dragDropRef={dragDropRef} title={sectionHeaderTitle + " - " + isDragOver} />
+        <div ref={ghostImageRef}>
+          <SectionHeader
+            dragDropRef={dragDropRef}
+            title={sectionHeaderTitle + " - " + isDragOver}
+          />
+        </div>
         {children}
       </Styled.SectionWrapper>
-
-      <div
-        ref={ghostImageRef}
-        style={{
-          position: "absolute",
-          top: "-1000px",
-          left: "-1000px",
-          width,
-          height: "100%",
-          background: "red"
-        }}
-      >
-        <h1>{sectionHeaderTitle}</h1>
-      </div>
     </>
   );
 };

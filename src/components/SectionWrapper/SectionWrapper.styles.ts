@@ -5,4 +5,5 @@ export const SectionWrapper = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   overflow: hidden;
+  position: relative;
 `;

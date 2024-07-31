@@ -50,6 +50,7 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
     };
 
     const elementDragStart: TDragStart = e => {
+      console.log("drag start");
       if (e?.dataTransfer?.setData) {
         e.dataTransfer.setData(
           TransferProperties.Action,
