@@ -1,5 +1,5 @@
 import { create, StoreApi } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistOptions } from "zustand/middleware";
 import { StorageKeys } from "../../Types";
 
 type SectionState = {
@@ -10,25 +10,37 @@ type SectionState = {
   width: string;
 };
 
+const availableSections: SectionState[] = [
+  { id: "1", slot: 1, width: "400px", title: "Chat", component: `ChatView` },
+  { id: "2", slot: 2, width: "400px", title: "Episode", component: `EpisodeComponent` },
+  { id: "3", slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
+  { id: "4", slot: 4, width: "400px", title: "Controls", component: `ControlsView` }
+];
+
+const initialSectionState: SectionState[] = [
+  { id: "1", slot: 1, width: "400px", title: "Chat", component: `ChatView` },
+  { id: "2", slot: 2, width: "400px", title: "Episode", component: `EpisodeComponent` },
+  { id: "3", slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
+  { id: "4", slot: 4, width: "400px", title: "Controls", component: `ControlsView` }
+];
+
 export interface ISectionsProps {
+  availableSections: SectionState[];
   sectionState: SectionState[];
   sortedSections: () => SectionState[];
   updateSectionSlots: (originId: string, destinationId: string) => void;
   swapSectionSlots: (originId: string, destinationId: string) => void;
   getSectionSlot: (id: string) => number;
+  removeSection: (id: string) => void;
+  addSection: (id: string, ref: React.MutableRefObject<HTMLDivElement | null>) => void;
 }
-
-const initialSectionState: SectionState[] = [
-  { id: "1", slot: 1, width: "600px", title: "Chat", component: `ChatView` },
-  { id: `2`, slot: 2, width: "600px", title: "Episode", component: `EpisodeComponent` },
-  { id: `3`, slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
-  { id: `4`, slot: 5, width: "400px", title: "Controls", component: `ControlsView` }
-];
 
 const useSectionDataStore = create(
   persist<ISectionsProps>(
     (set: StoreApi<ISectionsProps>["setState"], get: StoreApi<ISectionsProps>["getState"]) => ({
       sectionState: initialSectionState,
+      availableSections: availableSections,
+      sectionWrapper: null,
       sortedSections: () => {
         return get().sectionState.sort((a, b) => a.slot - b.slot);
       },
@@ -66,8 +78,6 @@ const useSectionDataStore = create(
       },
 
       swapSectionSlots: (originId, destinationId) => {
-        console.log({ originId, destinationId });
-
         if (originId === destinationId) return;
 
         const originIndex = get().sectionState.findIndex(section => section.id === originId);
@@ -90,14 +100,58 @@ const useSectionDataStore = create(
 
       getSectionSlot: (id: string) => {
         return get().sectionState.find(section => section.id === id)?.slot || 0;
+      },
+
+      removeSection: (id: string) => {
+        const newState = structuredClone(get().sectionState);
+        const filteredState = newState.filter((section: SectionState) => section.id !== id);
+
+        filteredState.forEach((section: SectionState, index: number) => {
+          section.slot = index + 1;
+        });
+
+        set({ sectionState: filteredState });
+      },
+
+      addSection: (id: string, sectionWrapperRef) => {
+        const maxSections = 12;
+        const newState = structuredClone(get().sectionState);
+        if (newState.length >= maxSections) return;
+
+        const sections = structuredClone(get().availableSections);
+        const newSection = sections.find((section: SectionState) => section.id === id);
+
+        if (newSection) {
+          newSection.id = new Date().getTime().toString();
+          newSection.slot = 99;
+          newState.push(newSection);
+        }
+
+        newState.sort((a: SectionState, b: SectionState) => a.slot - b.slot);
+
+        newState.forEach((section: SectionState, index: number) => {
+          section.slot = index + 1;
+        });
+
+        set({ sectionState: newState });
+
+        if (sectionWrapperRef) {
+          setTimeout(() => {
+            sectionWrapperRef.current?.scrollTo({
+              left: sectionWrapperRef.current.scrollWidth,
+              behavior: "smooth"
+            });
+          }, 100);
+        }
       }
     }),
     {
       name: StorageKeys.SECTION_STORAGE,
-      onRehydrateStorage: () => state => {
-        console.log("Rehydrating state:", state);
+      partialize: state => {
+        const { sectionState } = state;
+        return { sectionState };
       }
-    }
+    } as PersistOptions<ISectionsProps>
   )
 );
 

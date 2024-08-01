@@ -50,7 +50,6 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
     };
 
     const elementDragStart: TDragStart = e => {
-      console.log("drag start");
       if (e?.dataTransfer?.setData) {
         e.dataTransfer.setData(
           TransferProperties.Action,
@@ -59,7 +58,6 @@ const useDragSectionsHook = (sectionId: string): IntUseDragDropHook => {
         e.dataTransfer.setData(TransferProperties.OriginId, sectionId);
 
         if (ghostImageRef.current) {
-          console.log("ghost image", ghostImageRef.current);
           e.dataTransfer.setDragImage(ghostImageRef.current, 0, 0);
         }
       }

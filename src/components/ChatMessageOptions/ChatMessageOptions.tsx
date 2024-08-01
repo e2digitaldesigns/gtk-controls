@@ -9,9 +9,8 @@ import {
   ThumbsUp,
   Trash
 } from "react-feather";
-import { useMessageDataStore } from "../../dataStores";
+import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../utils";
-import { useParams } from "react-router-dom";
 import { ChatMessage } from "../../Types";
 
 interface ChatMessageOptionsProps {
@@ -20,13 +19,11 @@ interface ChatMessageOptionsProps {
   position?: string;
 }
 
-export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
+export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   message,
   showDelete = false,
   position = "right"
 }) => {
-  const { uid } = useParams();
-
   const {
     deleteMessage,
     addToQueue,
@@ -37,18 +34,21 @@ export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
     transition
   } = useMessageDataStore(state => state);
 
+  const { userData } = useUserDataStore(state => state);
+  const { twitchUsername, userId } = userData;
+
   const handleVote = async (name: string, action: "like" | "dislike") => {
-    uid && chatVoteFn(templateId, uid as string, name, action);
+    userId && chatVoteFn(templateId, userId as string, name, action, twitchUsername);
   };
 
   const handleSendMessage = (chatMessage: ChatMessage) => {
-    handleSendChatMessageNow(templateId, uid as string, chatMessage, showTime, transition);
+    handleSendChatMessageNow(templateId, userId as string, chatMessage, showTime, transition);
   };
 
   const removeMessage = async (messageId: string) => {
-    if (!uid) return;
+    if (!userId) return;
 
-    await handleDeleteChatMessage(templateId, uid as string, messageId);
+    await handleDeleteChatMessage(templateId, userId as string, messageId);
     await deleteMessage(messageId);
   };
 
@@ -87,3 +87,5 @@ export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
     </Styled.ChatMessageOptionsWrapper>
   );
 };
+
+export const ChatMessageOptions = React.memo(ChatMessageOptionsInner);

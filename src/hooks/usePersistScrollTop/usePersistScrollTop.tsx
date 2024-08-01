@@ -34,7 +34,8 @@ const usePersistScrollTop = ({ sectionRef, sectionId }: UseSetScrollProps) => {
   useEffect(() => {
     if (!sectionRef.current) return;
     sectionRef.current.scrollTop = scrollTop;
-  }, [scrollTop, sectionRef, sectionSlot]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sectionSlot]);
 };
 
 export default usePersistScrollTop;

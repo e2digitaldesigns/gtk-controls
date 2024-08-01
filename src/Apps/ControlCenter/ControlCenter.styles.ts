@@ -8,6 +8,13 @@ export const ControlCenterWrapper = styled.div`
   margin: ${props => props.theme.sizes.wrapperGap};
 `;
 
+export const ControlCenterMainGrid = styled.div`
+  display: grid;
+  overflow: hidden;
+  gap: ${props => props.theme.sizes.wrapperGap};
+  grid-template-columns: 300px 1fr;
+`;
+
 export const ControlCenterGrid = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,4 +29,8 @@ export const ControlCenterGrid = styled.div`
     min-height: 100%;
     background-color: ${props => props.theme.colors.background};
   }
+`;
+
+export const Settings = styled.div`
+  border-right: 1px dashed black;
 `;

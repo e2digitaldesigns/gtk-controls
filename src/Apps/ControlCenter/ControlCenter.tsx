@@ -7,6 +7,7 @@ import { ControlsView } from "../../components/Controls/Controls";
 import { ChatRanks } from "../../components/ChatRanks/ChatRanks";
 import { useSectionDataStore } from "../../dataStores";
 import { SectionWrapper } from "../../components/SectionWrapper/SectionWrapper";
+import { ControlCenterSidebar } from "./ControlCenterSidebar/ControlCenterSidebar";
 
 const componentMap: Record<string, React.ComponentType<any>> = {
   ChatView: ChatView,
@@ -41,26 +42,29 @@ export const ControlCenter: FC = () => {
       <Styled.ControlCenterWrapper data-testid="ControlCenterWrapper" ref={controlCenterRef}>
         <ControlCenterHeader origin="controlCenter" />
 
-        <Styled.ControlCenterGrid ref={controlCenterGridRef}>
-          {sortedSections().map(section => {
-            const ComponentToRender = componentMap[section.component];
+        <Styled.ControlCenterMainGrid>
+          <ControlCenterSidebar parentRef={controlCenterGridRef} />
+          <Styled.ControlCenterGrid ref={controlCenterGridRef}>
+            {sortedSections().map(section => {
+              const ComponentToRender = componentMap[section.component];
 
-            if (!ComponentToRender) {
-              return null;
-            }
-            return (
-              <React.Fragment key={section.id}>
-                <SectionWrapper
-                  sectionHeaderTitle={`${section.title} - ${section.slot}`}
-                  sectionId={section.id}
-                  width={section.width}
-                >
-                  {React.createElement(ComponentToRender, { sectionId: section.id })}
-                </SectionWrapper>
-              </React.Fragment>
-            );
-          })}
-        </Styled.ControlCenterGrid>
+              if (!ComponentToRender) {
+                return null;
+              }
+              return (
+                <React.Fragment key={section.id}>
+                  <SectionWrapper
+                    sectionHeaderTitle={`${section.title} - ${section.slot}`}
+                    sectionId={section.id}
+                    width={section.width}
+                  >
+                    {React.createElement(ComponentToRender, { sectionId: section.id })}
+                  </SectionWrapper>
+                </React.Fragment>
+              );
+            })}
+          </Styled.ControlCenterGrid>
+        </Styled.ControlCenterMainGrid>
       </Styled.ControlCenterWrapper>
     </>
   );
