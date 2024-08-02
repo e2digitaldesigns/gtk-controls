@@ -2,7 +2,7 @@ import React from "react";
 
 import * as Styled from "./SettingsDrawer.styles";
 import { useMessageDataStore } from "../../dataStores";
-import { ToggleLeft, ToggleRight, XCircle } from "react-feather";
+import { Icon } from "../../utils";
 
 const transitions = [
   { name: "Template Default", value: "" },
@@ -22,7 +22,7 @@ export const SettingDrawer: React.FC = () => {
       <Styled.SettingDrawerBacker isOpen={chatMessageData.isSettingsOpen} />
       <Styled.SettingDrawerWrapper isOpen={chatMessageData.isSettingsOpen}>
         <Styled.HeaderWrapperGrid>
-          <XCircle onClick={chatMessageData.handleSettingsDrawerToggle} />
+          <Icon name="XCircle" onClick={chatMessageData.handleSettingsDrawerToggle} />
           <h3>Settings</h3>
         </Styled.HeaderWrapperGrid>
 
@@ -30,9 +30,9 @@ export const SettingDrawer: React.FC = () => {
           <div>Show single word messages:</div>
           <div>
             {chatMessageData.showSingleWordMessages ? (
-              <ToggleRight onClick={chatMessageData.toggleSingleWordMessages} />
+              <Icon name="ToggleRight" onClick={chatMessageData.toggleSingleWordMessages} />
             ) : (
-              <ToggleLeft onClick={chatMessageData.toggleSingleWordMessages} />
+              <Icon name="ToggleLeft" onClick={chatMessageData.toggleSingleWordMessages} />
             )}
           </div>
         </Styled.OptionsWrapperGridInner>

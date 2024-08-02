@@ -1,9 +1,9 @@
 import React from "react";
-import { Settings, PauseCircle } from "react-feather";
 
 import * as Styled from "./ControlCenterHeader.styles";
 import { TemplateSelector } from "../Shared";
 import { useMessageDataStore } from "../../dataStores";
+import { Icon } from "../../utils";
 
 interface ControlCenterHeaderProps {
   origin: string;
@@ -15,13 +15,13 @@ export const ControlCenterHeader: React.FC<ControlCenterHeaderProps> = ({ origin
   return (
     <Styled.ControlCenterHeaderWrapper>
       <Styled.IconWrapper onClick={chatMessageData.handleSettingsDrawerToggle}>
-        <Settings />
+        <Icon name="Settings" />
       </Styled.IconWrapper>
 
       <TemplateSelector origin={origin} />
 
       <Styled.PausedIconWrapper isPaused={true}>
-        <PauseCircle />
+        <Icon name="PauseCircle" />
       </Styled.PausedIconWrapper>
     </Styled.ControlCenterHeaderWrapper>
   );

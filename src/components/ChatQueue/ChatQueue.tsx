@@ -1,32 +1,23 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import * as Styled from "./ChatQueue.styles";
-import { Play, XCircle } from "react-feather";
 
 import { useMessageDataStore } from "../../dataStores";
 import timeArray from "./timing.json";
-import { handleHideChatMessage, handleSendQueuedChatMessage } from "../../utils";
+import { handleHideChatMessage, handleSendQueuedChatMessage, Icon } from "../../utils";
 
 interface ChatQueueProps {}
 
 export const ChatQueue: React.FC<ChatQueueProps> = () => {
-  const { uid } = useParams();
-  const { messageQueue, removeFromQueue, showTime, setShowTime, templateId, transition } =
-    useMessageDataStore(state => state);
+  const { messageQueue, removeFromQueue, showTime, setShowTime, transition } = useMessageDataStore(
+    state => state
+  );
 
   const handleSendMessage = async () => {
-    await handleSendQueuedChatMessage(
-      templateId,
-      uid as string,
-      messageQueue,
-      showTime,
-      transition,
-      removeFromQueue
-    );
+    await handleSendQueuedChatMessage(messageQueue, showTime, transition, removeFromQueue);
   };
 
   return (
-    <Styled.OptionWrapper>
+    <Styled.ChatQueueWrapper>
       <Styled.IconWrapper>
         Queue: &nbsp;<span>{messageQueue.length}</span>
       </Styled.IconWrapper>
@@ -46,15 +37,15 @@ export const ChatQueue: React.FC<ChatQueueProps> = () => {
 
       <Styled.IconWrapper>
         {messageQueue.length > 0 ? (
-          <Play onClick={handleSendMessage} />
+          <Icon name="Play" onClick={handleSendMessage} />
         ) : (
-          <Play style={{ opacity: 0.25 }} />
+          <Icon name="Play" style={{ opacity: 0.25 }} />
         )}
       </Styled.IconWrapper>
 
       <Styled.IconWrapper>
-        <XCircle onClick={() => handleHideChatMessage(templateId, uid as string)} />
+        <Icon name="XCircle" onClick={() => handleHideChatMessage()} />
       </Styled.IconWrapper>
-    </Styled.OptionWrapper>
+    </Styled.ChatQueueWrapper>
   );
 };

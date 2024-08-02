@@ -2,18 +2,15 @@ import React from "react";
 import { ChatQueue } from "../ChatQueue/ChatQueue";
 import { ChatMessages } from "../ChatMessages/ChatMessages";
 
-export const ChatView = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: ".5rem"
-      }}
-    >
-      <ChatQueue />
+interface IntChatView {
+  sectionId: string;
+}
 
-      <ChatMessages parent="controlCenter" />
-    </div>
+export const ChatView: React.FC<IntChatView> = React.memo(({ sectionId }) => {
+  return (
+    <>
+      <ChatQueue />
+      <ChatMessages size="large" sectionId={sectionId} />
+    </>
   );
-};
+});

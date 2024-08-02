@@ -1,7 +1,5 @@
 import React from "react";
-import * as Styled from "./Episode.styles";
 import axios from "axios";
-
 import { useMessageDataStore, useUserDataStore } from "../../dataStores";
 import { defaultEpisode, Episode } from "../../Types";
 import { Header } from "./Header/Header";
@@ -39,9 +37,9 @@ export const EpisodeComponent: React.FC = () => {
   }, [templateId, userData.userId]);
 
   return (
-    <Styled.EpisodeWrapper>
+    <>
       <Header episodeState={episodeState} />
       <Topics topics={episodeState.topics} />
-    </Styled.EpisodeWrapper>
+    </>
   );
 };

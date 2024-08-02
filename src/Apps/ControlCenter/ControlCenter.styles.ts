@@ -5,26 +5,32 @@ export const ControlCenterWrapper = styled.div`
   display: grid;
   gap: ${props => props.theme.sizes.wrapperGap};
   grid-template-rows: ${props => props.theme.sizes.headerHeight} 1fr;
-  overflow: hidden;
   margin: ${props => props.theme.sizes.wrapperGap};
+`;
+
+export const ControlCenterMainGrid = styled.div`
+  display: grid;
+  overflow: hidden;
+  gap: ${props => props.theme.sizes.wrapperGap};
+  grid-template-columns: 300px 1fr;
 `;
 
 export const ControlCenterGrid = styled.div`
   display: flex;
+  flex-direction: row;
   gap: ${props => props.theme.sizes.wrapperGap};
-  height: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  padding-bottom: ${props => props.theme.sizes.wrapperGap};
   width: 100%;
 
-  > div:nth-child(1) {
-    width: ${props => props.theme.sizes.messageWidth};
+  > div {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    min-height: 100%;
+    background-color: ${props => props.theme.colors.background};
   }
+`;
 
-  > div:nth-child(2) {
-    flex: 1;
-  }
-
-  > div:nth-child(3) {
-    width: ${props => props.theme.sizes.controlWidth};
-  }
+export const Settings = styled.div`
+  border-right: 1px dashed black;
 `;

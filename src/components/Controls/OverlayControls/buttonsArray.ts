@@ -1,23 +1,8 @@
-import React from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Maximize,
-  Minimize,
-  Monitor,
-  PauseCircle,
-  Play,
-  Power,
-  StopCircle,
-  Volume1,
-  Volume2,
-  VolumeX
-} from "react-feather";
-
 type button = {
   action: string;
   gridArea: string;
-  label: React.FC | string;
+  icon?: string;
+  label?: string;
   type?: string;
 };
 
@@ -78,79 +63,79 @@ export const buttonsArr: button[] = [
   {
     action: "video-seek-backward",
     gridArea: "video-seek-backward",
-    label: ChevronLeft,
+    icon: "ChevronLeft",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-stop",
     gridArea: "video-stop",
-    label: StopCircle,
+    icon: "StopCircle",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-pause",
     gridArea: "video-pause",
-    label: PauseCircle,
+    icon: "PauseCircle",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-play",
     gridArea: "video-play",
-    label: Play,
+    icon: "Play",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-seek-forward",
     gridArea: "video-seek-forward",
-    label: ChevronRight,
+    icon: "ChevronRight",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-show-hide",
     gridArea: "toggle",
-    label: Power,
+    icon: "Power",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-volume-mute",
     gridArea: "video-volume-mute",
-    label: VolumeX,
+    icon: "VolumeX",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-volume-down",
     gridArea: "video-volume-down",
-    label: Volume1,
+    icon: "Volume1",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-volume-up",
     gridArea: "video-volume-up",
-    label: Volume2,
+    icon: "Volume2",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-size-small",
     gridArea: "video-size-small",
-    label: Minimize,
+    icon: "Minimize",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-size-normal",
     gridArea: "video-size-normal",
-    label: Monitor,
+    icon: "Monitor",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-size-fullscreen",
     gridArea: "video-size-fullscreen",
-    label: Maximize,
+    icon: "Maximize",
     type: "gtkOverlayVideoPlayer"
   },
   {
     action: "video-volume-up",
     gridArea: "video-volume-up",
-    label: Volume2,
+    icon: "Volume2",
     type: "gtkOverlayVideoPlayer"
   },
   {

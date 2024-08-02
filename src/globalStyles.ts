@@ -4,7 +4,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     color: #fff;
     background-color: #232323;
 
@@ -24,6 +23,20 @@ const GlobalStyle = createGlobalStyle`
     -webkit-user-select: none; 
     -ms-user-select: none; 
     user-select: none; 
+
+    ::-webkit-scrollbar {
+      background-color: #333;
+      height: 0.375rem;
+      width: 0.5rem;
+    }
+
+  ::-webkit-scrollbar-thumb {
+      background-color: #3f3f3f;
+
+      :hover {
+        background-color: #5a5a5a;
+      }
+    }
   }
 
 
@@ -33,12 +46,11 @@ export default GlobalStyle;
 
 export const GlobalIconWrapper = styled.div`
   align-items: center;
-  border-left: 0.0625rem solid ${props => props.theme.colors.border};
+  border-right: 0.0625rem solid ${props => props.theme.colors.border};
   color: ${props => props.theme.colors.text};
   display: flex;
   height: 100%;
   justify-items: center;
-  padding: 0 0.5rem;
   padding: 0 0.5rem;
   > svg {
     color: ${props => props.theme.colors.text};
@@ -46,6 +58,10 @@ export const GlobalIconWrapper = styled.div`
     margin: 0 0.125rem;
     stroke-width: 2.5px;
     width: 1.25rem;
+  }
+
+  &:last-child {
+    border-right: none;
   }
 
   &:hover {
@@ -71,4 +87,10 @@ export const globalSelectorWrapper = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+`;
+
+export const SectionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;

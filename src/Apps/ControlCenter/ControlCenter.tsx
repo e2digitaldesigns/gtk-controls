@@ -4,9 +4,25 @@ import { ControlCenterHeader } from "../../components/ControlCenterHeader/Contro
 import { ChatView } from "../../components/ChatView/ChatView";
 import { EpisodeComponent } from "../../components/Episode/Episode";
 import { ControlsView } from "../../components/Controls/Controls";
+import { ChatRanks } from "../../components/ChatRanks/ChatRanks";
+import { useSectionDataStore } from "../../dataStores";
+import { SectionWrapper } from "../../components/SectionWrapper/SectionWrapper";
+import { ControlCenterSidebar } from "./ControlCenterSidebar/ControlCenterSidebar";
+import { ChatterVoting } from "../../components/ChatterVoting/ChatterVoting";
+
+const componentMap: Record<string, React.ComponentType<any>> = {
+  ChatRanks: ChatRanks,
+  ChatterVoting: ChatterVoting,
+  ChatView: ChatView,
+  ControlsView: ControlsView,
+  EpisodeComponent: EpisodeComponent
+};
 
 export const ControlCenter: FC = () => {
   const controlCenterRef = React.useRef<HTMLDivElement>(null);
+  const controlCenterGridRef = React.useRef<HTMLDivElement>(null);
+
+  const { sortedSections } = useSectionDataStore();
 
   React.useEffect(() => {
     const setDivHeight = () => {
@@ -27,11 +43,26 @@ export const ControlCenter: FC = () => {
     <>
       <Styled.ControlCenterWrapper data-testid="ControlCenterWrapper" ref={controlCenterRef}>
         <ControlCenterHeader origin="controlCenter" />
-        <Styled.ControlCenterGrid data-testid="ControlCenterGrid">
-          <ChatView />
-          <EpisodeComponent />
-          <ControlsView />
-        </Styled.ControlCenterGrid>
+
+        <Styled.ControlCenterMainGrid>
+          <ControlCenterSidebar parentRef={controlCenterGridRef} />
+          <Styled.ControlCenterGrid ref={controlCenterGridRef}>
+            {sortedSections().map(section => {
+              const ComponentToRender = componentMap[section.component];
+
+              if (!ComponentToRender) {
+                return null;
+              }
+              return (
+                <React.Fragment key={section._id}>
+                  <SectionWrapper section={section}>
+                    {React.createElement(ComponentToRender, { sectionId: section._id })}
+                  </SectionWrapper>
+                </React.Fragment>
+              );
+            })}
+          </Styled.ControlCenterGrid>
+        </Styled.ControlCenterMainGrid>
       </Styled.ControlCenterWrapper>
     </>
   );

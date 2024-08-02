@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { GlobalIconWrapper, globalSelectorWrapper } from "../../globalStyles";
 
-export const OptionWrapper = styled.div`
+export const ChatQueueWrapper = styled.div`
   align-items: center;
   background-color: ${props => props.theme.colors.accent1};
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  height: 2.5rem;
+  height: 3rem;
+  flex-shrink: 0;
 `;
 
 export const IconWrapper = GlobalIconWrapper;

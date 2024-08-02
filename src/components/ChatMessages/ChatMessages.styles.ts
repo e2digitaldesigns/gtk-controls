@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import * as GStyled from "../../globalStyles";
 
-export const ChatMessageWrapper = styled.div`
-  gap: 0.5rem;
+export const ChatMessageWrapper = styled(GStyled.SectionWrapper)`
+  gap: 05.5rem;
   height: 100%;
   overflow: hidden;
 `;
@@ -44,11 +45,11 @@ export const ChatMessageLarge = styled.div<IChatMessage>`
 export const ChatMessageImage = styled.div<IChatMessage>`
   width: 2rem;
   height: 2rem;
-  overflow: hidden;
   border-radius: 0.25rem;
   > img {
     width: 2rem;
     height: 2rem;
+    border-radius: 0.25rem;
   }
 `;
 

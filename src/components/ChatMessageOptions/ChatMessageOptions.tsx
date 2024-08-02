@@ -1,89 +1,76 @@
 import React from "react";
 import * as Styled from "./ChatMessageOptions.styles";
 
-import {
-  ArrowRightCircle,
-  MinusSquare,
-  PlusSquare,
-  ThumbsDown,
-  ThumbsUp,
-  Trash
-} from "react-feather";
-import { useMessageDataStore } from "../../dataStores";
-import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../utils";
-import { useParams } from "react-router-dom";
+import { useMessageDataStore, useUserDataStore } from "../../dataStores";
+import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow, Icon } from "../../utils";
 import { ChatMessage } from "../../Types";
 
 interface ChatMessageOptionsProps {
   message: ChatMessage;
-  parent: string;
+  showDelete?: boolean;
   position?: string;
 }
 
-export const ChatMessageOptions: React.FC<ChatMessageOptionsProps> = ({
+export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   message,
-  parent,
+  showDelete = false,
   position = "right"
 }) => {
-  const { uid } = useParams();
+  const { deleteMessage, addToQueue, messageQueue, removeFromQueue, showTime, transition } =
+    useMessageDataStore(state => state);
 
-  const {
-    deleteMessage,
-    addToQueue,
-    messageQueue,
-    removeFromQueue,
-    showTime,
-    templateId,
-    transition
-  } = useMessageDataStore(state => state);
+  const { userData } = useUserDataStore(state => state);
+  const { userId } = userData;
 
-  const handleVote = async (name: string, action: "like" | "dislike") => {
-    uid && chatVoteFn(templateId, uid as string, name, action);
+  const handleVote = async (action: "like" | "dislike") => {
+    userId && chatVoteFn(action, message._id);
   };
 
   const handleSendMessage = (chatMessage: ChatMessage) => {
-    handleSendChatMessageNow(templateId, uid as string, chatMessage, showTime, transition);
+    handleSendChatMessageNow(chatMessage, showTime, transition);
   };
 
   const removeMessage = async (messageId: string) => {
-    if (!uid) return;
+    if (!userId) return;
 
-    await handleDeleteChatMessage(templateId, uid as string, messageId);
+    await handleDeleteChatMessage(messageId);
     await deleteMessage(messageId);
   };
 
   return (
     <Styled.ChatMessageOptionsWrapper position={position}>
       <Styled.ChatMessageIcons>
-        <ThumbsUp onClick={() => handleVote(message.name, "like")} />
+        <Icon name="ThumbsUp" onClick={() => handleVote("like")} />
       </Styled.ChatMessageIcons>
 
       <Styled.ChatMessageIcons>
-        <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
+        <Icon name="ThumbsDown" onClick={() => handleVote("dislike")} />
       </Styled.ChatMessageIcons>
 
       <Styled.ChatMessageIcons>
-        <ArrowRightCircle onClick={() => handleSendMessage(message)} />
+        <Icon name="ArrowRightCircle" onClick={() => handleSendMessage(message)} />
       </Styled.ChatMessageIcons>
 
       {messageQueue?.find(msg => msg._id === message._id) ? (
         <Styled.ChatMessageIcons>
-          <MinusSquare onClick={() => removeFromQueue(message)} />
+          <Icon name="MinusSquare" onClick={() => removeFromQueue(message)} />
         </Styled.ChatMessageIcons>
       ) : (
         <Styled.ChatMessageIcons>
-          <PlusSquare onClick={() => addToQueue(message)} />
+          <Icon name="PlusSquare" onClick={() => addToQueue(message)} />
         </Styled.ChatMessageIcons>
       )}
 
-      {parent === "controlCenter" && (
+      {showDelete && (
         <>
           <div />
           <Styled.ChatMessageIcons>
-            <Trash onClick={() => removeMessage(message._id)} />
+            <Icon name="Trash" onClick={() => removeMessage(message._id)} />
           </Styled.ChatMessageIcons>{" "}
         </>
       )}
     </Styled.ChatMessageOptionsWrapper>
   );
 };
+
+export const ChatMessageOptions = React.memo(ChatMessageOptionsInner);
