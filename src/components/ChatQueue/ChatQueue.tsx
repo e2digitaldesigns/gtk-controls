@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import * as Styled from "./ChatQueue.styles";
 
 import { useMessageDataStore } from "../../dataStores";
@@ -9,19 +8,12 @@ import { handleHideChatMessage, handleSendQueuedChatMessage, Icon } from "../../
 interface ChatQueueProps {}
 
 export const ChatQueue: React.FC<ChatQueueProps> = () => {
-  const { uid } = useParams();
-  const { messageQueue, removeFromQueue, showTime, setShowTime, templateId, transition } =
-    useMessageDataStore(state => state);
+  const { messageQueue, removeFromQueue, showTime, setShowTime, transition } = useMessageDataStore(
+    state => state
+  );
 
   const handleSendMessage = async () => {
-    await handleSendQueuedChatMessage(
-      templateId,
-      uid as string,
-      messageQueue,
-      showTime,
-      transition,
-      removeFromQueue
-    );
+    await handleSendQueuedChatMessage(messageQueue, showTime, transition, removeFromQueue);
   };
 
   return (
@@ -52,7 +44,7 @@ export const ChatQueue: React.FC<ChatQueueProps> = () => {
       </Styled.IconWrapper>
 
       <Styled.IconWrapper>
-        <Icon name="XCircle" onClick={() => handleHideChatMessage(templateId, uid as string)} />
+        <Icon name="XCircle" onClick={() => handleHideChatMessage()} />
       </Styled.IconWrapper>
     </Styled.ChatQueueWrapper>
   );

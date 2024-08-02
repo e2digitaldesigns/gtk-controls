@@ -14,7 +14,7 @@ export const AppManagerChatRanks: React.FC = () => {
     if (!userData.userId) return;
     const fetchMessages = async (): Promise<void> => {
       const { data } = await axios.get(
-        process.env.REACT_APP_REST_API + `/chatlog/${userData.userId}`
+        process.env.REACT_APP_REST_API + `/chatRank/${userData.userId}`
       );
 
       data && updateChatRanks(data);
@@ -28,7 +28,16 @@ export const AppManagerChatRanks: React.FC = () => {
 
     socketServices.subscribeOverlaysChatRanks((err: unknown, data: any) => {
       if (userId !== data.uid) return;
-      isMounted && updateChatRanks(data.messages);
+
+      switch (data.action) {
+        case "chatRankUpdate":
+          isMounted && updateChatRanks(data.messages);
+          break;
+
+        case "clearChatRank":
+          isMounted && updateChatRanks([]);
+          break;
+      }
     });
 
     return () => {

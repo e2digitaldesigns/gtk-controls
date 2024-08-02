@@ -16,31 +16,24 @@ export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   showDelete = false,
   position = "right"
 }) => {
-  const {
-    deleteMessage,
-    addToQueue,
-    messageQueue,
-    removeFromQueue,
-    showTime,
-    templateId,
-    transition
-  } = useMessageDataStore(state => state);
+  const { deleteMessage, addToQueue, messageQueue, removeFromQueue, showTime, transition } =
+    useMessageDataStore(state => state);
 
   const { userData } = useUserDataStore(state => state);
   const { userId } = userData;
 
   const handleVote = async (action: "like" | "dislike") => {
-    userId && chatVoteFn(userId as string, action, message._id);
+    userId && chatVoteFn(action, message._id);
   };
 
   const handleSendMessage = (chatMessage: ChatMessage) => {
-    handleSendChatMessageNow(templateId, userId as string, chatMessage, showTime, transition);
+    handleSendChatMessageNow(chatMessage, showTime, transition);
   };
 
   const removeMessage = async (messageId: string) => {
     if (!userId) return;
 
-    await handleDeleteChatMessage(templateId, userId as string, messageId);
+    await handleDeleteChatMessage(messageId);
     await deleteMessage(messageId);
   };
 

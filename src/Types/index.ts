@@ -45,3 +45,10 @@ export type ChatRankReturn = {
   tid: string;
   messages: ChatRanks[];
 };
+
+export type ChatterVotes = {
+  _id: string;
+  username: string;
+  image: string;
+  votes: number;
+};

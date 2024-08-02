@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
 import * as VideoStyled from "./OverlayControls.styles";
 
@@ -10,11 +9,10 @@ import { buttonsArr } from "./buttonsArray";
 interface IControlsProps {}
 
 export const OverlayControls: React.FC<IControlsProps> = () => {
-  const { uid: userId } = useParams();
   const { templateId } = useMessageDataStore(state => state);
 
   const handleAction = async (action: string, type: string = "gtkOverlayVideoPlayer") => {
-    await handleButtonAction(templateId, userId as string, action, type);
+    await handleButtonAction(templateId, action, type);
   };
 
   return (

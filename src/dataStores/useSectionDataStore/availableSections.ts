@@ -38,7 +38,7 @@ export const availableSections: ApplicationSection[] = [
     icon: "Sliders",
     slot: 5,
     width: "400px",
-    title: "Controls",
-    component: `ControlsView`
+    title: "Chatter Voting",
+    component: `ChatterVoting`
   }
 ];

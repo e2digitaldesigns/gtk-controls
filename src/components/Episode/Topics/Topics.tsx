@@ -13,7 +13,7 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
   const [selectedTopicId, setSelectedTopicId] = React.useState<string | null>(null);
   const { templateId } = useMessageDataStore(state => state);
   const { userData } = useUserDataStore(state => state);
-  const { twitchUsername, userId } = userData;
+  const { twitchUsername } = userData;
 
   const handleSendToChat = async (topic: EpisodeTopic) => {
     if ((!topic?.chat && !topic?.name) || !twitchUsername) {
@@ -24,7 +24,7 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
   };
 
   const handleSendTopicToOverlay = async (topicId: string) => {
-    await handleButtonAction(templateId, userId, "topic-set", "gtkOverlayAction", {
+    await handleButtonAction(templateId, "topic-set", "gtkOverlayAction", {
       topicId
     });
 

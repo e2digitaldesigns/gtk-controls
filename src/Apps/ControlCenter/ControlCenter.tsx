@@ -8,12 +8,14 @@ import { ChatRanks } from "../../components/ChatRanks/ChatRanks";
 import { useSectionDataStore } from "../../dataStores";
 import { SectionWrapper } from "../../components/SectionWrapper/SectionWrapper";
 import { ControlCenterSidebar } from "./ControlCenterSidebar/ControlCenterSidebar";
+import { ChatterVoting } from "../../components/ChatterVoting/ChatterVoting";
 
 const componentMap: Record<string, React.ComponentType<any>> = {
-  ChatView: ChatView,
-  EpisodeComponent: EpisodeComponent,
   ChatRanks: ChatRanks,
-  ControlsView: ControlsView
+  ChatterVoting: ChatterVoting,
+  ChatView: ChatView,
+  ControlsView: ControlsView,
+  EpisodeComponent: EpisodeComponent
 };
 
 export const ControlCenter: FC = () => {

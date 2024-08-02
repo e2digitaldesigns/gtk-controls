@@ -6,7 +6,7 @@ import { availableSections } from "./availableSections";
 type SectionState = ApplicationSection;
 
 const initialSectionState: SectionState[] = [
-  ...availableSections.slice(0, 4).map((section: ApplicationSection, index: number) => ({
+  ...availableSections.slice(0, 5).map((section: ApplicationSection, index: number) => ({
     ...section,
     slot: index + 1
   }))

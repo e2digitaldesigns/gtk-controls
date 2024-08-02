@@ -47,9 +47,7 @@ export const ChatMessages: FC<ChatMessagesProps> = React.memo(
       </Styled.ChatMessageWrapper>
     );
   },
-  (prevProps, nextProps) => {
-    console.log(prevProps);
-    console.log(nextProps);
+  () => {
     return false;
   }
 );

@@ -5,6 +5,7 @@ import { useUserDataStore } from "../../dataStores";
 import axios from "axios";
 import { AppManagerChatMessaging } from "./ChatMessaging/ChatMessaging";
 import { AppManagerChatRanks } from "./ChatRanks/ChatRanks";
+import { AppManagerChatterVotes } from "./ChatterVotes/ChatterVotes";
 
 export const AppManager: React.FC = () => {
   const userId = getUserId();
@@ -35,6 +36,7 @@ export const AppManager: React.FC = () => {
     <>
       <AppManagerChatMessaging />
       <AppManagerChatRanks />
+      <AppManagerChatterVotes />
     </>
   ) : null;
 };

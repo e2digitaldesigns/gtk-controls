@@ -33,7 +33,6 @@ const VideoRequestDock: React.FC = () => {
         );
 
         if (data) {
-          console.log(35, data);
           setUsername(data.twitchUsername);
         }
       } catch (error) {

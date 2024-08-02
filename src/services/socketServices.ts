@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { SocketServicesEvents } from "../Types";
+import { ChatRankReturn, SocketServicesEvents } from "../Types";
 const socket = io(process.env.REACT_APP_PUSH_SERVICE || "");
 
 const socketServices = {
@@ -12,11 +12,21 @@ const socketServices = {
   },
 
   subscribeOverlaysChatRanks(cb: any) {
-    socket?.on(SocketServicesEvents.GTK_OVERLAY_CHAT_RANKS, (data: any) => cb(null, data));
+    socket?.on(SocketServicesEvents.GTK_OVERLAY_CHAT_RANKS, (data: ChatRankReturn) =>
+      cb(null, data)
+    );
   },
 
   unSubscribeOverlaysChatRanks() {
     socket?.removeAllListeners(SocketServicesEvents.GTK_OVERLAY_CHAT_RANKS);
+  },
+
+  subscribeOverlaysChatterVotes(cb: any) {
+    socket?.on(SocketServicesEvents.GTK_OVERLAY_CHATTER_VOTES, (data: any) => cb(null, data));
+  },
+
+  unSubscribeOverlaysChatterVotes() {
+    socket?.removeAllListeners(SocketServicesEvents.GTK_OVERLAY_CHATTER_VOTES);
   },
 
   sendOverlayActions(data: any) {

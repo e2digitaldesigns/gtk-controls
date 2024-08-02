@@ -2,14 +2,14 @@ import React from "react";
 import { useSectionDataStore } from "../../../dataStores";
 import { ScrollerDiv } from "../../../components/Shared";
 import * as Styled from "./ControlCenterSidebar.styles";
-import { Icon } from "../../../utils";
+import { handleResetChatRank, handleResetChatterVotes, Icon } from "../../../utils";
 
 interface ControlCenterSidebarProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export const ControlCenterSidebar: React.FC<ControlCenterSidebarProps> = ({ parentRef }) => {
-  const { addSection, removeSection, sortedSections } = useSectionDataStore();
+  const { removeSection, sortedSections } = useSectionDataStore();
 
   const addSectionHandler = () => {
     // addSection("1", parentRef);
@@ -17,6 +17,8 @@ export const ControlCenterSidebar: React.FC<ControlCenterSidebarProps> = ({ pare
 
   return (
     <div>
+      <div onClick={handleResetChatterVotes}>reset chatter votes</div>
+      <div onClick={handleResetChatRank}>rreset chatter ranks</div>
       <div style={{ height: "100%" }}>
         <div onClick={addSectionHandler}>add column</div>
         <ScrollerDiv>

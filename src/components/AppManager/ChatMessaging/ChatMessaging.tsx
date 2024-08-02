@@ -13,7 +13,7 @@ export const AppManagerChatMessaging: React.FC = () => {
     if (!userData.userId) return;
     const fetchMessages = async () => {
       const { data } = await axios.get(
-        process.env.REACT_APP_REST_API + `/chatlog/messages/${userData.userId}`
+        process.env.REACT_APP_REST_API + `/chatRelay/${userData.userId}`
       );
 
       data && hydrateMessages(data.messages);
