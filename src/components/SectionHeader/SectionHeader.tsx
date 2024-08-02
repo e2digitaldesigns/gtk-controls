@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
 import * as Styled from "./SectionHeader.styles";
 import { Icon } from "../../utils";
+import { ApplicationSection } from "../../Types";
 
 interface SectionHeaderProps {
   children?: React.ReactNode;
   dragDropRef: React.RefObject<HTMLDivElement>;
-  title?: string;
+  section: ApplicationSection;
 }
 
-export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, dragDropRef, title }) => {
+export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, dragDropRef, section }) => {
   const sectionHeaderRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
 
@@ -32,9 +33,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, dragDrop
         <Icon name="MoreVertical" />
       </div>
       <div>
-        <Icon name="Activity" />
+        <Icon name={section.icon} />
       </div>
-      {title ? <div>{title}</div> : <div>{children}</div>}
+      {children ? <div>{children}</div> : <div>{section.title}</div>}
       <div>
         <Icon name="Activity" />
       </div>

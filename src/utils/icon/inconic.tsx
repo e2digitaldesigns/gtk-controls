@@ -5,7 +5,7 @@ export type IconProps = keyof typeof Icons;
 
 interface IntIconProps extends React.SVGProps<SVGSVGElement> {
   color?: string;
-  name: IconProps;
+  name: IconProps | string;
   size?: string | number;
 }
 
@@ -15,7 +15,7 @@ export const Icon: React.FC<IntIconProps> = ({
   size = 24,
   ...rest
 }) => {
-  const IconComponent = Icons[name];
+  const IconComponent = Icons[name as IconProps];
 
   if (!IconComponent) {
     console.error(`Icon "${name}" does not exist in react-feather`);

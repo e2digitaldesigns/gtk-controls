@@ -30,7 +30,7 @@ export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   const { userId } = userData;
 
   const handleVote = async (action: "like" | "dislike") => {
-    userId && chatVoteFn(templateId, userId as string, action, message._id);
+    userId && chatVoteFn(userId as string, action, message._id);
   };
 
   const handleSendMessage = (chatMessage: ChatMessage) => {

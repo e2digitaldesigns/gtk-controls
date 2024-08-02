@@ -2,14 +2,8 @@ import axios from "axios";
 import { ChatMessage } from "../../Types";
 import { getUser } from "../getUser";
 
-export const chatVoteFn = async (
-  templateId: string,
-  userId: string,
-  action: "like" | "dislike",
-  chatMsgId: string
-) => {
+export const chatVoteFn = async (userId: string, action: "like" | "dislike", chatMsgId: string) => {
   await axios.post(`${process.env.REACT_APP_REST_API}/chatLikes/${userId}`, {
-    templateId,
     chatMsgId,
     hostUsername: getUser() || "",
     action

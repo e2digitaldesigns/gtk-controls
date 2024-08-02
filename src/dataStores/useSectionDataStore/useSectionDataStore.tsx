@@ -1,27 +1,15 @@
 import { create, StoreApi } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
-import { StorageKeys } from "../../Types";
+import { ApplicationSection, StorageKeys } from "../../Types";
+import { availableSections } from "./availableSections";
 
-type SectionState = {
-  id: string;
-  slot: number;
-  title: string;
-  component: string;
-  width: string;
-};
-
-const availableSections: SectionState[] = [
-  { id: "1", slot: 1, width: "400px", title: "Chat", component: `ChatView` },
-  { id: "2", slot: 2, width: "400px", title: "Episode", component: `EpisodeComponent` },
-  { id: "3", slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
-  { id: "4", slot: 4, width: "400px", title: "Controls", component: `ControlsView` }
-];
+type SectionState = ApplicationSection;
 
 const initialSectionState: SectionState[] = [
-  { id: "1", slot: 1, width: "400px", title: "Chat", component: `ChatView` },
-  { id: "2", slot: 2, width: "400px", title: "Episode", component: `EpisodeComponent` },
-  { id: "3", slot: 3, width: "400px", title: "Chat Ranks", component: `ChatRanks` },
-  { id: "4", slot: 4, width: "400px", title: "Controls", component: `ControlsView` }
+  ...availableSections.slice(0, 4).map((section: ApplicationSection, index: number) => ({
+    ...section,
+    slot: index + 1
+  }))
 ];
 
 export interface ISectionsProps {
@@ -47,9 +35,9 @@ const useSectionDataStore = create(
       updateSectionSlots: (originId, destinationId) => {
         if (originId === destinationId) return;
 
-        const originIndex = get().sectionState.findIndex(section => section.id === originId);
+        const originIndex = get().sectionState.findIndex(section => section._id === originId);
         const destinationIndex = get().sectionState.findIndex(
-          section => section.id === destinationId
+          section => section._id === destinationId
         );
 
         const newState = structuredClone(get().sectionState);
@@ -80,9 +68,9 @@ const useSectionDataStore = create(
       swapSectionSlots: (originId, destinationId) => {
         if (originId === destinationId) return;
 
-        const originIndex = get().sectionState.findIndex(section => section.id === originId);
+        const originIndex = get().sectionState.findIndex(section => section._id === originId);
         const destinationIndex = get().sectionState.findIndex(
-          section => section.id === destinationId
+          section => section._id === destinationId
         );
 
         const newState = structuredClone(get().sectionState);
@@ -99,12 +87,12 @@ const useSectionDataStore = create(
       },
 
       getSectionSlot: (id: string) => {
-        return get().sectionState.find(section => section.id === id)?.slot || 0;
+        return get().sectionState.find(section => section._id === id)?.slot || 0;
       },
 
       removeSection: (id: string) => {
         const newState = structuredClone(get().sectionState);
-        const filteredState = newState.filter((section: SectionState) => section.id !== id);
+        const filteredState = newState.filter((section: SectionState) => section._id !== id);
 
         filteredState.forEach((section: SectionState, index: number) => {
           section.slot = index + 1;
@@ -119,10 +107,10 @@ const useSectionDataStore = create(
         if (newState.length >= maxSections) return;
 
         const sections = structuredClone(get().availableSections);
-        const newSection = sections.find((section: SectionState) => section.id === id);
+        const newSection = sections.find((section: SectionState) => section._id === id);
 
         if (newSection) {
-          newSection.id = new Date().getTime().toString();
+          newSection._id = new Date().getTime().toString();
           newSection.slot = 99;
           newState.push(newSection);
         }

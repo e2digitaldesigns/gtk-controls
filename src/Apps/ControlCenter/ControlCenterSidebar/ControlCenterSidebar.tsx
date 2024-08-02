@@ -2,6 +2,7 @@ import React from "react";
 import { useSectionDataStore } from "../../../dataStores";
 import { ScrollerDiv } from "../../../components/Shared";
 import * as Styled from "./ControlCenterSidebar.styles";
+import { Icon } from "../../../utils";
 
 interface ControlCenterSidebarProps {
   parentRef: React.MutableRefObject<HTMLDivElement | null>;
@@ -21,8 +22,10 @@ export const ControlCenterSidebar: React.FC<ControlCenterSidebarProps> = ({ pare
         <ScrollerDiv>
           <div style={{ padding: ".5rem" }}>
             {sortedSections().map(section => (
-              <Styled.SectionsGrid onClick={() => removeSection(section.id)} key={section.id}>
-                <div>1</div>
+              <Styled.SectionsGrid onClick={() => removeSection(section._id)} key={section._id}>
+                <div>
+                  <Icon name={section.icon} size={16} />
+                </div>
                 <div>{section.title}</div>
                 <div>{section.slot}</div>
               </Styled.SectionsGrid>

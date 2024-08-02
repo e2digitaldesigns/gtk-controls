@@ -52,13 +52,9 @@ export const ControlCenter: FC = () => {
                 return null;
               }
               return (
-                <React.Fragment key={section.id}>
-                  <SectionWrapper
-                    sectionHeaderTitle={`${section.title} - ${section.slot}`}
-                    sectionId={section.id}
-                    width={section.width}
-                  >
-                    {React.createElement(ComponentToRender, { sectionId: section.id })}
+                <React.Fragment key={section._id}>
+                  <SectionWrapper section={section}>
+                    {React.createElement(ComponentToRender, { sectionId: section._id })}
                   </SectionWrapper>
                 </React.Fragment>
               );
