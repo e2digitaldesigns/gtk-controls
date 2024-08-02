@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import * as VideoStyled from "./OverlayControls.styles";
 
-import { handleButtonAction } from "../../../utils";
+import { handleButtonAction, Icon, IconProps } from "../../../utils";
 import { useMessageDataStore } from "../../../dataStores";
 import { buttonsArr } from "./buttonsArray";
 
@@ -26,7 +26,7 @@ export const OverlayControls: React.FC<IControlsProps> = () => {
             gridArea={button.gridArea}
             onClick={() => button.action && handleAction(button.action, button.type)}
           >
-            {typeof button.label === "string" ? button.label : <button.label />}
+            {button.label ? button.label : <Icon name={button.icon as IconProps} />}
           </VideoStyled.ControlButton>
         ))}
       </VideoStyled.VideoButtonWrapper>

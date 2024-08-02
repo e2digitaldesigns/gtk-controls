@@ -1,16 +1,8 @@
 import React from "react";
 import * as Styled from "./ChatMessageOptions.styles";
 
-import {
-  ArrowRightCircle,
-  MinusSquare,
-  PlusSquare,
-  ThumbsDown,
-  ThumbsUp,
-  Trash
-} from "react-feather";
 import { useMessageDataStore, useUserDataStore } from "../../dataStores";
-import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow } from "../../utils";
+import { chatVoteFn, handleDeleteChatMessage, handleSendChatMessageNow, Icon } from "../../utils";
 import { ChatMessage } from "../../Types";
 
 interface ChatMessageOptionsProps {
@@ -35,10 +27,10 @@ export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   } = useMessageDataStore(state => state);
 
   const { userData } = useUserDataStore(state => state);
-  const { twitchUsername, userId } = userData;
+  const { userId } = userData;
 
-  const handleVote = async (name: string, action: "like" | "dislike") => {
-    userId && chatVoteFn(templateId, userId as string, name, action, twitchUsername);
+  const handleVote = async (action: "like" | "dislike") => {
+    userId && chatVoteFn(templateId, userId as string, action, message._id);
   };
 
   const handleSendMessage = (chatMessage: ChatMessage) => {
@@ -55,24 +47,24 @@ export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
   return (
     <Styled.ChatMessageOptionsWrapper position={position}>
       <Styled.ChatMessageIcons>
-        <ThumbsUp onClick={() => handleVote(message.name, "like")} />
+        <Icon name="ThumbsUp" onClick={() => handleVote("like")} />
       </Styled.ChatMessageIcons>
 
       <Styled.ChatMessageIcons>
-        <ThumbsDown onClick={() => handleVote(message.name, "dislike")} />
+        <Icon name="ThumbsDown" onClick={() => handleVote("dislike")} />
       </Styled.ChatMessageIcons>
 
       <Styled.ChatMessageIcons>
-        <ArrowRightCircle onClick={() => handleSendMessage(message)} />
+        <Icon name="ArrowRightCircle" onClick={() => handleSendMessage(message)} />
       </Styled.ChatMessageIcons>
 
       {messageQueue?.find(msg => msg._id === message._id) ? (
         <Styled.ChatMessageIcons>
-          <MinusSquare onClick={() => removeFromQueue(message)} />
+          <Icon name="MinusSquare" onClick={() => removeFromQueue(message)} />
         </Styled.ChatMessageIcons>
       ) : (
         <Styled.ChatMessageIcons>
-          <PlusSquare onClick={() => addToQueue(message)} />
+          <Icon name="PlusSquare" onClick={() => addToQueue(message)} />
         </Styled.ChatMessageIcons>
       )}
 
@@ -80,7 +72,7 @@ export const ChatMessageOptionsInner: React.FC<ChatMessageOptionsProps> = ({
         <>
           <div />
           <Styled.ChatMessageIcons>
-            <Trash onClick={() => removeMessage(message._id)} />
+            <Icon name="Trash" onClick={() => removeMessage(message._id)} />
           </Styled.ChatMessageIcons>{" "}
         </>
       )}

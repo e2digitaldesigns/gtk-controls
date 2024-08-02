@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { Activity, MoreVertical } from "react-feather";
 import * as Styled from "./SectionHeader.styles";
+import { Icon } from "../../utils";
 
 interface SectionHeaderProps {
   children?: React.ReactNode;
@@ -29,14 +29,14 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ children, dragDrop
   return (
     <Styled.SectionHeaderWrapper ref={sectionHeaderRef}>
       <div ref={iconRef} onMouseOver={handleDragAllow} onMouseOut={HandleDragReject}>
-        <MoreVertical />
+        <Icon name="MoreVertical" />
       </div>
       <div>
-        <Activity />
+        <Icon name="Activity" />
       </div>
       {title ? <div>{title}</div> : <div>{children}</div>}
       <div>
-        <Activity />
+        <Icon name="Activity" />
       </div>
     </Styled.SectionHeaderWrapper>
   );

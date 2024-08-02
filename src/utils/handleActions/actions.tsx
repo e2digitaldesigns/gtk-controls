@@ -2,23 +2,18 @@ import axios from "axios";
 import { ChatMessage } from "../../Types";
 import { getUser } from "../getUser";
 
-const API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/gtkChatVote`;
-
 export const chatVoteFn = async (
   templateId: string,
   userId: string,
-  name: string,
   action: "like" | "dislike",
-  twitchUsername: string
+  chatMsgId: string
 ) => {
-  const localLink = `${API_URL}?tid=${templateId}&uid=${userId}&action=vote`;
-  await axios.post(localLink, { username: name, votes: action === "like" ? 1 : -1 });
-
-  const hostName = getUser();
-
-  if (hostName && twitchUsername) {
-    sendMessageToChat(twitchUsername, `@${name}, ${hostName} has ${action}d your message`);
-  }
+  await axios.post(`${process.env.REACT_APP_REST_API}/chatLikes/${userId}`, {
+    templateId,
+    chatMsgId,
+    hostUsername: getUser() || "",
+    action
+  });
 };
 
 export const handleButtonAction = async (
@@ -87,6 +82,7 @@ export const handleDeleteChatMessage = async (
 };
 
 export const sendMessageToChat = async (twitchUsername: string, data: string) => {
+  console.log("sendMessageToChat", twitchUsername, data);
   if (!data || !twitchUsername) {
     return;
   }

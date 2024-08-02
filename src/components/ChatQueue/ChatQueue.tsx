@@ -1,11 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import * as Styled from "./ChatQueue.styles";
-import { Play, XCircle } from "react-feather";
 
 import { useMessageDataStore } from "../../dataStores";
 import timeArray from "./timing.json";
-import { handleHideChatMessage, handleSendQueuedChatMessage } from "../../utils";
+import { handleHideChatMessage, handleSendQueuedChatMessage, Icon } from "../../utils";
 
 interface ChatQueueProps {}
 
@@ -46,14 +45,14 @@ export const ChatQueue: React.FC<ChatQueueProps> = () => {
 
       <Styled.IconWrapper>
         {messageQueue.length > 0 ? (
-          <Play onClick={handleSendMessage} />
+          <Icon name="Play" onClick={handleSendMessage} />
         ) : (
-          <Play style={{ opacity: 0.25 }} />
+          <Icon name="Play" style={{ opacity: 0.25 }} />
         )}
       </Styled.IconWrapper>
 
       <Styled.IconWrapper>
-        <XCircle onClick={() => handleHideChatMessage(templateId, uid as string)} />
+        <Icon name="XCircle" onClick={() => handleHideChatMessage(templateId, uid as string)} />
       </Styled.IconWrapper>
     </Styled.ChatQueueWrapper>
   );
