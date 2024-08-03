@@ -162,10 +162,10 @@ for (let hostIndex = 1; hostIndex < hostArray.length + 1; hostIndex++) {
 export const handleHostVoteArr = (hosts: EpisodeHost[]): Button[] => {
   const dataSet = [
     { action: "Host", label: "Host" },
-    { action: "!v", label: "U" },
-    { action: "!sv", label: "S" },
-    { action: "!win", label: "W" },
-    { action: "!d", label: `D` }
+    { action: "!v", label: "U", icon: "ThumbsUp" },
+    { action: "!sv", label: "S", icon: "UserPlus" },
+    { action: "!win", label: "W", icon: "Award" },
+    { action: "!d", label: `D`, icon: "ThumbsDown" }
   ];
 
   const hostVoteButtonArray: Button[] = [];
@@ -181,9 +181,10 @@ export const handleHostVoteArr = (hosts: EpisodeHost[]): Button[] => {
       buttonLabel = buttonLabel.replace(/Host\d+/g, match => seatToHostNameMap[match] || match);
 
       hostVoteButtonArray.push({
-        action: `${data.action}${hostIndex + 1}`,
+        action: data.action !== "Host" ? `${data.action}${hostIndex + 1}` : "",
         gridArea: `vote-${hostIndex + 1}-${labelIndex + 1}`,
         label: buttonLabel.substring(0, 10),
+        icon: data.icon,
         socket: "gtkVoting"
       });
     });

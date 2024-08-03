@@ -9,7 +9,9 @@ export const OverlayControls: React.FC = () => {
 
   return (
     <>
-      <VideoStyled.VideoButtonWrapper>
+      <VideoStyled.VideoButtonWrapper voteRows={hosts.length}>
+        <VideoStyled.SectionDivider gridArea="divider-1">Video Controls</VideoStyled.SectionDivider>
+
         {buttonsArr.map((button, index) => (
           <VideoStyled.ControlButton
             key={index}
@@ -21,6 +23,8 @@ export const OverlayControls: React.FC = () => {
             {button.icon ? <Icon name={button.icon as string} /> : button.label}
           </VideoStyled.ControlButton>
         ))}
+
+        <VideoStyled.SectionDivider gridArea="divider-2">Host Voting</VideoStyled.SectionDivider>
 
         {handleHostVoteArr(hosts).map((button, index) => (
           <VideoStyled.ControlButton
