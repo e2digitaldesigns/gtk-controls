@@ -1,15 +1,14 @@
 import React from "react";
 import axios from "axios";
-import { useMessageDataStore, useUserDataStore } from "../../dataStores";
+import { useEpisode, useMessageDataStore, useUserDataStore } from "../../dataStores";
 import { defaultEpisode, Episode } from "../../Types";
 import { Header } from "./Header/Header";
 import { Topics } from "./Topics/Topics";
 
 export const EpisodeComponent: React.FC = () => {
-  const [episodeState, setEpisodeState] = React.useState<Episode>(defaultEpisode);
-
   const { templateId } = useMessageDataStore(state => state);
   const { userData } = useUserDataStore(state => state);
+  const { hydrate } = useEpisode(state => state);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -22,9 +21,7 @@ export const EpisodeComponent: React.FC = () => {
       );
 
       if (isMounted) {
-        setEpisodeState({
-          ...data
-        });
+        hydrate(data);
       }
     };
 
@@ -38,8 +35,8 @@ export const EpisodeComponent: React.FC = () => {
 
   return (
     <>
-      <Header episodeState={episodeState} />
-      <Topics topics={episodeState.topics} />
+      <Header />
+      <Topics />
     </>
   );
 };

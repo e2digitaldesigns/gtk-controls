@@ -1,18 +1,15 @@
 import React from "react";
 import * as Styled from "./Topics.styles";
 import { EpisodeTopic } from "../../../Types";
-import { useUserDataStore } from "../../../dataStores";
+import { useEpisode, useUserDataStore } from "../../../dataStores";
 import { handleButtonAction, sendMessageToChat } from "../../../utils";
 import { ScrollerDiv } from "../../Shared";
 
-interface TopicsProps {
-  topics: EpisodeTopic[];
-}
-
-export const Topics: React.FC<TopicsProps> = ({ topics }) => {
+export const Topics: React.FC = () => {
   const [selectedTopicId, setSelectedTopicId] = React.useState<string | null>(null);
   const { userData } = useUserDataStore(state => state);
   const { twitchUsername } = userData;
+  const topics = useEpisode(state => state.topics);
 
   const handleSendToChat = async (topic: EpisodeTopic) => {
     if ((!topic?.chat && !topic?.name) || !twitchUsername) {

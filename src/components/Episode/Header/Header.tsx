@@ -1,13 +1,9 @@
 import React from "react";
-
 import * as Styled from "./Header.styles";
-import { Episode } from "../../../Types";
+import { useEpisode } from "../../../dataStores";
 
-interface EpisodeState {
-  episodeState: Episode;
-}
-
-export const Header: React.FC<EpisodeState> = ({ episodeState }) => {
+export const Header: React.FC = () => {
+  const episodeState = useEpisode(state => state);
   return (
     <Styled.HeaderWrapper>
       <div>

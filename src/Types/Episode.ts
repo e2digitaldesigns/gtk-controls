@@ -1,3 +1,8 @@
+export type EpisodeHost = {
+  seatNum: string;
+  hostName: string;
+};
+
 export type EpisodeTopic = {
   _id: string;
   articles: string;
@@ -17,6 +22,7 @@ export type EpisodeTopic = {
 export type Episode = {
   _id: string;
   airDate: string;
+  hosts: EpisodeHost[];
   logo: string;
   name: string;
   number: number;
@@ -26,6 +32,7 @@ export type Episode = {
 export const defaultEpisode: Episode = {
   _id: "",
   airDate: "",
+  hosts: [],
   logo: "",
   name: "",
   number: 0,
