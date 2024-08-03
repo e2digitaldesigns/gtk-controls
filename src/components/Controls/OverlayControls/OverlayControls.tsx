@@ -1,20 +1,11 @@
 import React from "react";
-
 import * as VideoStyled from "./OverlayControls.styles";
-
-import { handleButtonAction, Icon } from "../../../utils";
-import { useMessageDataStore } from "../../../dataStores";
-import { buttonsArr } from "./buttonsArray";
+import { handleButtonAction, handleButtonActionHostVote, Icon } from "../../../utils";
+import { buttonsArr, hostVoteButtonArray } from "./buttonsArray";
 
 interface IControlsProps {}
 
 export const OverlayControls: React.FC<IControlsProps> = () => {
-  const { templateId } = useMessageDataStore(state => state);
-
-  const handleAction = async (action: string, type: string = "gtkOverlayVideoPlayer") => {
-    await handleButtonAction(templateId, action, type);
-  };
-
   return (
     <>
       <VideoStyled.VideoButtonWrapper>
@@ -22,9 +13,23 @@ export const OverlayControls: React.FC<IControlsProps> = () => {
           <VideoStyled.ControlButton
             key={index}
             gridArea={button.gridArea}
-            onClick={() => button.action && handleAction(button.action, button.type)}
+            onClick={() =>
+              button.action && handleButtonAction(button.socket as string, button.action)
+            }
           >
-            {button.label ? button.label : <Icon name={button.icon as string} />}
+            {button.icon ? <Icon name={button.icon as string} /> : button.label}
+          </VideoStyled.ControlButton>
+        ))}
+
+        {hostVoteButtonArray.map((button, index) => (
+          <VideoStyled.ControlButton
+            key={index}
+            gridArea={button.gridArea}
+            onClick={() =>
+              button.action && handleButtonActionHostVote(button.socket as string, button.action)
+            }
+          >
+            {button.icon ? <Icon name={button.icon as string} /> : button.label}
           </VideoStyled.ControlButton>
         ))}
       </VideoStyled.VideoButtonWrapper>

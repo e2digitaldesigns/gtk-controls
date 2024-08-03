@@ -1,7 +1,7 @@
 import React from "react";
 import * as Styled from "./Topics.styles";
 import { EpisodeTopic } from "../../../Types";
-import { useMessageDataStore, useUserDataStore } from "../../../dataStores";
+import { useUserDataStore } from "../../../dataStores";
 import { handleButtonAction, sendMessageToChat } from "../../../utils";
 import { ScrollerDiv } from "../../Shared";
 
@@ -11,7 +11,6 @@ interface TopicsProps {
 
 export const Topics: React.FC<TopicsProps> = ({ topics }) => {
   const [selectedTopicId, setSelectedTopicId] = React.useState<string | null>(null);
-  const { templateId } = useMessageDataStore(state => state);
   const { userData } = useUserDataStore(state => state);
   const { twitchUsername } = userData;
 
@@ -24,7 +23,7 @@ export const Topics: React.FC<TopicsProps> = ({ topics }) => {
   };
 
   const handleSendTopicToOverlay = async (topicId: string) => {
-    await handleButtonAction(templateId, "topic-set", "gtkOverlayAction", {
+    await handleButtonAction("gtkOverlayAction", "topic-set", {
       topicId
     });
 

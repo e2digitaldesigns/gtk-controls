@@ -13,16 +13,28 @@ export const chatVoteFn = async (action: "like" | "dislike", chatMsgId: string) 
   });
 };
 
-export const handleButtonAction = async (
-  templateId: string,
+export const handleButtonAction = async (socket: string, action: string, data: any = {}) => {
+  console.log("handleButtonAction", socket, action, data);
+  await axios.post(`${process.env.REACT_APP_REST_API}/overlayControls`, {
+    uid: userId,
+    socket,
+    action,
+    data
+  });
+};
+
+export const handleButtonActionHostVote = async (
+  socket: string,
   action: string,
-  type: string,
   data: any = {}
 ) => {
-  const BASE_API_URL = `${process.env.REACT_APP_PUSH_SERVICE}/api/v1/socket/manual/${type}`;
-  const link = `${BASE_API_URL}?tid=${templateId}&uid=${userId}&action=${action}`;
-
-  await axios.post(link, { ...data });
+  console.log("handleButtonAction", socket, action, data);
+  await axios.post(`${process.env.REACT_APP_REST_API}/overlayControls/hostVote`, {
+    uid: userId,
+    socket,
+    action,
+    data
+  });
 };
 
 export const handleSendChatMessageNow = async (

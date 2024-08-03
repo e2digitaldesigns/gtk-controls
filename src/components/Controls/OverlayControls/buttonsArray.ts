@@ -1,47 +1,47 @@
-type button = {
-  action: string;
+type Button = {
+  action?: string;
   gridArea: string;
   icon?: string;
   label?: string;
-  type?: string;
+  socket?: string;
 };
 
-export const buttonsArr: button[] = [
+export const buttonsArr: Button[] = [
   {
     action: "topic-prev",
     gridArea: "topic-prev",
     label: "Prev Topic",
-    type: "gtkOverlayAction"
+    socket: "gtkOverlayAction"
   },
   {
     action: "topic-next",
     gridArea: "topic-next",
     label: "Next Topic",
-    type: "gtkOverlayAction"
+    socket: "gtkOverlayAction"
   },
   {
     action: "timer-pause",
     gridArea: "timer-pause",
     label: "Pause Timer",
-    type: "gtkOverlayAction"
+    socket: "gtkOverlayAction"
   },
   {
     action: "timer-resume",
     gridArea: "timer-resume",
     label: "Resume Timer",
-    type: "gtkOverlayAction"
+    socket: "gtkOverlayAction"
   },
   {
     action: "overlay-reset",
     gridArea: "overlay-reset",
     label: "Reset Overlay",
-    type: "gtkApplicationAction"
+    socket: "gtkApplicationAction"
   },
   {
     action: "topic-next",
     gridArea: "topic-next",
     label: "Next Topic",
-    type: "gtkOverlayAction"
+    socket: "gtkOverlayAction"
   },
   {
     action: "",
@@ -52,108 +52,107 @@ export const buttonsArr: button[] = [
     action: "clear-host-votes",
     gridArea: "clear-host-votes",
     label: "Clear Host Votes",
-    type: "gtkVoting"
+    socket: "gtkVoting"
   },
   {
     action: "clear-topic-votes",
     gridArea: "clear-topic-votes",
     label: "Clear Topic Votes",
-    type: "gtkVoting"
-  },
+    socket: "gtkVoting"
+  }
+];
+
+//Video Buttons
+const videoButtonArray: Partial<Button>[] = [
   {
     action: "video-seek-backward",
-    gridArea: "video-seek-backward",
-    icon: "ChevronLeft",
-    type: "gtkOverlayVideoPlayer"
+    icon: "ChevronLeft"
   },
   {
     action: "video-stop",
-    gridArea: "video-stop",
-    icon: "StopCircle",
-    type: "gtkOverlayVideoPlayer"
+    icon: "StopCircle"
   },
   {
     action: "video-pause",
-    gridArea: "video-pause",
-    icon: "PauseCircle",
-    type: "gtkOverlayVideoPlayer"
+    icon: "PauseCircle"
   },
   {
     action: "video-play",
-    gridArea: "video-play",
-    icon: "Play",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Play"
   },
   {
     action: "video-seek-forward",
-    gridArea: "video-seek-forward",
-    icon: "ChevronRight",
-    type: "gtkOverlayVideoPlayer"
+    icon: "ChevronRight"
   },
   {
     action: "video-show-hide",
-    gridArea: "toggle",
-    icon: "Power",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Power"
   },
   {
     action: "video-volume-mute",
-    gridArea: "video-volume-mute",
-    icon: "VolumeX",
-    type: "gtkOverlayVideoPlayer"
+    icon: "VolumeX"
   },
   {
     action: "video-volume-down",
-    gridArea: "video-volume-down",
-    icon: "Volume1",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Volume1"
   },
   {
     action: "video-volume-up",
-    gridArea: "video-volume-up",
-    icon: "Volume2",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Volume2"
   },
   {
     action: "video-size-small",
-    gridArea: "video-size-small",
-    icon: "Minimize",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Minimize"
   },
   {
     action: "video-size-normal",
-    gridArea: "video-size-normal",
-    icon: "Monitor",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Monitor"
   },
   {
     action: "video-size-fullscreen",
-    gridArea: "video-size-fullscreen",
-    icon: "Maximize",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Maximize"
   },
   {
     action: "video-volume-up",
-    gridArea: "video-volume-up",
-    icon: "Volume2",
-    type: "gtkOverlayVideoPlayer"
+    icon: "Volume2"
   },
   {
     action: "video-size-custom-1",
-    gridArea: "video-size-custom-1",
-    label: "C1",
-    type: "gtkOverlayVideoPlayer"
+    label: "C1"
   },
   {
     action: "video-size-custom-2",
-    gridArea: "video-size-custom-2",
-    label: "C2",
-    type: "gtkOverlayVideoPlayer"
+    label: "C2"
   },
   {
     action: "video-size-custom-3",
-    gridArea: "video-size-custom-3",
-    label: "C3",
-    type: "gtkOverlayVideoPlayer"
+    label: "C3"
   }
 ];
+
+for (let i = 0; i < videoButtonArray.length; i++) {
+  buttonsArr.push({
+    action: videoButtonArray[i].action,
+    gridArea: videoButtonArray[i].action || "",
+    label: videoButtonArray[i].label || "",
+    icon: videoButtonArray[i].icon || "",
+    socket: "gtkOverlayVideoPlayer"
+  });
+}
+
+//Host Voting Buttons
+export const hostVoteButtonArray: Button[] = [];
+
+const hostArray = [1, 2, 3, 4];
+const labelArray = ["Host", "!v", "!sv", "!win", "!d"];
+
+for (let hostIndex = 1; hostIndex < hostArray.length + 1; hostIndex++) {
+  for (let labelIndex = 0; labelIndex < labelArray.length; labelIndex++) {
+    hostVoteButtonArray.push({
+      action: `${labelArray[labelIndex]}${hostIndex}`,
+      gridArea: `vote-${hostIndex}-${labelIndex + 1}`,
+      label: `${labelArray[labelIndex]}${hostIndex}`,
+      socket: "gtkVoting"
+    });
+  }
+}
