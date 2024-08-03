@@ -1,3 +1,5 @@
+import { EpisodeHost } from "../../../Types";
+
 type Button = {
   action?: string;
   gridArea: string;
@@ -156,3 +158,36 @@ for (let hostIndex = 1; hostIndex < hostArray.length + 1; hostIndex++) {
     });
   }
 }
+
+export const handleHostVoteArr = (hosts: EpisodeHost[]): Button[] => {
+  const dataSet = [
+    { action: "Host", label: "Host" },
+    { action: "!v", label: "U" },
+    { action: "!sv", label: "S" },
+    { action: "!win", label: "W" },
+    { action: "!d", label: `D` }
+  ];
+
+  const hostVoteButtonArray: Button[] = [];
+
+  const seatToHostNameMap = hosts.reduce((map, host) => {
+    map[`Host${host.seatNum}`] = host.hostName;
+    return map;
+  }, {} as { [key: string]: string });
+
+  hosts.forEach((_, hostIndex) => {
+    dataSet.forEach((data, labelIndex) => {
+      let buttonLabel = `${data.label}${data.label === "Host" ? hostIndex + 1 : ""}`;
+      buttonLabel = buttonLabel.replace(/Host\d+/g, match => seatToHostNameMap[match] || match);
+
+      hostVoteButtonArray.push({
+        action: `${data.action}${hostIndex + 1}`,
+        gridArea: `vote-${hostIndex + 1}-${labelIndex + 1}`,
+        label: buttonLabel.substring(0, 10),
+        socket: "gtkVoting"
+      });
+    });
+  });
+
+  return hostVoteButtonArray;
+};

@@ -1,11 +1,12 @@
 import React from "react";
 import * as VideoStyled from "./OverlayControls.styles";
 import { handleButtonAction, handleButtonActionHostVote, Icon } from "../../../utils";
-import { buttonsArr, hostVoteButtonArray } from "./buttonsArray";
+import { buttonsArr, handleHostVoteArr } from "./buttonsArray";
+import { useEpisode } from "../../../dataStores";
 
-interface IControlsProps {}
+export const OverlayControls: React.FC = () => {
+  const { hosts } = useEpisode(state => state);
 
-export const OverlayControls: React.FC<IControlsProps> = () => {
   return (
     <>
       <VideoStyled.VideoButtonWrapper>
@@ -21,7 +22,7 @@ export const OverlayControls: React.FC<IControlsProps> = () => {
           </VideoStyled.ControlButton>
         ))}
 
-        {hostVoteButtonArray.map((button, index) => (
+        {handleHostVoteArr(hosts).map((button, index) => (
           <VideoStyled.ControlButton
             key={index}
             gridArea={button.gridArea}

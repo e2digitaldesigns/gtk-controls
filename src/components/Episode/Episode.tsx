@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { useEpisode, useMessageDataStore, useUserDataStore } from "../../dataStores";
-import { defaultEpisode, Episode } from "../../Types";
 import { Header } from "./Header/Header";
 import { Topics } from "./Topics/Topics";
 
